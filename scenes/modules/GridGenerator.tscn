@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bluw823eeqtyj"]
+
+[ext_resource type="Script" uid="uid://bk1vle24rewxi" path="res://scripts/GridGenerator.cs" id="1_y86p2"]
+
+[node name="GridGenerator" type="Node3D" unique_id=1438332029]
+script = ExtResource("1_y86p2")
