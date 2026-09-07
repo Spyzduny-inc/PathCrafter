@@ -1,8 +1,17 @@
 [gd_scene format=3 uid="uid://bfgbydrfmwrd8"]
 
+[ext_resource type="Texture2D" uid="uid://dcu2dguqpwcor" path="res://assets/textures/grid.png" id="1_fldbk"]
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_wsqlc"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3fmy1"]
+albedo_texture = ExtResource("1_fldbk")
+uv1_offset = Vector3(0.5, 0.5, 0.5)
+uv1_triplanar = true
+texture_filter = 4
+
 [sub_resource type="BoxMesh" id="BoxMesh_wsqlc"]
+material = SubResource("StandardMaterial3D_3fmy1")
 
 [node name="Floor" type="StaticBody3D" unique_id=1293758163]
 

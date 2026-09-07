@@ -3,8 +3,12 @@
 [ext_resource type="Script" uid="uid://bbihiefc83yal" path="res://scripts/Player.cs" id="1_p0vlq"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wsqlc"]
+radius = 0.25
+height = 1.0
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_wsqlc"]
+radius = 0.25
+height = 1.0
 
 [node name="Player" type="CharacterBody3D" unique_id=111670145]
 script = ExtResource("1_p0vlq")
@@ -16,5 +20,5 @@ shape = SubResource("CapsuleShape3D_wsqlc")
 mesh = SubResource("CapsuleMesh_wsqlc")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1618721369]
-transform = Transform3D(1, 0, 0, 0, 0.9659258, 0.25881904, 0, -0.25881904, 0.9659258, 0, 4, 12)
+transform = Transform3D(1, 0, 0, 0, 0.9659258, 0.25881904, 0, -0.25881904, 0.9659258, 0, 2, 6)
 current = true
