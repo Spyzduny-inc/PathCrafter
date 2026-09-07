@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://yiom36lbi0t1"]
+
+[ext_resource type="PackedScene" uid="uid://bluw823eeqtyj" path="res://scenes/modules/GridGenerator.tscn" id="1_w20ko"]
+[ext_resource type="PackedScene" uid="uid://co48g5gpfmjof" path="res://scenes/entities/Player.tscn" id="2_3wv3p"]
+[ext_resource type="PackedScene" uid="uid://bfgbydrfmwrd8" path="res://scenes/modules/Floor.tscn" id="2_timdk"]
+
+[node name="TestLevel" type="Node3D" unique_id=581401933]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=99799561]
+transform = Transform3D(0.70710677, 0.49999994, -0.49999994, 0, 0.7071067, 0.7071067, 0.70710677, -0.49999994, 0.49999994, 0, 0, 0)
+
+[node name="GridGenerator" parent="." unique_id=1438332029 instance=ExtResource("1_w20ko")]
+FloorScene = ExtResource("2_timdk")
+GridWidth = 100
+GridDepth = 100
+
+[node name="Player" parent="." unique_id=111670145 instance=ExtResource("2_3wv3p")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
