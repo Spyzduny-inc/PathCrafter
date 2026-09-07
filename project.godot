@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="PathCrafter"
-run/main_scene="uid://yiom36lbi0t1"
+run/main_scene="uid://b4okdimpcg65q"
 config/features=PackedStringArray("4.7", "C#", "Forward Plus")
 
 [display]
