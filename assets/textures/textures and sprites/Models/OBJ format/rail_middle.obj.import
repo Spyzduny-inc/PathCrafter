@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://cblmha4vooqhw"
+path="res://.godot/imported/rail_middle.obj-28ed0189cf4f6eeda1877c0be30ea499.mesh"
+
+[deps]
+
+files=["res://.godot/imported/rail_middle.obj-28ed0189cf4f6eeda1877c0be30ea499.mesh"]
+
+source_file="res://assets/textures/textures and sprites/Models/OBJ format/rail_middle.obj"
+dest_files=["res://.godot/imported/rail_middle.obj-28ed0189cf4f6eeda1877c0be30ea499.mesh", "res://.godot/imported/rail_middle.obj-28ed0189cf4f6eeda1877c0be30ea499.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false

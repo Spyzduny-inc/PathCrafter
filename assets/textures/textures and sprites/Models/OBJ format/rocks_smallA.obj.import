@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://becflk1deeri0"
+path="res://.godot/imported/rocks_smallA.obj-6d144748e52b9babf26198155e89b992.mesh"
+
+[deps]
+
+files=["res://.godot/imported/rocks_smallA.obj-6d144748e52b9babf26198155e89b992.mesh"]
+
+source_file="res://assets/textures/textures and sprites/Models/OBJ format/rocks_smallA.obj"
+dest_files=["res://.godot/imported/rocks_smallA.obj-6d144748e52b9babf26198155e89b992.mesh", "res://.godot/imported/rocks_smallA.obj-6d144748e52b9babf26198155e89b992.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false
