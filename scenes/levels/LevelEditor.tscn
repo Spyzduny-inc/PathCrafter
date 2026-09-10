@@ -1,0 +1,82 @@
+[gd_scene format=3 uid="uid://dgufoa4ref1o4"]
+
+[ext_resource type="Script" uid="uid://ddrlstwdj2h28" path="res://scripts/LevelEditor.cs" id="1_sxk07"]
+[ext_resource type="PackedScene" uid="uid://bluw823eeqtyj" path="res://scenes/modules/GridGenerator.tscn" id="2_7j0oh"]
+[ext_resource type="Script" uid="uid://l417kou8m6l6" path="res://scripts/CameraController.cs" id="3_03p3h"]
+[ext_resource type="PackedScene" uid="uid://bfgbydrfmwrd8" path="res://scenes/modules/Floor.tscn" id="3_wus3n"]
+
+[node name="LevelEditor" type="Control" unique_id=783608675]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_sxk07")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=774831043]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=1634248426]
+handle_input_locally = false
+size = Vector2i(1152, 648)
+render_target_update_mode = 4
+
+[node name="GridGenerator" parent="SubViewportContainer/SubViewport" unique_id=1438332029 instance=ExtResource("2_7j0oh")]
+FloorScene = ExtResource("3_wus3n")
+
+[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport" unique_id=843449115]
+transform = Transform3D(1, 0, 0, 0, 0.7071068, 0.7071068, 0, -0.7071068, 0.7071068, 0, 12, 12)
+script = ExtResource("3_03p3h")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewportContainer/SubViewport" unique_id=494429995]
+transform = Transform3D(0.70710677, 0.49999997, -0.49999997, 0, 0.70710677, 0.70710677, 0.70710677, -0.49999997, 0.49999997, 0, 0, 0)
+
+[node name="UI" type="Control" parent="." unique_id=1056664271]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TopBar" type="HBoxContainer" parent="UI" unique_id=1272468982]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 31.0
+grow_horizontal = 2
+
+[node name="WidthSpinBox" type="SpinBox" parent="UI/TopBar" unique_id=125140432]
+layout_mode = 2
+
+[node name="HeightSpinBox" type="SpinBox" parent="UI/TopBar" unique_id=1735300930]
+layout_mode = 2
+
+[node name="GenerateButton" type="Button" parent="UI/TopBar" unique_id=510181087]
+layout_mode = 2
+text = "Створити сітку"
+
+[node name="RightPanel" type="VBoxContainer" parent="UI" unique_id=1219617308]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -56.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="WallButton" type="Button" parent="UI/RightPanel" unique_id=68795711]
+layout_mode = 2
+text = "Стіна"
+
+[node name="FinishButton" type="Button" parent="UI/RightPanel" unique_id=782566203]
+layout_mode = 2
+text = "Фініш"
