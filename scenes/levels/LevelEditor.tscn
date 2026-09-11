@@ -7,12 +7,14 @@
 [ext_resource type="PackedScene" uid="uid://bfgbydrfmwrd8" path="res://scenes/modules/Floor.tscn" id="3_wus3n"]
 [ext_resource type="PackedScene" uid="uid://djypk3wx4hs4q" path="res://scenes/modules/Pit.tscn" id="3_x4i5d"]
 [ext_resource type="PackedScene" uid="uid://dsha5ifsdq7jt" path="res://scenes/modules/FinishPoint.tscn" id="4_kr27j"]
+[ext_resource type="PackedScene" uid="uid://vu10lch3wfts" path="res://scenes/ui/sky.tscn" id="5_x4i5d"]
 
 [node name="LevelEditor" type="Node3D" unique_id=734962760 node_paths=PackedStringArray("RockButton", "PitButton", "FinishButton")]
 script = ExtResource("1_sxk07")
 RockScene = ExtResource("2_7vcq5")
 PitScene = ExtResource("3_x4i5d")
 FinishScene = ExtResource("4_kr27j")
+SkyScene = ExtResource("5_x4i5d")
 RockButton = NodePath("UI/RightPanel/RockButton")
 PitButton = NodePath("UI/RightPanel/PitButton")
 FinishButton = NodePath("UI/RightPanel/FinishButton")

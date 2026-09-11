@@ -5,10 +5,16 @@ public partial class LevelEditor : Node3D
     [Export] public PackedScene RockScene { get; set; }
     [Export] public PackedScene PitScene { get; set; }
     [Export] public PackedScene FinishScene { get; set; }
+    
+    // Сцена неба від Некіта
+    [Export] public PackedScene SkyScene { get; set; }
 
     [Export] public Button RockButton { get; set; }
     [Export] public Button PitButton { get; set; }
     [Export] public Button FinishButton { get; set; }
+    
+    // Кнопка генерації рівня (якщо є в інспекторі)
+    [Export] public Button GenerateButton { get; set; }
 
     public enum SelectedItem { None, Rock, Pit, Finish }
     public SelectedItem CurrentSelection = SelectedItem.None;
@@ -25,6 +31,54 @@ public partial class LevelEditor : Node3D
 
         if (FinishButton != null)
             FinishButton.Pressed += () => SetSelection(SelectedItem.Finish, "Фініш");
+
+        if (GenerateButton != null)
+            GenerateButton.Pressed += OnGenerateLevelPressed;
+
+        // Автоматично додаємо небо до поточного вікна редактора
+        EnsureSkyOnCurrentScene();
+    }
+
+    private void OnGenerateLevelPressed()
+    {
+        GD.Print("[LevelEditor] Генерація рівня...");
+        
+        // Тут твій код генерації рівня (тайли підлоги тощо)
+        
+        // Автоматично гарантуємо, що створений/існуючий рівень має атмосферу неба
+        EnsureSkyOnCurrentScene();
+    }
+
+    private void EnsureSkyOnCurrentScene()
+    {
+        // Шукаємо, чи вже є небо на сцені
+        if (HasNode("SkyEnvironment")) return;
+
+        if (SkyScene == null)
+        {
+            SkyScene = GD.Load<PackedScene>("res://scenes/ui/sky.tscn");
+        }
+
+        if (SkyScene != null)
+        {
+            var skyInstance = SkyScene.Instantiate();
+            skyInstance.Name = "SkyEnvironment";
+            AddChild(skyInstance);
+
+            if (Engine.IsEditorHint() && GetTree().EditedSceneRoot != null)
+            {
+                if (skyInstance is Node3D node3D && GetTree().EditedSceneRoot is Node3D)
+                {
+                    node3D.Owner = GetTree().EditedSceneRoot;
+                }
+            }
+
+            GD.Print("[LevelEditor] Небо успішно зафігачено на рівень!");
+        }
+        else
+        {
+            GD.PrintErr("[LevelEditor] Помилка: Не знайдено сцену неба за шляхом res://scenes/ui/sky.tscn !");
+        }
     }
 
     private void SetSelection(SelectedItem item, string name)
@@ -70,16 +124,12 @@ public partial class LevelEditor : Node3D
         {
             Vector3 hitPosition = (Vector3)result["position"];
             
-            // Чітке вирівнювання по сітці 1x1 метр
             float gridX = Mathf.Round(hitPosition.X / GridSize) * GridSize;
             float gridZ = Mathf.Round(hitPosition.Z / GridSize) * GridSize;
-            
-            // Беремо реальну висоту поверхні тайла підлоги, куди влучив промінь
             float surfaceY = hitPosition.Y; 
 
             Vector3 spawnPos = new Vector3(gridX, surfaceY, gridZ);
 
-            // Перевіряємо, чи клітинка вже зайнята іншим об'єктом
             if (IsCellOccupied(spawnPos))
             {
                 GD.Print($"[LevelEditor] Клітинка {spawnPos} вже зайнята!");
@@ -97,7 +147,6 @@ public partial class LevelEditor : Node3D
     private bool IsCellOccupied(Vector3 position)
     {
         var spaceState = GetWorld3D().DirectSpaceState;
-        // Шукаємо об'єкти виключно НАД поверхнею тайла, щоб не чіпати саму підлогу
         var query = PhysicsRayQueryParameters3D.Create(position + Vector3.Up * 0.8f, position + Vector3.Up * 0.1f);
         var result = spaceState.IntersectRay(query);
         
