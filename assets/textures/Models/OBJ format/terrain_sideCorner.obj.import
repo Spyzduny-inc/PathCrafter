@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://dlkq32gxfxkt7"
+path="res://.godot/imported/terrain_sideCorner.obj-f272232d3f70513b5446d4c3fa848208.mesh"
+
+[deps]
+
+files=["res://.godot/imported/terrain_sideCorner.obj-f272232d3f70513b5446d4c3fa848208.mesh"]
+
+source_file="res://assets/textures/Models/OBJ format/terrain_sideCorner.obj"
+dest_files=["res://.godot/imported/terrain_sideCorner.obj-f272232d3f70513b5446d4c3fa848208.mesh", "res://.godot/imported/terrain_sideCorner.obj-f272232d3f70513b5446d4c3fa848208.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false

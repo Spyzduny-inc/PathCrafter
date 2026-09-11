@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://cet1fyqkeh8sv"
+path="res://.godot/imported/corridor_cornerRoundWindow.obj-7791e3e1ee4fa9de8566a010c6a1b83f.mesh"
+
+[deps]
+
+files=["res://.godot/imported/corridor_cornerRoundWindow.obj-7791e3e1ee4fa9de8566a010c6a1b83f.mesh"]
+
+source_file="res://assets/textures/Models/OBJ format/corridor_cornerRoundWindow.obj"
+dest_files=["res://.godot/imported/corridor_cornerRoundWindow.obj-7791e3e1ee4fa9de8566a010c6a1b83f.mesh", "res://.godot/imported/corridor_cornerRoundWindow.obj-7791e3e1ee4fa9de8566a010c6a1b83f.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false
