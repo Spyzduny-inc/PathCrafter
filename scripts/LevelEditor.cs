@@ -1,59 +1,141 @@
 using Godot;
-using System.Collections.Generic;
 
-public partial class LevelEditor : Control
+public partial class LevelEditor : Node3D
 {
-	private SpinBox widthSpinBox;
-	private SpinBox heightSpinBox;
-	private Button generateButton;
-	
-	private Button wallButton;
-	private Button finishButton;
+    [Export] public PackedScene RockScene { get; set; }
+    [Export] public PackedScene PitScene { get; set; }
+    [Export] public PackedScene FinishScene { get; set; }
 
-	// Посилання на генератор сітки
-	private GridGenerator gridGenerator;
+    [Export] public Button RockButton { get; set; }
+    [Export] public Button PitButton { get; set; }
+    [Export] public Button FinishButton { get; set; }
 
-	private Dictionary<Vector2I, int> levelData = new Dictionary<Vector2I, int>();
-	private int currentSelectedTile = 2; // 2 - Стіна, 3 - Фініш
+    public enum SelectedItem { None, Rock, Pit, Finish }
+    public SelectedItem CurrentSelection = SelectedItem.None;
 
-	public override void _Ready()
-	{
-		// Прив'язка UI елементів з правильними шляхами
-		widthSpinBox = GetNode<SpinBox>("UI/TopBar/WidthSpinBox");
-		heightSpinBox = GetNode<SpinBox>("UI/TopBar/HeightSpinBox");
-		generateButton = GetNode<Button>("UI/TopBar/GenerateButton");
+    private const float GridSize = 1.0f;
 
-		wallButton = GetNode<Button>("UI/RightPanel/WallButton");
-		finishButton = GetNode<Button>("UI/RightPanel/FinishButton");
+    public override void _Ready()
+    {
+        if (RockButton != null)
+            RockButton.Pressed += () => SetSelection(SelectedItem.Rock, "Камінь");
 
-		// Шукаємо GridGenerator у 3D-просторі сцени
-		gridGenerator = GetNode<GridGenerator>("SubViewportContainer/SubViewport/GridGenerator");
+        if (PitButton != null)
+            PitButton.Pressed += () => SetSelection(SelectedItem.Pit, "Яма");
 
-		generateButton.Pressed += OnGenerateButtonPressed;
-		wallButton.Pressed += () => currentSelectedTile = 2;
-		finishButton.Pressed += () => currentSelectedTile = 3;
-	}
+        if (FinishButton != null)
+            FinishButton.Pressed += () => SetSelection(SelectedItem.Finish, "Фініш");
+    }
 
-	private void OnGenerateButtonPressed()
-	{
-		int mapWidth = (int)widthSpinBox.Value;
-		int mapHeight = (int)heightSpinBox.Value;
+    private void SetSelection(SelectedItem item, string name)
+    {
+        CurrentSelection = item;
+        GD.Print($"[LevelEditor] Обрано об'єкт: {name}");
+    }
 
-		GD.Print($"Генеруємо сітку: {mapWidth}x{mapHeight}");
-		
-		levelData.Clear();
+    public override void _UnhandledInput(InputEvent @event)
+    {
+        if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed && mouseEvent.ButtonIndex == MouseButton.Left)
+        {
+            if (CurrentSelection != SelectedItem.None)
+            {
+                TryPlaceObject(mouseEvent.Position);
+            }
+            else
+            {
+                GD.Print("Оберіть об'єкт для розміщення на панелі!");
+            }
+        }
+    }
 
-		if (gridGenerator != null)
-		{
-			gridGenerator.GridWidth = mapWidth;
-			gridGenerator.GridDepth = mapHeight;
-			
-			// Викликаємо генерацію підлоги
-			gridGenerator.GenerateGrid();
-		}
-		else
-		{
-			GD.PrintErr("Помилка: GridGenerator не знайдено за вказаним шляхом!");
-		}
-	}
+    private void TryPlaceObject(Vector2 mousePos)
+    {
+        var camera = GetNodeOrNull<Camera3D>("SubViewportContainer/SubViewport/Camera3D") 
+                     ?? GetTree().Root.FindChild("Camera3D", true, false) as Camera3D;
+
+        if (camera == null)
+        {
+            GD.PrintErr("[LevelEditor] Помилка: Камера 3D не знайдена!");
+            return;
+        }
+
+        var from = camera.ProjectRayOrigin(mousePos);
+        var to = from + camera.ProjectRayNormal(mousePos) * 1000f;
+
+        var spaceState = GetWorld3D().DirectSpaceState;
+        var query = PhysicsRayQueryParameters3D.Create(from, to);
+        var result = spaceState.IntersectRay(query);
+
+        if (result.Count > 0)
+        {
+            Vector3 hitPosition = (Vector3)result["position"];
+            
+            // Чітке вирівнювання по сітці 1x1 метр
+            float gridX = Mathf.Round(hitPosition.X / GridSize) * GridSize;
+            float gridZ = Mathf.Round(hitPosition.Z / GridSize) * GridSize;
+            
+            // Беремо реальну висоту поверхні тайла підлоги, куди влучив промінь
+            float surfaceY = hitPosition.Y; 
+
+            Vector3 spawnPos = new Vector3(gridX, surfaceY, gridZ);
+
+            // Перевіряємо, чи клітинка вже зайнята іншим об'єктом
+            if (IsCellOccupied(spawnPos))
+            {
+                GD.Print($"[LevelEditor] Клітинка {spawnPos} вже зайнята!");
+                return;
+            }
+
+            SpawnPrefab(spawnPos);
+        }
+        else
+        {
+            GD.Print("[LevelEditor] Клік у порожнечу! Ставити можна тільки на підлогу.");
+        }
+    }
+
+    private bool IsCellOccupied(Vector3 position)
+    {
+        var spaceState = GetWorld3D().DirectSpaceState;
+        // Шукаємо об'єкти виключно НАД поверхнею тайла, щоб не чіпати саму підлогу
+        var query = PhysicsRayQueryParameters3D.Create(position + Vector3.Up * 0.8f, position + Vector3.Up * 0.1f);
+        var result = spaceState.IntersectRay(query);
+        
+        return result.Count > 0;
+    }
+
+    private void SpawnPrefab(Vector3 position)
+    {
+        Node3D newObj = null;
+
+        switch (CurrentSelection)
+        {
+            case SelectedItem.Rock:
+                if (RockScene != null) newObj = RockScene.Instantiate<Node3D>();
+                break;
+            case SelectedItem.Pit:
+                if (PitScene != null) newObj = PitScene.Instantiate<Node3D>();
+                break;
+            case SelectedItem.Finish:
+                if (FinishScene != null) newObj = FinishScene.Instantiate<Node3D>();
+                break;
+        }
+
+        if (newObj != null)
+        {
+            newObj.Position = position;
+            AddChild(newObj);
+            
+            if (Engine.IsEditorHint() && GetTree().EditedSceneRoot != null)
+            {
+                newObj.Owner = GetTree().EditedSceneRoot;
+            }
+
+            GD.Print($"[LevelEditor] УСПІШНИЙ СПАВН {CurrentSelection} на координатах: {position}");
+        }
+        else
+        {
+            GD.PrintErr($"[LevelEditor] Помилка: PackedScene для {CurrentSelection} не призначена в інспекторі!");
+        }
+    }
 }
