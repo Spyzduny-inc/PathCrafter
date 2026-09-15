@@ -1,10 +1,12 @@
 [gd_scene format=3 uid="uid://yiom36lbi0t1"]
 
+[ext_resource type="Script" uid="uid://d0thhh2mnwwnk" path="res://scripts/LevelInitializer.cs" id="1_timdk"]
 [ext_resource type="PackedScene" uid="uid://bluw823eeqtyj" path="res://scenes/modules/GridGenerator.tscn" id="1_w20ko"]
 [ext_resource type="PackedScene" uid="uid://co48g5gpfmjof" path="res://scenes/entities/Player.tscn" id="2_3wv3p"]
 [ext_resource type="PackedScene" uid="uid://bfgbydrfmwrd8" path="res://scenes/modules/Floor.tscn" id="2_timdk"]
 
 [node name="TestLevel" type="Node3D" unique_id=581401933]
+script = ExtResource("1_timdk")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=99799561]
 transform = Transform3D(0.70710677, 0.49999994, -0.49999994, 0, 0.7071067, 0.7071067, 0.70710677, -0.49999994, 0.49999994, 0, 0, 0)

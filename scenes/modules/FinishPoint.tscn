@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://dsha5ifsdq7jt"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_talee"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_we8hx"]
+
+[node name="FinishPoint" type="Area3D" unique_id=419309008]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1436359415]
+mesh = SubResource("CylinderMesh_talee")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1683886077]
+shape = SubResource("CylinderShape3D_we8hx")
