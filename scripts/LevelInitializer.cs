@@ -11,7 +11,7 @@ public partial class LevelInitializer : Node3D
         {
             if (SkyScene == null)
             {
-                SkyScene = GD.Load<PackedScene>("res://scenes/ui/sky.tscn");
+                SkyScene = GD.Load<PackedScene>("res://scenes/environment/sky.tscn");
             }
 
             if (SkyScene != null)

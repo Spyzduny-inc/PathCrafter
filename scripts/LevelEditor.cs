@@ -205,7 +205,7 @@ public partial class LevelEditor : Node3D
     private void EnsureSkyOnCurrentScene()
     {
         if (HasNode("SkyEnvironment")) return;
-        if (SkyScene == null) SkyScene = GD.Load<PackedScene>("res://scenes/ui/sky.tscn");
+        if (SkyScene == null) SkyScene = GD.Load<PackedScene>("res://scenes/environment/sky.tscn");
         if (SkyScene != null)
         {
             var skyInstance = SkyScene.Instantiate();

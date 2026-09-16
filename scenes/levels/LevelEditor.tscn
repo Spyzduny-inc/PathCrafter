@@ -1,14 +1,14 @@
 [gd_scene format=3 uid="uid://dgufoa4ref1o4"]
 
 [ext_resource type="Script" uid="uid://ddrlstwdj2h28" path="res://scripts/LevelEditor.cs" id="1_sxk07"]
-[ext_resource type="PackedScene" uid="uid://bluw823eeqtyj" path="res://scenes/modules/GridGenerator.tscn" id="2_7j0oh"]
+[ext_resource type="PackedScene" uid="uid://bluw823eeqtyj" path="res://scenes/utilities/GridGenerator.tscn" id="2_7j0oh"]
 [ext_resource type="PackedScene" uid="uid://dg0vws2uqmj4m" path="res://scenes/modules/Rock.tscn" id="2_7vcq5"]
 [ext_resource type="Script" uid="uid://l417kou8m6l6" path="res://scripts/CameraController.cs" id="3_03p3h"]
 [ext_resource type="PackedScene" uid="uid://bfgbydrfmwrd8" path="res://scenes/modules/Floor.tscn" id="3_wus3n"]
 [ext_resource type="PackedScene" uid="uid://djypk3wx4hs4q" path="res://scenes/modules/Pit.tscn" id="3_x4i5d"]
 [ext_resource type="PackedScene" uid="uid://dsha5ifsdq7jt" path="res://scenes/modules/FinishPoint.tscn" id="4_kr27j"]
 [ext_resource type="PackedScene" uid="uid://bmmwdfhkay4cg" path="res://scenes/modules/PlayerSpawn.tscn" id="5_kr27j"]
-[ext_resource type="PackedScene" uid="uid://vu10lch3wfts" path="res://scenes/ui/sky.tscn" id="5_x4i5d"]
+[ext_resource type="PackedScene" uid="uid://vu10lch3wfts" path="res://scenes/environment/sky.tscn" id="5_x4i5d"]
 
 [node name="LevelEditor" type="Node3D" unique_id=734962760 node_paths=PackedStringArray("RockButton", "PitButton", "FinishButton", "PlayerSpawnButton", "GenerateButton", "UndoButton", "SaveButton", "WidthSpinBox", "HeightSpinBox", "GridGeneratorNode")]
 script = ExtResource("1_sxk07")
