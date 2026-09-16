@@ -2,8 +2,9 @@ using Godot;
 
 public partial class CameraController : Camera3D
 {
-    [Export] public float KeyboardPanSpeed { get; set; } = 15.0f;
-    [Export] public float MousePanSpeed { get; set; } = 0.05f; // Чутливість перетягування мишкою
+    // Зменшена швидкість для клавіатури
+    [Export] public float KeyboardPanSpeed { get; set; } = 7.0f;
+    [Export] public float MousePanSpeed { get; set; } = 0.05f; 
     [Export] public float ZoomSpeed { get; set; } = 2.0f;
     [Export] public float MinZoom { get; set; } = 3.0f;
     [Export] public float MaxZoom { get; set; } = 30.0f;
@@ -12,13 +13,13 @@ public partial class CameraController : Camera3D
 
     public override void _Process(double delta)
     {
-        // 1. Рух з клавіатури (WASD або стрілочки)
+        // 1. Рух з клавіатури (ТІЛЬКИ стрілочки)
         Vector3 panDirection = Vector3.Zero;
 
-        if (Input.IsPhysicalKeyPressed(Key.W) || Input.IsPhysicalKeyPressed(Key.Up)) panDirection.Z -= 1;
-        if (Input.IsPhysicalKeyPressed(Key.S) || Input.IsPhysicalKeyPressed(Key.Down)) panDirection.Z += 1;
-        if (Input.IsPhysicalKeyPressed(Key.A) || Input.IsPhysicalKeyPressed(Key.Left)) panDirection.X -= 1;
-        if (Input.IsPhysicalKeyPressed(Key.D) || Input.IsPhysicalKeyPressed(Key.Right)) panDirection.X += 1;
+        if (Input.IsPhysicalKeyPressed(Key.Up)) panDirection.Z -= 1;
+        if (Input.IsPhysicalKeyPressed(Key.Down)) panDirection.Z += 1;
+        if (Input.IsPhysicalKeyPressed(Key.Left)) panDirection.X -= 1;
+        if (Input.IsPhysicalKeyPressed(Key.Right)) panDirection.X += 1;
 
         if (panDirection != Vector3.Zero)
         {
@@ -43,8 +44,8 @@ public partial class CameraController : Camera3D
                 Zoom(ZoomSpeed);
             }
             
-            // Вмикаємо/вимикаємо режим перетягування (на затиснуте коліщатко або праву кнопку)
-            if (mouseBtnEvent.ButtonIndex == MouseButton.Middle || mouseBtnEvent.ButtonIndex == MouseButton.Right)
+            // Вмикаємо/вимикаємо режим перетягування (ТІЛЬКИ на затиснуте коліщатко)
+            if (mouseBtnEvent.ButtonIndex == MouseButton.Middle)
             {
                 isPanningWithMouse = mouseBtnEvent.Pressed;
             }
@@ -53,8 +54,6 @@ public partial class CameraController : Camera3D
         // 3. Рух мишею при затиснутій кнопці
         if (@event is InputEventMouseMotion mouseMotionEvent && isPanningWithMouse)
         {
-            // Конвертуємо 2D рух миші по екрану у 3D рух камери по площині XZ.
-            // Знаки мінус потрібні, щоб екран "тягнувся" за курсором.
             Vector3 dragMotion = new Vector3(-mouseMotionEvent.Relative.X, 0, -mouseMotionEvent.Relative.Y) * MousePanSpeed;
             GlobalPosition += dragMotion;
         }

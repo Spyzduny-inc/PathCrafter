@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://bmmwdfhkay4cg"]
+
+[ext_resource type="Script" uid="uid://bhfott8jrillg" path="res://scripts/PlayerSpawn.cs" id="1_ct3xg"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wsqlc"]
+albedo_color = Color(0.9529412, 0.35686275, 0.29803923, 0.39215687)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_wsqlc"]
+material = SubResource("StandardMaterial3D_wsqlc")
+radius = 0.25
+height = 1.0
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wsqlc"]
+radius = 0.25
+height = 1.0
+
+[node name="PlayerSpawn" type="Area3D" unique_id=608881730]
+collision_layer = 2
+script = ExtResource("1_ct3xg")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1309387576]
+mesh = SubResource("CapsuleMesh_wsqlc")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=632541115]
+shape = SubResource("CapsuleShape3D_wsqlc")
