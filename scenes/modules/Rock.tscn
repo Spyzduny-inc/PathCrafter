@@ -5,6 +5,7 @@
 [sub_resource type="BoxShape3D" id="BoxShape3D_wsqlc"]
 
 [node name="Rock" type="StaticBody3D" unique_id=309534127]
+collision_layer = 2
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=2081288299]
 mesh = SubResource("BoxMesh_wsqlc")

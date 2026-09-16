@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://dsha5ifsdq7jt" path="res://scenes/modules/FinishPoint.tscn" id="4_kr27j"]
 [ext_resource type="PackedScene" uid="uid://vu10lch3wfts" path="res://scenes/ui/sky.tscn" id="5_x4i5d"]
 
-[node name="LevelEditor" type="Node3D" unique_id=734962760 node_paths=PackedStringArray("RockButton", "PitButton", "FinishButton")]
+[node name="LevelEditor" type="Node3D" unique_id=734962760 node_paths=PackedStringArray("RockButton", "PitButton", "FinishButton", "GenerateButton", "UndoButton", "WidthSpinBox", "HeightSpinBox", "GridGeneratorNode")]
 script = ExtResource("1_sxk07")
 RockScene = ExtResource("2_7vcq5")
 PitScene = ExtResource("3_x4i5d")
@@ -18,6 +18,11 @@ SkyScene = ExtResource("5_x4i5d")
 RockButton = NodePath("UI/RightPanel/RockButton")
 PitButton = NodePath("UI/RightPanel/PitButton")
 FinishButton = NodePath("UI/RightPanel/FinishButton")
+GenerateButton = NodePath("UI/TopBar/GenerateButton")
+UndoButton = NodePath("UI/RightPanel/UndoButton")
+WidthSpinBox = NodePath("UI/TopBar/WidthSpinBox")
+HeightSpinBox = NodePath("UI/TopBar/HeightSpinBox")
+GridGeneratorNode = NodePath("SubViewportContainer/SubViewport/GridGenerator")
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=774831043]
 anchors_preset = 15
@@ -34,6 +39,8 @@ render_target_update_mode = 4
 
 [node name="GridGenerator" parent="SubViewportContainer/SubViewport" unique_id=1438332029 instance=ExtResource("2_7j0oh")]
 FloorScene = ExtResource("3_wus3n")
+GridWidth = 15
+GridDepth = 15
 
 [node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport" unique_id=843449115]
 transform = Transform3D(1, 0, 0, 0, 0.7071068, 0.7071068, 0, -0.7071068, 0.7071068, 0, 12, 12)
@@ -90,3 +97,7 @@ text = "Яма"
 [node name="FinishButton" type="Button" parent="UI/RightPanel" unique_id=782566203]
 layout_mode = 2
 text = "Фініш"
+
+[node name="UndoButton" type="Button" parent="UI/RightPanel" unique_id=1441288093]
+layout_mode = 2
+text = "Відмінити"
