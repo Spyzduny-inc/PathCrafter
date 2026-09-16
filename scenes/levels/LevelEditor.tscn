@@ -7,17 +7,20 @@
 [ext_resource type="PackedScene" uid="uid://bfgbydrfmwrd8" path="res://scenes/modules/Floor.tscn" id="3_wus3n"]
 [ext_resource type="PackedScene" uid="uid://djypk3wx4hs4q" path="res://scenes/modules/Pit.tscn" id="3_x4i5d"]
 [ext_resource type="PackedScene" uid="uid://dsha5ifsdq7jt" path="res://scenes/modules/FinishPoint.tscn" id="4_kr27j"]
+[ext_resource type="PackedScene" uid="uid://bmmwdfhkay4cg" path="res://scenes/modules/PlayerSpawn.tscn" id="5_kr27j"]
 [ext_resource type="PackedScene" uid="uid://vu10lch3wfts" path="res://scenes/ui/sky.tscn" id="5_x4i5d"]
 
-[node name="LevelEditor" type="Node3D" unique_id=734962760 node_paths=PackedStringArray("RockButton", "PitButton", "FinishButton", "GenerateButton", "UndoButton", "SaveButton", "WidthSpinBox", "HeightSpinBox", "GridGeneratorNode")]
+[node name="LevelEditor" type="Node3D" unique_id=734962760 node_paths=PackedStringArray("RockButton", "PitButton", "FinishButton", "PlayerSpawnButton", "GenerateButton", "UndoButton", "SaveButton", "WidthSpinBox", "HeightSpinBox", "GridGeneratorNode")]
 script = ExtResource("1_sxk07")
 RockScene = ExtResource("2_7vcq5")
 PitScene = ExtResource("3_x4i5d")
 FinishScene = ExtResource("4_kr27j")
+PlayerSpawnScene = ExtResource("5_kr27j")
 SkyScene = ExtResource("5_x4i5d")
 RockButton = NodePath("UI/RightPanel/RockButton")
 PitButton = NodePath("UI/RightPanel/PitButton")
 FinishButton = NodePath("UI/RightPanel/FinishButton")
+PlayerSpawnButton = NodePath("UI/RightPanel/PlayerSpawnButton")
 GenerateButton = NodePath("UI/TopBar/GenerateButton")
 UndoButton = NodePath("UI/TopBar/UndoButton")
 SaveButton = NodePath("UI/TopBar/SaveButton")
@@ -106,3 +109,7 @@ text = "Яма"
 [node name="FinishButton" type="Button" parent="UI/RightPanel" unique_id=782566203]
 layout_mode = 2
 text = "Фініш"
+
+[node name="PlayerSpawnButton" type="Button" parent="UI/RightPanel" unique_id=323520535]
+layout_mode = 2
+text = "Гравець"
