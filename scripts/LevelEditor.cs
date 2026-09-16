@@ -13,6 +13,7 @@ public partial class LevelEditor : Node3D
     [Export] public Button FinishButton { get; set; }
     [Export] public Button GenerateButton { get; set; }
     [Export] public Button UndoButton { get; set; }
+    [Export] public Button SaveButton { get; set; } 
 
     [Export] public SpinBox WidthSpinBox { get; set; }
     [Export] public SpinBox HeightSpinBox { get; set; }
@@ -24,7 +25,6 @@ public partial class LevelEditor : Node3D
     private const float GridSize = 1.0f;
     private List<Node3D> spawnedObjectsHistory = new List<Node3D>();
 
-    // --- НОВА СИСТЕМА ІСТОРІЇ ---
     private enum ActionType { Place, Remove }
     private class EditorAction
     {
@@ -32,31 +32,152 @@ public partial class LevelEditor : Node3D
         public Node3D TargetObj;
     }
     private List<EditorAction> actionHistory = new List<EditorAction>();
-    // ----------------------------
+
+    // --- ЗМІННІ ДЛЯ ВІКНА ЗБЕРЕЖЕННЯ ---
+    private ConfirmationDialog saveDialog;
+    private LineEdit levelNameInput;
+    private CheckBox autoNumberCheckbox;
+    private const string SaveDir = "res://scenes/levels/customs/";
 
     public override void _Ready()
     {
-        // Дефолтні значення 15x15 зі старту
         if (WidthSpinBox != null) WidthSpinBox.Value = 15;
         if (HeightSpinBox != null) HeightSpinBox.Value = 15;
 
-        // ВИМИКАЄМО ФОКУС ДЛЯ КНОПОК, щоб стрілочки не бігали по UI
         if (RockButton != null) RockButton.FocusMode = Control.FocusModeEnum.None;
         if (PitButton != null) PitButton.FocusMode = Control.FocusModeEnum.None;
         if (FinishButton != null) FinishButton.FocusMode = Control.FocusModeEnum.None;
         if (GenerateButton != null) GenerateButton.FocusMode = Control.FocusModeEnum.None;
         if (UndoButton != null) UndoButton.FocusMode = Control.FocusModeEnum.None;
+        if (SaveButton != null) SaveButton.FocusMode = Control.FocusModeEnum.None;
 
-        // Підключення сигналів кнопок
         if (RockButton != null) RockButton.Pressed += () => SetSelection(SelectedItem.Rock, "Камінь");
         if (PitButton != null) PitButton.Pressed += () => SetSelection(SelectedItem.Pit, "Яма");
         if (FinishButton != null) FinishButton.Pressed += () => SetSelection(SelectedItem.Finish, "Фініш");
         
         if (GenerateButton != null) GenerateButton.Pressed += OnGenerateLevelPressed;
         if (UndoButton != null) UndoButton.Pressed += PerformUndo;
+        
+        // Підключаємо кнопку до виклику вікна
+        if (SaveButton != null) SaveButton.Pressed += ShowSaveDialog; 
 
         EnsureSkyOnCurrentScene();
+        SetupSaveDialog(); // Створюємо UI вікна збереження
     }
+
+    // --- ЛОГІКА ВІКНА ЗБЕРЕЖЕННЯ ---
+    private void SetupSaveDialog()
+    {
+        saveDialog = new ConfirmationDialog();
+        saveDialog.Title = "Збереження рівня";
+        saveDialog.Size = new Vector2I(350, 150);
+
+        var vbox = new VBoxContainer();
+        saveDialog.AddChild(vbox);
+
+        autoNumberCheckbox = new CheckBox();
+        autoNumberCheckbox.Text = "Автоматична нумерація (Level_X)";
+        autoNumberCheckbox.ButtonPressed = true; // За замовчуванням увімкнено
+        vbox.AddChild(autoNumberCheckbox);
+
+        levelNameInput = new LineEdit();
+        levelNameInput.PlaceholderText = "Введіть власну назву...";
+        levelNameInput.Editable = false; // Вимкнено, поки стоїть галочка
+        vbox.AddChild(levelNameInput);
+
+        // Якщо клікаємо на галочку - вмикаємо/вимикаємо поле вводу
+        autoNumberCheckbox.Toggled += (bool toggledOn) => 
+        {
+            levelNameInput.Editable = !toggledOn;
+        };
+
+        saveDialog.Confirmed += OnSaveConfirmed;
+        AddChild(saveDialog);
+    }
+
+    private void ShowSaveDialog()
+    {
+        saveDialog.PopupCentered();
+    }
+
+    private void OnSaveConfirmed()
+    {
+        if (!DirAccess.DirExistsAbsolute(SaveDir))
+        {
+            DirAccess.MakeDirRecursiveAbsolute(SaveDir);
+        }
+
+        string fileName = "";
+
+        if (autoNumberCheckbox.ButtonPressed)
+        {
+            fileName = GetNextAutoLevelName();
+        }
+        else
+        {
+            fileName = levelNameInput.Text.StripEdges();
+            if (string.IsNullOrEmpty(fileName)) fileName = "UnnamedLevel";
+        }
+
+        if (!fileName.EndsWith(".tscn")) fileName += ".tscn";
+
+        string fullPath = SaveDir + fileName;
+        ExecuteSave(fullPath);
+    }
+
+    private string GetNextAutoLevelName()
+    {
+        int maxNumber = 0;
+        using var dir = DirAccess.Open(SaveDir);
+        if (dir != null)
+        {
+            dir.ListDirBegin();
+            string fileName = dir.GetNext();
+            while (fileName != "")
+            {
+                if (!dir.CurrentIsDir() && fileName.StartsWith("Level_") && fileName.EndsWith(".tscn"))
+                {
+                    string numPart = fileName.Replace("Level_", "").Replace(".tscn", "");
+                    if (int.TryParse(numPart, out int num))
+                    {
+                        if (num > maxNumber) maxNumber = num;
+                    }
+                }
+                fileName = dir.GetNext();
+            }
+        }
+        return $"Level_{maxNumber + 1}";
+    }
+
+    private void ExecuteSave(string savePath)
+    {
+        GD.Print($"[LevelEditor] Пакуємо сцену для збереження у {savePath}...");
+        var packedScene = new PackedScene();
+        
+        Node rootNode = GetTree().CurrentScene;
+        if (Engine.IsEditorHint() && GetTree().EditedSceneRoot != null)
+        {
+            rootNode = GetTree().EditedSceneRoot;
+        }
+
+        if (rootNode == null) return;
+
+        var result = packedScene.Pack(rootNode);
+        
+        if (result == Error.Ok)
+        {
+            var saveResult = ResourceSaver.Save(packedScene, savePath);
+            if (saveResult == Error.Ok)
+                GD.Print($"[LevelEditor] УСПІХ! Рівень збережено: {savePath}");
+            else
+                GD.PrintErr($"[LevelEditor] Помилка запису файлу: {saveResult}");
+        }
+        else
+        {
+            GD.PrintErr($"[LevelEditor] Помилка пакування сцени: {result}");
+        }
+    }
+    // --------------------------------
 
     private void OnGenerateLevelPressed()
     {
@@ -64,7 +185,6 @@ public partial class LevelEditor : Node3D
         {
             int w = WidthSpinBox != null ? (int)WidthSpinBox.Value : 15;
             int h = HeightSpinBox != null ? (int)HeightSpinBox.Value : 15;
-
             GridGeneratorNode.Set("GridWidth", w);
             GridGeneratorNode.Set("GridDepth", h);
 
@@ -78,20 +198,13 @@ public partial class LevelEditor : Node3D
     {
         if (HasNode("SkyEnvironment")) return;
         if (SkyScene == null) SkyScene = GD.Load<PackedScene>("res://scenes/ui/sky.tscn");
-
         if (SkyScene != null)
         {
             var skyInstance = SkyScene.Instantiate();
             skyInstance.Name = "SkyEnvironment";
             AddChild(skyInstance);
-
-            if (Engine.IsEditorHint() && GetTree().EditedSceneRoot != null)
-            {
-                if (skyInstance is Node3D node3D && GetTree().EditedSceneRoot is Node3D)
-                {
-                    node3D.Owner = GetTree().EditedSceneRoot;
-                }
-            }
+            if (Engine.IsEditorHint() && GetTree().EditedSceneRoot != null) skyInstance.Owner = GetTree().EditedSceneRoot;
+            else if (GetTree().CurrentScene != null) skyInstance.Owner = GetTree().CurrentScene;
         }
     }
 
@@ -108,7 +221,6 @@ public partial class LevelEditor : Node3D
             if (mouseEvent.ButtonIndex == MouseButton.Left)
             {
                 if (CurrentSelection != SelectedItem.None) TryPlaceObject(mouseEvent.Position);
-                else GD.Print("Оберіть об'єкт для розміщення на панелі!");
             }
             else if (mouseEvent.ButtonIndex == MouseButton.Right)
             {
@@ -121,32 +233,19 @@ public partial class LevelEditor : Node3D
     {
         var camera = GetNodeOrNull<Camera3D>("SubViewportContainer/SubViewport/Camera3D") ?? GetTree().Root.FindChild("Camera3D", true, false) as Camera3D;
         if (camera == null) return;
-
         var from = camera.ProjectRayOrigin(mousePos);
         var to = from + camera.ProjectRayNormal(mousePos) * 1000f;
-
         var spaceState = GetWorld3D().DirectSpaceState;
         var query = PhysicsRayQueryParameters3D.Create(from, to);
         query.CollisionMask = 1; 
-
         var result = spaceState.IntersectRay(query);
-
         if (result.Count > 0)
         {
             Vector3 hitPosition = (Vector3)result["position"];
-            
             float gridX = Mathf.Round(hitPosition.X / GridSize) * GridSize;
             float gridZ = Mathf.Round(hitPosition.Z / GridSize) * GridSize;
-            float surfaceY = hitPosition.Y; 
-
-            Vector3 spawnPos = new Vector3(gridX, surfaceY, gridZ);
-
-            if (IsCellOccupied(spawnPos))
-            {
-                GD.Print($"[LevelEditor] Клітинка X:{gridX}, Z:{gridZ} вже зайнята!");
-                return;
-            }
-
+            Vector3 spawnPos = new Vector3(gridX, hitPosition.Y, gridZ);
+            if (IsCellOccupied(spawnPos)) return;
             SpawnPrefab(spawnPos);
         }
     }
@@ -155,23 +254,18 @@ public partial class LevelEditor : Node3D
     {
         var camera = GetNodeOrNull<Camera3D>("SubViewportContainer/SubViewport/Camera3D") ?? GetTree().Root.FindChild("Camera3D", true, false) as Camera3D;
         if (camera == null) return;
-
         var from = camera.ProjectRayOrigin(mousePos);
         var to = from + camera.ProjectRayNormal(mousePos) * 1000f;
-
         var spaceState = GetWorld3D().DirectSpaceState;
         var query = PhysicsRayQueryParameters3D.Create(from, to);
         query.CollideWithAreas = true;
         query.CollisionMask = 2; 
-
         var result = spaceState.IntersectRay(query);
-
         if (result.Count > 0)
         {
             var hitCollider = result["collider"].As<Node>();
             Node3D targetObj = null;
             Node current = hitCollider;
-
             while (current != null && current != this)
             {
                 if (current is Node3D node3D && spawnedObjectsHistory.Contains(node3D))
@@ -181,15 +275,11 @@ public partial class LevelEditor : Node3D
                 }
                 current = current.GetParent();
             }
-
             if (targetObj != null)
             {
-                // Замість QueueFree ховаємо об'єкт і записуємо дію
                 spawnedObjectsHistory.Remove(targetObj);
                 RemoveChild(targetObj);
                 actionHistory.Add(new EditorAction { Type = ActionType.Remove, TargetObj = targetObj });
-                
-                GD.Print("[LevelEditor] Об'єкт видалено зі сцени!");
             }
         }
     }
@@ -200,29 +290,16 @@ public partial class LevelEditor : Node3D
         {
             var lastAction = actionHistory[actionHistory.Count - 1];
             actionHistory.RemoveAt(actionHistory.Count - 1);
-
-            if (lastAction.Type == ActionType.Place)
+            if (lastAction.Type == ActionType.Place && GodotObject.IsInstanceValid(lastAction.TargetObj))
             {
-                if (GodotObject.IsInstanceValid(lastAction.TargetObj))
-                {
-                    spawnedObjectsHistory.Remove(lastAction.TargetObj);
-                    lastAction.TargetObj.QueueFree(); // Видаляємо те, що щойно поставили
-                    GD.Print("[LevelEditor] Undo: скасовано постановку об'єкта.");
-                }
+                spawnedObjectsHistory.Remove(lastAction.TargetObj);
+                lastAction.TargetObj.QueueFree();
             }
-            else if (lastAction.Type == ActionType.Remove)
+            else if (lastAction.Type == ActionType.Remove && GodotObject.IsInstanceValid(lastAction.TargetObj))
             {
-                if (GodotObject.IsInstanceValid(lastAction.TargetObj))
-                {
-                    AddChild(lastAction.TargetObj); // Повертаємо те, що щойно видалили
-                    spawnedObjectsHistory.Add(lastAction.TargetObj);
-                    GD.Print("[LevelEditor] Undo: відновлено видалений об'єкт.");
-                }
+                AddChild(lastAction.TargetObj);
+                spawnedObjectsHistory.Add(lastAction.TargetObj);
             }
-        }
-        else
-        {
-            GD.Print("[LevelEditor] Історія порожня, нема чого скасовувати!");
         }
     }
 
@@ -232,10 +309,7 @@ public partial class LevelEditor : Node3D
         {
             if (obj != null && GodotObject.IsInstanceValid(obj))
             {
-                if (Mathf.Abs(obj.Position.X - position.X) < 0.1f && Mathf.Abs(obj.Position.Z - position.Z) < 0.1f)
-                {
-                    return true;
-                }
+                if (Mathf.Abs(obj.Position.X - position.X) < 0.1f && Mathf.Abs(obj.Position.Z - position.Z) < 0.1f) return true;
             }
         }
         return false;
@@ -244,34 +318,20 @@ public partial class LevelEditor : Node3D
     private void SpawnPrefab(Vector3 position)
     {
         Node3D newObj = null;
-
         switch (CurrentSelection)
         {
-            case SelectedItem.Rock:
-                if (RockScene != null) newObj = RockScene.Instantiate<Node3D>();
-                break;
-            case SelectedItem.Pit:
-                if (PitScene != null) newObj = PitScene.Instantiate<Node3D>();
-                break;
-            case SelectedItem.Finish:
-                if (FinishScene != null) newObj = FinishScene.Instantiate<Node3D>();
-                break;
+            case SelectedItem.Rock: if (RockScene != null) newObj = RockScene.Instantiate<Node3D>(); break;
+            case SelectedItem.Pit: if (PitScene != null) newObj = PitScene.Instantiate<Node3D>(); break;
+            case SelectedItem.Finish: if (FinishScene != null) newObj = FinishScene.Instantiate<Node3D>(); break;
         }
-
         if (newObj != null)
         {
             newObj.Position = position;
             AddChild(newObj);
-            
-            if (Engine.IsEditorHint() && GetTree().EditedSceneRoot != null)
-            {
-                newObj.Owner = GetTree().EditedSceneRoot;
-            }
-
+            if (Engine.IsEditorHint() && GetTree().EditedSceneRoot != null) newObj.Owner = GetTree().EditedSceneRoot;
+            else if (GetTree().CurrentScene != null) newObj.Owner = GetTree().CurrentScene;
             spawnedObjectsHistory.Add(newObj);
             actionHistory.Add(new EditorAction { Type = ActionType.Place, TargetObj = newObj });
-            
-            GD.Print($"[LevelEditor] Успішний спавн {CurrentSelection} на {position}");
         }
     }
 }
