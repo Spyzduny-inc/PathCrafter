@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dcu2dguqpwcor"
-path.s3tc="res://.godot/imported/grid.png-76362706b7cff8d966c77743dd03cd1f.s3tc.ctex"
+uid="uid://db1bq1lus6b4f"
+path.s3tc="res://.godot/imported/skybox-night.png-b19cea54bb322479c426037f17f6a0b9.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://assets/textures/grid.png"
-dest_files=["res://.godot/imported/grid.png-76362706b7cff8d966c77743dd03cd1f.s3tc.ctex"]
+source_file="res://assets/Skyboxes/skybox-night.png"
+dest_files=["res://.godot/imported/skybox-night.png-b19cea54bb322479c426037f17f6a0b9.s3tc.ctex"]
 
 [params]
 
