@@ -14,6 +14,10 @@ config/name="PathCrafter"
 run/main_scene="uid://b4okdimpcg65q"
 config/features=PackedStringArray("4.7", "C#", "Forward Plus")
 
+[autoload]
+
+Global="*uid://c8omxoujy88pq"
+
 [display]
 
 window/stretch/mode="canvas_items"

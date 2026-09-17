@@ -16,6 +16,7 @@ public partial class LevelEditor : Node3D
     [Export] public Button GenerateButton { get; set; }
     [Export] public Button UndoButton { get; set; }
     [Export] public Button SaveButton { get; set; } 
+    [Export] public Button BackToMenuButton { get; set; }
 
     [Export] public SpinBox WidthSpinBox { get; set; }
     [Export] public SpinBox HeightSpinBox { get; set; }
@@ -36,7 +37,7 @@ public partial class LevelEditor : Node3D
     private List<EditorAction> actionHistory = new List<EditorAction>();
 
     private ConfirmationDialog saveDialog;
-    private AcceptDialog errorDialog; // ДОДАНО: Вікно для помилки
+    private AcceptDialog errorDialog; 
     private LineEdit levelNameInput;
     private CheckBox autoNumberCheckbox;
     private const string SaveDir = "res://scenes/levels/customs/";
@@ -63,13 +64,18 @@ public partial class LevelEditor : Node3D
         if (UndoButton != null) UndoButton.Pressed += PerformUndo;
         if (SaveButton != null) SaveButton.Pressed += ShowSaveDialog; 
 
+        if (BackToMenuButton != null) 
+        {
+          BackToMenuButton.FocusMode = Control.FocusModeEnum.None;
+          BackToMenuButton.Pressed += () => GetTree().ChangeSceneToFile("res://scenes/ui/MainMenu.tscn");
+        }   
+
         EnsureSkyOnCurrentScene();
         SetupDialogs();
     }
 
     private void SetupDialogs()
     {
-        // 1. Налаштовуємо вікно збереження
         saveDialog = new ConfirmationDialog();
         saveDialog.Title = "Збереження рівня";
         saveDialog.Size = new Vector2I(350, 150);
@@ -95,7 +101,6 @@ public partial class LevelEditor : Node3D
         saveDialog.Confirmed += OnSaveConfirmed;
         AddChild(saveDialog);
 
-        // 2. ДОДАНО: Налаштовуємо вікно помилки
         errorDialog = new AcceptDialog();
         errorDialog.Title = "Помилка збереження!";
         AddChild(errorDialog);
@@ -103,7 +108,6 @@ public partial class LevelEditor : Node3D
 
     private void ShowSaveDialog()
     {
-        // ДОДАНО: Перевірка на наявність гравця перед збереженням
         if (!IsPlayerSpawnPlaced())
         {
             errorDialog.DialogText = "Неможливо зберегти рівень!\nСпочатку встановіть 'Точку спавну гравця' на карті.";
@@ -163,20 +167,54 @@ public partial class LevelEditor : Node3D
         return $"Level_{maxNumber + 1}";
     }
 
+    // ==========================================
+    // ВИПРАВЛЕНИЙ МЕТОД ЗБЕРЕЖЕННЯ (БЕЗ UI)
+    // ==========================================
     private void ExecuteSave(string savePath)
     {
         GD.Print($"[LevelEditor] Пакуємо сцену для збереження у {savePath}...");
-        var packedScene = new PackedScene();
         
-        Node rootNode = GetTree().CurrentScene;
-        if (Engine.IsEditorHint() && GetTree().EditedSceneRoot != null)
+        // 1. Створюємо чистий корінь для рівня (без скриптів і UI)
+        Node3D levelRoot = new Node3D();
+        levelRoot.Name = "Level";
+        AddChild(levelRoot); 
+
+        // Визначаємо, хто був власником об'єктів до цього
+        Node originalOwner = Engine.IsEditorHint() && GetTree().EditedSceneRoot != null 
+            ? GetTree().EditedSceneRoot 
+            : GetTree().CurrentScene;
+
+        var sky = GetNodeOrNull("SkyEnvironment");
+
+        // 2. ПЕРЕНОСИМО ОБ'ЄКТИ В ЧИСТИЙ КОРІНЬ
+        if (GridGeneratorNode != null)
         {
-            rootNode = GetTree().EditedSceneRoot;
+            GridGeneratorNode.GetParent().RemoveChild(GridGeneratorNode);
+            levelRoot.AddChild(GridGeneratorNode);
+            GridGeneratorNode.Owner = levelRoot;
+            foreach (Node child in GridGeneratorNode.GetChildren()) child.Owner = levelRoot;
         }
 
-        if (rootNode == null) return;
+        if (sky != null)
+        {
+            sky.GetParent().RemoveChild(sky);
+            levelRoot.AddChild(sky);
+            sky.Owner = levelRoot;
+        }
 
-        var result = packedScene.Pack(rootNode);
+        foreach (var obj in spawnedObjectsHistory)
+        {
+            if (GodotObject.IsInstanceValid(obj))
+            {
+                obj.GetParent().RemoveChild(obj);
+                levelRoot.AddChild(obj);
+                obj.Owner = levelRoot;
+            }
+        }
+
+        // 3. ПАКУЄМО ТІЛЬКИ ЧИСТИЙ КОРІНЬ
+        var packedScene = new PackedScene();
+        var result = packedScene.Pack(levelRoot);
         
         if (result == Error.Ok)
         {
@@ -190,7 +228,37 @@ public partial class LevelEditor : Node3D
         {
             GD.PrintErr($"[LevelEditor] Помилка пакування сцени: {result}");
         }
+
+        // 4. ПОВЕРТАЄМО ВСЕ НАЗАД В РЕДАКТОР
+        if (GridGeneratorNode != null)
+        {
+            levelRoot.RemoveChild(GridGeneratorNode);
+            this.AddChild(GridGeneratorNode);
+            GridGeneratorNode.Owner = originalOwner;
+            foreach (Node child in GridGeneratorNode.GetChildren()) child.Owner = originalOwner;
+        }
+
+        if (sky != null)
+        {
+            levelRoot.RemoveChild(sky);
+            this.AddChild(sky);
+            sky.Owner = originalOwner;
+        }
+
+        foreach (var obj in spawnedObjectsHistory)
+        {
+            if (GodotObject.IsInstanceValid(obj))
+            {
+                levelRoot.RemoveChild(obj);
+                this.AddChild(obj);
+                obj.Owner = originalOwner;
+            }
+        }
+
+        // 5. Видаляємо тимчасовий корінь
+        levelRoot.QueueFree();
     }
+    // ==========================================
 
     private void OnGenerateLevelPressed()
     {
@@ -229,20 +297,18 @@ public partial class LevelEditor : Node3D
 
     public override void _UnhandledInput(InputEvent @event)
     {
-        // 1. ДОДАНО: Проведення затиснутою кнопкою (Drag-to-build / Drag-to-remove)
         if (@event is InputEventMouseMotion mouseMotion)
         {
-            if ((mouseMotion.ButtonMask & MouseButtonMask.Left) != 0) // Якщо затиснута ЛКМ
+            if ((mouseMotion.ButtonMask & MouseButtonMask.Left) != 0) 
             {
                 if (CurrentSelection != SelectedItem.None) TryPlaceObject(mouseMotion.Position);
             }
-            else if ((mouseMotion.ButtonMask & MouseButtonMask.Right) != 0) // Якщо затиснута ПКМ
+            else if ((mouseMotion.ButtonMask & MouseButtonMask.Right) != 0) 
             {
                 TryRemoveObject(mouseMotion.Position);
             }
         }
 
-        // 2. Одиночні кліки
         if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed)
         {
             if (mouseEvent.ButtonIndex == MouseButton.Left)
@@ -275,15 +341,13 @@ public partial class LevelEditor : Node3D
             
             Vector3 spawnPos = new Vector3(gridX, hitPosition.Y, gridZ);
             
-            // Захист від подвійного спавну (особливо при Drag-to-build)
             if (IsCellOccupied(spawnPos))
             {
-                return; // Просто виходимо, без спаму в консоль
+                return; 
             }
 
             if (CurrentSelection == SelectedItem.PlayerSpawn && IsPlayerSpawnPlaced())
             {
-                // Для спавну гравця прибираємо спам в консоль, щоб при перетягуванні не лагало
                 return; 
             }
 
