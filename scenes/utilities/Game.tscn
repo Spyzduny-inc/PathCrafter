@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://dl8qantu0mbfs"]
+
+[ext_resource type="Script" uid="uid://dbcnw7tjrw2eo" path="res://scripts/Game.cs" id="1_movtg"]
+[ext_resource type="PackedScene" uid="uid://co48g5gpfmjof" path="res://scenes/entities/Player.tscn" id="2_qq6cj"]
+
+[node name="Game" type="Node3D" unique_id=1987085889]
+script = ExtResource("1_movtg")
+PlayerScene = ExtResource("2_qq6cj")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=556642334]
+transform = Transform3D(0.70710677, 0.49999994, -0.49999994, 0, 0.7071067, 0.7071067, 0.70710677, -0.49999994, 0.49999994, 0, 0, 0)

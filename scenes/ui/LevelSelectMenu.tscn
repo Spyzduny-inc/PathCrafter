@@ -1,0 +1,59 @@
+[gd_scene format=3 uid="uid://chvv0pejwnvog"]
+
+[ext_resource type="Script" uid="uid://uoutmetf2d40" path="res://scripts/LevelSelectMenu.cs" id="1_bryfk"]
+[ext_resource type="VideoStream" uid="uid://6cv0isabdxpp" path="res://assets/ui/menu_background.ogv" id="1_mooua"]
+[ext_resource type="Resource" uid="uid://c8ji0po8hh23d" path="res://resources/MainLevelConfig.tres" id="2_hu017"]
+
+[node name="LevelSelectMenu" type="Control" unique_id=827852119 node_paths=PackedStringArray("ChaptersContainer", "BackButton")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_bryfk")
+Config = ExtResource("2_hu017")
+ChaptersContainer = NodePath("MarginContainer/VBoxContainer/ScrollContainer/ChaptersContainer")
+BackButton = NodePath("MarginContainer/VBoxContainer/BackButton")
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="." unique_id=1904951591]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stream = ExtResource("1_mooua")
+autoplay = true
+loop = true
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=513571831]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 64
+theme_override_constants/margin_top = 64
+theme_override_constants/margin_right = 64
+theme_override_constants/margin_bottom = 64
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=795168621]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer" unique_id=1380127367]
+layout_mode = 2
+text = "ВИБІР РІВНЯ"
+horizontal_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer" unique_id=1245890974]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ChaptersContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer" unique_id=1953879668]
+layout_mode = 2
+
+[node name="BackButton" type="Button" parent="MarginContainer/VBoxContainer" unique_id=1118386898]
+layout_mode = 2
+text = "Назад"
