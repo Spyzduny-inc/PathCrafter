@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bfgbydrfmwrd8"]
 
-[ext_resource type="Texture2D" uid="uid://c21rbm6tbk3rh" path="res://assets/textures/пісок_з окантовкой.png" id="1_aolwi"]
+[ext_resource type="Texture2D" uid="uid://c21rbm6tbk3rh" path="res://assets/textures/Sprites2D/пісок_з окантовкой.png" id="1_aolwi"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_wsqlc"]
 

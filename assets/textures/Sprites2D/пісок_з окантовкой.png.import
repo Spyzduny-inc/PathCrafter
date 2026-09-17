@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d2m0s2gecb6v"
-path.s3tc="res://.godot/imported/пісок.png-579ccb31b4f6001b7d1baf4c2c5e95b7.s3tc.ctex"
+uid="uid://c21rbm6tbk3rh"
+path.s3tc="res://.godot/imported/пісок_з окантовкой.png-88e4c3f146644dc1765c957ac31a9d96.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://assets/textures/пісок.png"
-dest_files=["res://.godot/imported/пісок.png-579ccb31b4f6001b7d1baf4c2c5e95b7.s3tc.ctex"]
+source_file="res://assets/textures/Sprites2D/пісок_з окантовкой.png"
+dest_files=["res://.godot/imported/пісок_з окантовкой.png-88e4c3f146644dc1765c957ac31a9d96.s3tc.ctex"]
 
 [params]
 
