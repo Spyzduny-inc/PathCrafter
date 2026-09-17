@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://ddx7fvc02ka37"]
 
 [ext_resource type="Script" uid="uid://ddrlstwdj2h28" path="res://scripts/LevelEditor.cs" id="1_qidk4"]
-[ext_resource type="PackedScene" uid="uid://dg0vws2uqmj4m" path="res://scenes/Rock.tscn" id="2_sa7ej"]
+[ext_resource type="PackedScene" uid="uid://dg0vws2uqmj4m" path="res://scenes/modules/Rock.tscn" id="2_sa7ej"]
 [ext_resource type="PackedScene" uid="uid://djypk3wx4hs4q" path="res://scenes/modules/Pit.tscn" id="3_l22nh"]
 [ext_resource type="PackedScene" uid="uid://dsha5ifsdq7jt" path="res://scenes/modules/FinishPoint.tscn" id="4_f8ngr"]
 [ext_resource type="PackedScene" uid="uid://bmmwdfhkay4cg" path="res://scenes/modules/PlayerSpawn.tscn" id="5_872lb"]
