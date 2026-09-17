@@ -1,11 +1,11 @@
 [gd_scene format=3 uid="uid://bfgbydrfmwrd8"]
 
-[ext_resource type="Texture2D" uid="uid://dcu2dguqpwcor" path="res://assets/textures/Sprites2D/floor.png" id="1_fldbk"]
+[ext_resource type="Texture2D" uid="uid://c21rbm6tbk3rh" path="res://assets/textures/пісок_з окантовкой.png" id="1_aolwi"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_wsqlc"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3fmy1"]
-albedo_texture = ExtResource("1_fldbk")
+albedo_texture = ExtResource("1_aolwi")
 uv1_offset = Vector3(0.5, 0.5, 0.5)
 uv1_triplanar = true
 texture_filter = 4
