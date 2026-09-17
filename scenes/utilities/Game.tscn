@@ -3,9 +3,23 @@
 [ext_resource type="Script" uid="uid://dbcnw7tjrw2eo" path="res://scripts/Game.cs" id="1_movtg"]
 [ext_resource type="PackedScene" uid="uid://co48g5gpfmjof" path="res://scenes/entities/Player.tscn" id="2_qq6cj"]
 
-[node name="Game" type="Node3D" unique_id=1987085889]
+[node name="Game" type="Node3D" unique_id=1987085889 node_paths=PackedStringArray("ExitButton")]
 script = ExtResource("1_movtg")
 PlayerScene = ExtResource("2_qq6cj")
+ExitButton = NodePath("CanvasLayer/MarginContainer/ExitButton")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=556642334]
 transform = Transform3D(0.70710677, 0.49999994, -0.49999994, 0, 0.7071067, 0.7071067, 0.70710677, -0.49999994, 0.49999994, 0, 0, 0)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=786374432]
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer" unique_id=688399316]
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+
+[node name="ExitButton" type="Button" parent="CanvasLayer/MarginContainer" unique_id=944693506]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Вийти у меню"

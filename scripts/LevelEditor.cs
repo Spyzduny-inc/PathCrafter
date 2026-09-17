@@ -16,6 +16,7 @@ public partial class LevelEditor : Node3D
     [Export] public Button GenerateButton { get; set; }
     [Export] public Button UndoButton { get; set; }
     [Export] public Button SaveButton { get; set; } 
+    [Export] public Button BackToMenuButton { get; set; }
 
     [Export] public SpinBox WidthSpinBox { get; set; }
     [Export] public SpinBox HeightSpinBox { get; set; }
@@ -62,6 +63,12 @@ public partial class LevelEditor : Node3D
         if (GenerateButton != null) GenerateButton.Pressed += OnGenerateLevelPressed;
         if (UndoButton != null) UndoButton.Pressed += PerformUndo;
         if (SaveButton != null) SaveButton.Pressed += ShowSaveDialog; 
+
+        if (BackToMenuButton != null) 
+        {
+          BackToMenuButton.FocusMode = Control.FocusModeEnum.None;
+          BackToMenuButton.Pressed += () => GetTree().ChangeSceneToFile("res://scenes/ui/MainMenu.tscn");
+        }   
 
         EnsureSkyOnCurrentScene();
         SetupDialogs();

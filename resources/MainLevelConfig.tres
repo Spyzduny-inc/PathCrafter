@@ -19,10 +19,10 @@ metadata/_custom_type_script = "uid://dgxqk3xreg8al"
 [sub_resource type="Resource" id="Resource_xtl6q"]
 script = ExtResource("1_d8s6n")
 ChapterName = "Глава 1"
-Levels = [SubResource("Resource_hw46c"), SubResource("Resource_4gkrj")]
+Levels = Array[ExtResource("2_xtl6q")]([SubResource("Resource_hw46c"), SubResource("Resource_4gkrj")])
 metadata/_custom_type_script = "uid://decpe55hsd4ci"
 
 [resource]
 script = ExtResource("2_ssq45")
-Chapters = [SubResource("Resource_xtl6q")]
+Chapters = Array[ExtResource("1_d8s6n")]([SubResource("Resource_xtl6q")])
 metadata/_custom_type_script = "uid://rydxhdk38klc"

@@ -4,7 +4,7 @@ public partial class Game : Node3D
 {
     // Сюди в Інспекторі перетягнемо сцену гравця
     [Export] public PackedScene PlayerScene { get; set; }
-    
+    [Export] public Button ExitButton { get; set; }
     public override void _Ready()
     {
         if (string.IsNullOrEmpty(Global.SelectedLevelPath))
@@ -23,6 +23,12 @@ public partial class Game : Node3D
 
             // 2. Шукаємо точку спавну і ставимо гравця
             SpawnPlayer(levelInstance);
+        }
+
+        if (ExitButton != null)
+        {
+            ExitButton.FocusMode = Control.FocusModeEnum.None;
+            ExitButton.Pressed += () => GetTree().ChangeSceneToFile("res://scenes/ui/MainMenu.tscn");
         }
     }
 
