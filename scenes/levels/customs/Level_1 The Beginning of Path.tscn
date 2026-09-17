@@ -1,0 +1,356 @@
+[gd_scene format=3 uid="uid://dpgmkxukx43vg"]
+
+[ext_resource type="Script" uid="uid://ddrlstwdj2h28" path="res://scripts/LevelEditor.cs" id="1_hac47"]
+[ext_resource type="PackedScene" uid="uid://dg0vws2uqmj4m" path="res://scenes/modules/Rock.tscn" id="2_aygcs"]
+[ext_resource type="PackedScene" uid="uid://djypk3wx4hs4q" path="res://scenes/modules/Pit.tscn" id="3_qpg73"]
+[ext_resource type="PackedScene" uid="uid://dsha5ifsdq7jt" path="res://scenes/modules/FinishPoint.tscn" id="4_rglxa"]
+[ext_resource type="PackedScene" uid="uid://bmmwdfhkay4cg" path="res://scenes/modules/PlayerSpawn.tscn" id="5_3b5l4"]
+[ext_resource type="PackedScene" uid="uid://vu10lch3wfts" path="res://scenes/ui/sky.tscn" id="6_1corl"]
+[ext_resource type="PackedScene" uid="uid://bluw823eeqtyj" path="res://scenes/modules/GridGenerator.tscn" id="7_rws0x"]
+[ext_resource type="PackedScene" uid="uid://bfgbydrfmwrd8" path="res://scenes/modules/Floor.tscn" id="9_xck6s"]
+[ext_resource type="Script" uid="uid://l417kou8m6l6" path="res://scripts/CameraController.cs" id="10_unwgp"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_jbl18"]
+load_path = "res://.godot/imported/skybox-night.png-edffc950eb704c1add1a0c13dc09e990.s3tc.ctex"
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_pphty"]
+panorama = SubResource("CompressedTexture2D_jbl18")
+
+[sub_resource type="Sky" id="Sky_j66xd"]
+sky_material = SubResource("PanoramaSkyMaterial_pphty")
+
+[sub_resource type="Environment" id="Environment_0pte5"]
+background_mode = 2
+sky = SubResource("Sky_j66xd")
+
+[node name="LevelEditor" type="Node3D" unique_id=734962760 node_paths=PackedStringArray("RockButton", "PitButton", "FinishButton", "PlayerSpawnButton", "GenerateButton", "UndoButton", "SaveButton", "WidthSpinBox", "HeightSpinBox", "GridGeneratorNode")]
+script = ExtResource("1_hac47")
+RockScene = ExtResource("2_aygcs")
+PitScene = ExtResource("3_qpg73")
+FinishScene = ExtResource("4_rglxa")
+PlayerSpawnScene = ExtResource("5_3b5l4")
+SkyScene = ExtResource("6_1corl")
+RockButton = NodePath("UI/RightPanel/RockButton")
+PitButton = NodePath("UI/RightPanel/PitButton")
+FinishButton = NodePath("UI/RightPanel/FinishButton")
+PlayerSpawnButton = NodePath("UI/RightPanel/PlayerSpawnButton")
+GenerateButton = NodePath("UI/TopBar/GenerateButton")
+UndoButton = NodePath("UI/TopBar/UndoButton")
+SaveButton = NodePath("UI/TopBar/SaveButton")
+WidthSpinBox = NodePath("UI/TopBar/WidthSpinBox")
+HeightSpinBox = NodePath("UI/TopBar/HeightSpinBox")
+GridGeneratorNode = NodePath("SubViewportContainer/SubViewport/GridGenerator")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=774831043]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=1634248426]
+handle_input_locally = false
+size = Vector2i(1152, 648)
+render_target_update_mode = 4
+
+[node name="GridGenerator" parent="SubViewportContainer/SubViewport" unique_id=1438332029 instance=ExtResource("7_rws0x")]
+FloorScene = ExtResource("9_xck6s")
+GridWidth = 8
+GridDepth = 8
+
+[node name="@StaticBody3D@1159" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=1293758163 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -4)
+
+[node name="@StaticBody3D@1160" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=7268154 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -3)
+
+[node name="@StaticBody3D@1161" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=219516608 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -2)
+
+[node name="@StaticBody3D@1162" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=1829856575 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -1)
+
+[node name="@StaticBody3D@1163" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=602241817 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0)
+
+[node name="@StaticBody3D@1164" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=1845995700 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 1)
+
+[node name="@StaticBody3D@1165" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=955598402 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 2)
+
+[node name="@StaticBody3D@1166" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=100420296 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 3)
+
+[node name="@StaticBody3D@1167" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=511064915 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -4)
+
+[node name="@StaticBody3D@1168" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=1877859724 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -3)
+
+[node name="@StaticBody3D@1169" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=2121766311 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -2)
+
+[node name="@StaticBody3D@1170" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=1966129263 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -1)
+
+[node name="@StaticBody3D@1171" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=926682777 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 0)
+
+[node name="@StaticBody3D@1172" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=309895352 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 1)
+
+[node name="@StaticBody3D@1173" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=497772555 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 2)
+
+[node name="@StaticBody3D@1174" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=49237798 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 3)
+
+[node name="@StaticBody3D@1175" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=389499839 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -4)
+
+[node name="@StaticBody3D@1176" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=1047219470 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -3)
+
+[node name="@StaticBody3D@1177" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=27708598 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -2)
+
+[node name="@StaticBody3D@1178" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=9868022 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -1)
+
+[node name="@StaticBody3D@1179" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=881371792 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0)
+
+[node name="@StaticBody3D@1180" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=66059995 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 1)
+
+[node name="@StaticBody3D@1181" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=1942680119 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 2)
+
+[node name="@StaticBody3D@1182" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=1802006574 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 3)
+
+[node name="@StaticBody3D@1183" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=1698154070 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -4)
+
+[node name="@StaticBody3D@1184" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=1703481326 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -3)
+
+[node name="@StaticBody3D@1185" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=1774058047 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -2)
+
+[node name="@StaticBody3D@1186" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=1749210709 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -1)
+
+[node name="@StaticBody3D@1187" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=698690587 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0)
+
+[node name="@StaticBody3D@1188" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=202476778 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 1)
+
+[node name="@StaticBody3D@1189" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=1361508274 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 2)
+
+[node name="@StaticBody3D@1190" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=833620766 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 3)
+
+[node name="@StaticBody3D@1191" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=762510842 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4)
+
+[node name="@StaticBody3D@1192" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=296245708 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3)
+
+[node name="@StaticBody3D@1193" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=2042845050 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+
+[node name="@StaticBody3D@1194" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=224073409 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+
+[node name="@StaticBody3D@1195" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=546311692 instance=ExtResource("9_xck6s")]
+
+[node name="@StaticBody3D@1196" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=965238640 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+
+[node name="@StaticBody3D@1197" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=168327916 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
+
+[node name="@StaticBody3D@1198" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=1230487201 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3)
+
+[node name="@StaticBody3D@1199" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=1525440694 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -4)
+
+[node name="@StaticBody3D@1200" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=1039404721 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -3)
+
+[node name="@StaticBody3D@1201" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=1805907090 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -2)
+
+[node name="@StaticBody3D@1202" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=1016840766 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -1)
+
+[node name="@StaticBody3D@1203" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=1178457352 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+
+[node name="@StaticBody3D@1204" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=1984990035 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1)
+
+[node name="@StaticBody3D@1205" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=168306267 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 2)
+
+[node name="@StaticBody3D@1206" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=1042713164 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 3)
+
+[node name="@StaticBody3D@1207" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=333385058 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -4)
+
+[node name="@StaticBody3D@1208" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=761650157 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -3)
+
+[node name="@StaticBody3D@1209" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=502143578 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -2)
+
+[node name="@StaticBody3D@1210" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=438868034 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -1)
+
+[node name="@StaticBody3D@1211" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=443037757 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
+
+[node name="@StaticBody3D@1212" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=1958335479 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 1)
+
+[node name="@StaticBody3D@1213" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=126557830 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 2)
+
+[node name="@StaticBody3D@1214" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=269269908 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 3)
+
+[node name="@StaticBody3D@1215" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=583911245 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -4)
+
+[node name="@StaticBody3D@1216" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=1589993155 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -3)
+
+[node name="@StaticBody3D@1217" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=1363382809 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -2)
+
+[node name="@StaticBody3D@1218" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=974782108 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -1)
+
+[node name="@StaticBody3D@1219" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=1063212779 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 0)
+
+[node name="@StaticBody3D@1220" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=1221999307 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 1)
+
+[node name="@StaticBody3D@1221" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=1766343471 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 2)
+
+[node name="@StaticBody3D@1222" parent="SubViewportContainer/SubViewport/GridGenerator" unique_id=1026073708 instance=ExtResource("9_xck6s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 3)
+
+[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport" unique_id=843449115]
+transform = Transform3D(1, 0, 0, 0, 0.7071068, 0.7071068, 0, -0.7071068, 0.7071068, -1.0338221, 4.9289327, 5.145572)
+current = true
+script = ExtResource("10_unwgp")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewportContainer/SubViewport" unique_id=494429995]
+transform = Transform3D(0.70710677, 0.49999997, -0.49999997, 0, 0.70710677, 0.70710677, 0.70710677, -0.49999997, 0.49999997, 0, 0, 0)
+
+[node name="UI" type="Control" parent="." unique_id=1056664271]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="TopBar" type="HBoxContainer" parent="UI" unique_id=1272468982]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 31.0
+grow_horizontal = 2
+
+[node name="WidthSpinBox" type="SpinBox" parent="UI/TopBar" unique_id=125140432]
+layout_mode = 2
+value = 8.0
+
+[node name="HeightSpinBox" type="SpinBox" parent="UI/TopBar" unique_id=1735300930]
+layout_mode = 2
+value = 8.0
+
+[node name="GenerateButton" type="Button" parent="UI/TopBar" unique_id=510181087]
+layout_mode = 2
+focus_mode = 0
+text = "Створити сітку"
+
+[node name="SaveButton" type="Button" parent="UI/TopBar" unique_id=1739776755]
+layout_mode = 2
+focus_mode = 0
+text = "Зберегти"
+
+[node name="UndoButton" type="Button" parent="UI/TopBar" unique_id=1441288093]
+layout_mode = 2
+focus_mode = 0
+text = "Відмінити"
+
+[node name="RightPanel" type="VBoxContainer" parent="UI" unique_id=1219617308]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -56.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="RockButton" type="Button" parent="UI/RightPanel" unique_id=68795711]
+layout_mode = 2
+focus_mode = 0
+text = "Камінь"
+
+[node name="PitButton" type="Button" parent="UI/RightPanel" unique_id=1176235346]
+layout_mode = 2
+focus_mode = 0
+text = "Яма"
+
+[node name="FinishButton" type="Button" parent="UI/RightPanel" unique_id=782566203]
+layout_mode = 2
+focus_mode = 0
+text = "Фініш"
+
+[node name="PlayerSpawnButton" type="Button" parent="UI/RightPanel" unique_id=323520535]
+layout_mode = 2
+focus_mode = 0
+text = "Гравець"
+
+[node name="SkyEnvironment" parent="." unique_id=797077821 instance=ExtResource("6_1corl")]
+environment = SubResource("Environment_0pte5")
+
+[node name="PlayerSpawn" parent="." unique_id=608881730 instance=ExtResource("5_3b5l4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1, -3)
+metadata/is_player_spawn = true
+
+[node name="Pit" parent="." unique_id=2140515580 instance=ExtResource("3_qpg73")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0.5, -2)
+
+[node name="@Area3D@1223" parent="." unique_id=491653353 instance=ExtResource("3_qpg73")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0.5, 0)
+
+[node name="Rock" parent="." unique_id=309534127 instance=ExtResource("2_aygcs")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, 2)
+
+[node name="@StaticBody3D@1225" parent="." unique_id=951495773 instance=ExtResource("2_aygcs")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, -2)
+
+[node name="FinishPoint" parent="." unique_id=419309008 instance=ExtResource("4_rglxa")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, 2)
+
+[node name="@Area3D@1226" parent="." unique_id=277672078 instance=ExtResource("3_qpg73")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.5, 0)
+
+[node name="@Area3D@1227" parent="." unique_id=1219526861 instance=ExtResource("3_qpg73")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 1)

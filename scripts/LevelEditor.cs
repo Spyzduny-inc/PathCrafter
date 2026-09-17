@@ -6,16 +6,12 @@ public partial class LevelEditor : Node3D
     [Export] public PackedScene RockScene { get; set; }
     [Export] public PackedScene PitScene { get; set; }
     [Export] public PackedScene FinishScene { get; set; }
-    
-    // ДОДАНО: Сцена спавну гравця
     [Export] public PackedScene PlayerSpawnScene { get; set; }
     [Export] public PackedScene SkyScene { get; set; }
 
     [Export] public Button RockButton { get; set; }
     [Export] public Button PitButton { get; set; }
     [Export] public Button FinishButton { get; set; }
-    
-    // ДОДАНО: Кнопка спавну гравця
     [Export] public Button PlayerSpawnButton { get; set; }
     [Export] public Button GenerateButton { get; set; }
     [Export] public Button UndoButton { get; set; }
@@ -25,7 +21,6 @@ public partial class LevelEditor : Node3D
     [Export] public SpinBox HeightSpinBox { get; set; }
     [Export] public Node GridGeneratorNode { get; set; }
 
-    // ДОДАНО: PlayerSpawn в Enum
     public enum SelectedItem { None, Rock, Pit, Finish, PlayerSpawn }
     public SelectedItem CurrentSelection = SelectedItem.None;
 
@@ -41,6 +36,7 @@ public partial class LevelEditor : Node3D
     private List<EditorAction> actionHistory = new List<EditorAction>();
 
     private ConfirmationDialog saveDialog;
+    private AcceptDialog errorDialog; // ДОДАНО: Вікно для помилки
     private LineEdit levelNameInput;
     private CheckBox autoNumberCheckbox;
     private const string SaveDir = "res://scenes/levels/customs/";
@@ -53,10 +49,7 @@ public partial class LevelEditor : Node3D
         if (RockButton != null) RockButton.FocusMode = Control.FocusModeEnum.None;
         if (PitButton != null) PitButton.FocusMode = Control.FocusModeEnum.None;
         if (FinishButton != null) FinishButton.FocusMode = Control.FocusModeEnum.None;
-        
-        // Вимикаємо фокус для нової кнопки
         if (PlayerSpawnButton != null) PlayerSpawnButton.FocusMode = Control.FocusModeEnum.None;
-        
         if (GenerateButton != null) GenerateButton.FocusMode = Control.FocusModeEnum.None;
         if (UndoButton != null) UndoButton.FocusMode = Control.FocusModeEnum.None;
         if (SaveButton != null) SaveButton.FocusMode = Control.FocusModeEnum.None;
@@ -64,8 +57,6 @@ public partial class LevelEditor : Node3D
         if (RockButton != null) RockButton.Pressed += () => SetSelection(SelectedItem.Rock, "Камінь");
         if (PitButton != null) PitButton.Pressed += () => SetSelection(SelectedItem.Pit, "Яма");
         if (FinishButton != null) FinishButton.Pressed += () => SetSelection(SelectedItem.Finish, "Фініш");
-        
-        // Підключаємо нову кнопку
         if (PlayerSpawnButton != null) PlayerSpawnButton.Pressed += () => SetSelection(SelectedItem.PlayerSpawn, "Точка спавну гравця");
         
         if (GenerateButton != null) GenerateButton.Pressed += OnGenerateLevelPressed;
@@ -73,11 +64,12 @@ public partial class LevelEditor : Node3D
         if (SaveButton != null) SaveButton.Pressed += ShowSaveDialog; 
 
         EnsureSkyOnCurrentScene();
-        SetupSaveDialog();
+        SetupDialogs();
     }
 
-    private void SetupSaveDialog()
+    private void SetupDialogs()
     {
+        // 1. Налаштовуємо вікно збереження
         saveDialog = new ConfirmationDialog();
         saveDialog.Title = "Збереження рівня";
         saveDialog.Size = new Vector2I(350, 150);
@@ -102,10 +94,23 @@ public partial class LevelEditor : Node3D
 
         saveDialog.Confirmed += OnSaveConfirmed;
         AddChild(saveDialog);
+
+        // 2. ДОДАНО: Налаштовуємо вікно помилки
+        errorDialog = new AcceptDialog();
+        errorDialog.Title = "Помилка збереження!";
+        AddChild(errorDialog);
     }
 
     private void ShowSaveDialog()
     {
+        // ДОДАНО: Перевірка на наявність гравця перед збереженням
+        if (!IsPlayerSpawnPlaced())
+        {
+            errorDialog.DialogText = "Неможливо зберегти рівень!\nСпочатку встановіть 'Точку спавну гравця' на карті.";
+            errorDialog.PopupCentered();
+            return;
+        }
+
         saveDialog.PopupCentered();
     }
 
@@ -224,6 +229,20 @@ public partial class LevelEditor : Node3D
 
     public override void _UnhandledInput(InputEvent @event)
     {
+        // 1. ДОДАНО: Проведення затиснутою кнопкою (Drag-to-build / Drag-to-remove)
+        if (@event is InputEventMouseMotion mouseMotion)
+        {
+            if ((mouseMotion.ButtonMask & MouseButtonMask.Left) != 0) // Якщо затиснута ЛКМ
+            {
+                if (CurrentSelection != SelectedItem.None) TryPlaceObject(mouseMotion.Position);
+            }
+            else if ((mouseMotion.ButtonMask & MouseButtonMask.Right) != 0) // Якщо затиснута ПКМ
+            {
+                TryRemoveObject(mouseMotion.Position);
+            }
+        }
+
+        // 2. Одиночні кліки
         if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed)
         {
             if (mouseEvent.ButtonIndex == MouseButton.Left)
@@ -254,21 +273,18 @@ public partial class LevelEditor : Node3D
             float gridX = Mathf.Round(hitPosition.X / GridSize) * GridSize;
             float gridZ = Mathf.Round(hitPosition.Z / GridSize) * GridSize;
             
-            // ФІКС ОСЬ ТУТ: Замість hitPosition.Y ставимо 1.0f
-            Vector3 spawnPos = new Vector3(gridX, 1.0f, gridZ);
+            Vector3 spawnPos = new Vector3(gridX, hitPosition.Y, gridZ);
             
-            // ПЕРЕВІРКА №1: Чи не зайнята клітинка
+            // Захист від подвійного спавну (особливо при Drag-to-build)
             if (IsCellOccupied(spawnPos))
             {
-                GD.Print($"[LevelEditor] Клітинка X:{gridX}, Z:{gridZ} вже зайнята!");
-                return;
+                return; // Просто виходимо, без спаму в консоль
             }
 
-            // ПЕРЕВІРКА №2: ЖОРСТКИЙ ЛІМІТ НА СПАВН (ЛИШЕ 1)
             if (CurrentSelection == SelectedItem.PlayerSpawn && IsPlayerSpawnPlaced())
             {
-                GD.Print("[LevelEditor] Точка спавну вже існує! Видаліть стару (правий клік), щоб поставити нову.");
-                return;
+                // Для спавну гравця прибираємо спам в консоль, щоб при перетягуванні не лагало
+                return; 
             }
 
             SpawnPrefab(spawnPos);
@@ -341,14 +357,12 @@ public partial class LevelEditor : Node3D
         return false;
     }
 
-    // МЕТОД-ПЕРЕВІРКА: Шукає, чи є вже спавн на полі
     private bool IsPlayerSpawnPlaced()
     {
         foreach (var obj in spawnedObjectsHistory)
         {
             if (obj != null && GodotObject.IsInstanceValid(obj))
             {
-                // Якщо об'єкт має мітку "is_player_spawn", значить він вже на карті
                 if (obj.HasMeta("is_player_spawn") && obj.GetMeta("is_player_spawn").AsBool())
                 {
                     return true;
@@ -366,19 +380,19 @@ public partial class LevelEditor : Node3D
             case SelectedItem.Rock: if (RockScene != null) newObj = RockScene.Instantiate<Node3D>(); break;
             case SelectedItem.Pit: if (PitScene != null) newObj = PitScene.Instantiate<Node3D>(); break;
             case SelectedItem.Finish: if (FinishScene != null) newObj = FinishScene.Instantiate<Node3D>(); break;
-            
-            // Спавнимо точку гравця і вішаємо на неї спеціальну мітку
             case SelectedItem.PlayerSpawn: 
                 if (PlayerSpawnScene != null) 
                 {
                     newObj = PlayerSpawnScene.Instantiate<Node3D>();
-                    newObj.SetMeta("is_player_spawn", true); // <--- Ось ця мітка
+                    newObj.SetMeta("is_player_spawn", true); 
                 }
                 break;
         }
         
         if (newObj != null)
         {
+            position.Y = (CurrentSelection == SelectedItem.Pit) ? 0.51f : 1.0f;
+            
             newObj.Position = position;
             AddChild(newObj);
             
