@@ -2,9 +2,15 @@ using Godot;
 
 public partial class Game : Node3D
 {
-    // Сюди в Інспекторі перетягнемо сцену гравця
     [Export] public PackedScene PlayerScene { get; set; }
     [Export] public Button ExitButton { get; set; }
+    
+    [Export] public TextEdit CodeInput { get; set; }
+    [Export] public Button RunButton { get; set; }
+    [Export] public Label ConsoleOutput { get; set; }
+
+    private Player _spawnedRover;
+
     public override void _Ready()
     {
         if (string.IsNullOrEmpty(Global.SelectedLevelPath))
@@ -13,7 +19,7 @@ public partial class Game : Node3D
             return;
         }
 
-        // 1. Завантажуємо рівень як дочірній об'єкт
+        // 1. Завантажуємо рівень
         var levelScene = GD.Load<PackedScene>(Global.SelectedLevelPath);
         if (levelScene != null)
         {
@@ -21,14 +27,21 @@ public partial class Game : Node3D
             AddChild(levelInstance);
             GD.Print($"[Game] Рівень завантажено: {Global.SelectedLevelPath}");
 
-            // 2. Шукаємо точку спавну і ставимо гравця
             SpawnPlayer(levelInstance);
         }
 
+        // 2. Кнопка виходу в меню
         if (ExitButton != null)
         {
             ExitButton.FocusMode = Control.FocusModeEnum.None;
             ExitButton.Pressed += () => GetTree().ChangeSceneToFile("res://scenes/ui/MainMenu.tscn");
+        }
+
+        // 3. Кнопка запуску інтерпретатора
+        if (RunButton != null)
+        {
+            RunButton.FocusMode = Control.FocusModeEnum.None;
+            RunButton.Pressed += OnRunButtonPressed;
         }
     }
 
@@ -36,20 +49,20 @@ public partial class Game : Node3D
     {
         if (PlayerScene == null) 
         {
-            GD.PrintErr("[Game] Сцена гравця не призначена в Інспекторі!");
+            GD.PrintErr("[Game] Сцена марсохода не призначена в Інспекторі!");
             return;
         }
 
-        // Шукаємо об'єкт з міткою "is_player_spawn", яку ми ставили в редакторі
         Node3D spawnPoint = FindSpawnPoint(levelInstance);
         
         if (spawnPoint != null)
         {
-            var player = PlayerScene.Instantiate<Node3D>();
-            // Ставимо гравця рівно на координати невидимої капсули
-            player.Position = spawnPoint.GlobalPosition;
-            AddChild(player);
-            GD.Print("[Game] Гравця успішно заспавнено!");
+            var playerInstance = PlayerScene.Instantiate<Node3D>();
+            playerInstance.Position = spawnPoint.GlobalPosition;
+            AddChild(playerInstance);
+
+            _spawnedRover = playerInstance as Player;
+            GD.Print("[Game] Марсохід успішно заспавнено!");
         }
         else
         {
@@ -57,7 +70,6 @@ public partial class Game : Node3D
         }
     }
 
-    // Рекурсивний пошук точки спавну серед усіх блоків рівня
     private Node3D FindSpawnPoint(Node node)
     {
         if (node is Node3D node3d && node3d.HasMeta("is_player_spawn") && node3d.GetMeta("is_player_spawn").AsBool())
@@ -72,5 +84,55 @@ public partial class Game : Node3D
         }
 
         return null;
+    }
+
+    // ІНТЕРПРЕТАТОР КОДУ З AWAIT ДЛЯ ПЛАВНОГО РУХУ
+    private async void OnRunButtonPressed()
+    {
+        if (CodeInput == null || _spawnedRover == null)
+        {
+            if (ConsoleOutput != null) ConsoleOutput.Text = "[ ПОМИЛКА ]: Не знайдено поле коду або марсохід!";
+            return;
+        }
+
+        string[] lines = CodeInput.Text.Split('\n');
+        if (ConsoleOutput != null) ConsoleOutput.Text = "Запуск програми на Марсі...\n";
+
+        foreach (string rawLine in lines)
+        {
+            string line = rawLine.Trim().ToLower();
+            if (string.IsNullOrEmpty(line) || line.StartsWith("#")) continue;
+
+            if (line == "move()" || line == "forward")
+            {
+                bool success = await _spawnedRover.MoveForward();
+                if (!success)
+                {
+                    if (ConsoleOutput != null) 
+                        ConsoleOutput.Text += "\n[ ПОМИЛКА ]: Марсохід врізався у перешкоду!\nТи не прогер, а дебіл, кодіруй заново!";
+                    return;
+                }
+            }
+            else if (line == "turn_right()" || line == "right")
+            {
+                await _spawnedRover.TurnRight();
+            }
+            else if (line == "turn_left()" || line == "left")
+            {
+                await _spawnedRover.TurnLeft();
+            }
+            else
+            {
+                if (ConsoleOutput != null) 
+                    ConsoleOutput.Text += $"\n[ ПОМИЛКА ]: Невідома команда '{line}'!";
+                return;
+            }
+
+            // Коротка пауза між виконанням рядків коду
+            await ToSignal(GetTree().CreateTimer(0.2), SceneTreeTimer.SignalName.Timeout);
+        }
+
+        if (ConsoleOutput != null) 
+            ConsoleOutput.Text += "\n[ УСПІХ ]: Красавчик! Дійшов до цілі, пиздуй на наступний рівень!";
     }
 }

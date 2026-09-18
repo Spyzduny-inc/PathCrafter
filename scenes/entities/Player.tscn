@@ -21,5 +21,6 @@ shape = SubResource("CapsuleShape3D_wsqlc")
 mesh = SubResource("CapsuleMesh_wsqlc")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1618721369]
-transform = Transform3D(1, 0, 0, 0, 0.9659258, 0.25881904, 0, -0.25881904, 0.9659258, 0, 2, 6)
+transform = Transform3D(1, 0, 0, 0, 0.9659259, 0.25881907, 0, -0.25881907, 0.9659258, 0, 2, 6)
+top_level = true
 current = true

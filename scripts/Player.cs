@@ -1,48 +1,47 @@
 using Godot;
+using System.Threading.Tasks;
 
 public partial class Player : CharacterBody3D
 {
-	[Export]
-	public float Speed { get; set; } = 5.0f;
+    private int _currentDirection = 0; // 0 = вперед (-Z), 1 = праворуч (+X), 2 = назад (+Z), 3 = ліворуч (-X)
+    
+    private readonly Vector3[] _directions = new Vector3[]
+    {
+        new Vector3(0, 0, -1),
+        new Vector3(1, 0,  0),
+        new Vector3(0, 0,  1),
+        new Vector3(-1, 0, 0)
+    };
 
-	[Export]
-	public float JumpVelocity { get; set; } = 4.5f;
+    public async Task<bool> MoveForward()
+    {
+        Vector3 forwardDir = _directions[_currentDirection];
+        Vector3 targetPosition = GlobalPosition + forwardDir;
 
-	// Отримуємо гравітацію з налаштувань проекту
-	private float gravity = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
+        // Плавний крок за 0.3 секунди
+        var tween = CreateTween();
+        tween.TweenProperty(this, "position", targetPosition, 0.3f);
+        
+        await ToSignal(tween, Tween.SignalName.Finished);
+        return true;
+    }
 
-	public override void _PhysicsProcess(double delta)
-	{
-		Vector3 velocity = Velocity;
+    public async Task TurnRight()
+    {
+        _currentDirection = (_currentDirection + 1) % 4;
+        await RotateSmoothly(-Mathf.DegToRad(90));
+    }
 
-		// 1. Додаємо гравітацію
-		if (!IsOnFloor())
-		{
-			velocity.Y -= gravity * (float)delta;
-		}
+    public async Task TurnLeft()
+    {
+        _currentDirection = (_currentDirection + 3) % 4;
+        await RotateSmoothly(Mathf.DegToRad(90));
+    }
 
-		// 2. Обробка стрибка
-		if (Input.IsActionJustPressed("ui_accept") && IsOnFloor())
-		{
-			velocity.Y = JumpVelocity;
-		}
-
-		// 3. Отримуємо напрямок руху по осях (2.5D фіксація по X)
-		Vector2 inputDir = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
-		Vector3 direction = new Vector3(inputDir.X, 0, inputDir.Y).Normalized();
-
-		if (direction != Vector3.Zero)
-		{
-   			velocity.X = direction.X * Speed;
-			velocity.Z = direction.Z * Speed;
-		}
-		else
-		{
-			velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
-			velocity.Z = Mathf.MoveToward(Velocity.Z, 0, Speed);
-		}
-
-		Velocity = velocity;
-		MoveAndSlide();
-	}
+    private async Task RotateSmoothly(float targetAngleDelta)
+    {
+        var tween = CreateTween();
+        tween.TweenProperty(this, "rotation:y", Rotation.Y + targetAngleDelta, 0.2f);
+        await ToSignal(tween, Tween.SignalName.Finished);
+    }
 }
