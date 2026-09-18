@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dg0vws2uqmj4m"]
 
-[ext_resource type="PackedScene" uid="uid://dp0pdu2qfa5g1" path="res://assets/textures/3D Models/rock_largeB.glb" id="1_ksjcj"]
+[ext_resource type="PackedScene" uid="uid://crt8vpmpxcwaa" path="res://scenes/models scenes/Rock Models.tscn" id="1_ksjcj"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_wsqlc"]
 
@@ -10,5 +10,5 @@ collision_layer = 2
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1005459472]
 shape = SubResource("BoxShape3D_wsqlc")
 
-[node name="rock_largeB2" parent="." unique_id=1267070725 instance=ExtResource("1_ksjcj")]
-transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, -2.3893437, -0.474501, -1.875397)
+[node name="rock_largeB2" parent="." unique_id=1489160653 instance=ExtResource("1_ksjcj")]
+transform = Transform3D(0.9833176, 0, 0, 0, 1.0554852, 0, 0, 0, 1.0562487, 0, -0.52237004, 0)

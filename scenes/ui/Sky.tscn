@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://con3e4df1oegi"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_jbl18"]
+load_path = "res://.godot/imported/skybox-night.png-edffc950eb704c1add1a0c13dc09e990.s3tc.ctex"
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_pphty"]
+panorama = SubResource("CompressedTexture2D_jbl18")
+
+[sub_resource type="Sky" id="Sky_j66xd"]
+sky_material = SubResource("PanoramaSkyMaterial_pphty")
+
+[sub_resource type="Environment" id="Environment_0pte5"]
+background_mode = 2
+sky = SubResource("Sky_j66xd")
+
+[node name="Sky" type="WorldEnvironment" unique_id=797077821]
+environment = SubResource("Environment_0pte5")
