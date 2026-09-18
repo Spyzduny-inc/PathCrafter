@@ -7,6 +7,6 @@ albedo_color = Color(0.59336776, 0.48478448, 0.30424425, 1)
 
 [node name="rock_largeB2" unique_id=1489160653 instance=ExtResource("1_8j30k")]
 
-[node name="rock_largeB" parent="." index="0" unique_id=2033848434]
+[node name="rock_largeB" parent="." index="0" unique_id=200343740]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 material_override = SubResource("StandardMaterial3D_w3o2h")
