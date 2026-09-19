@@ -13,6 +13,8 @@ public partial class Game : Node3D
     [Export] public Button HelpButton { get; set; }
     [Export] public Control HelpPanel { get; set; }
 
+    private CanvasLayer _levelCompleteMenuNode;
+
     private Player _spawnedRover;
     private Node3D _finishPoint;
     private bool _isRunning = false;
@@ -54,6 +56,14 @@ public partial class Game : Node3D
         {
             HelpButton.FocusMode = Control.FocusModeEnum.None;
             HelpButton.Pressed += () => HelpPanel.Visible = !HelpPanel.Visible;
+        }
+
+        // Автоматично завантажуємо і додаємо меню перемоги на рівень із файлу сцени
+        var menuScene = GD.Load<PackedScene>("res://scenes/ui/LevelCompleteMenu.tscn");
+        if (menuScene != null)
+        {
+            _levelCompleteMenuNode = menuScene.Instantiate<CanvasLayer>();
+            AddChild(_levelCompleteMenuNode);
         }
 
         if (CodeInput != null)
@@ -225,6 +235,14 @@ public partial class Game : Node3D
                 if (_finishPoint != null && IsInstanceValid(_finishPoint) && _spawnedRover.GlobalPosition.DistanceTo(_finishPoint.GlobalPosition) < 0.5f)
                 {
                     if (ConsoleOutput != null) ConsoleOutput.Text += "\n[ УСПІХ ]: Рівень пройдено! Ти бог C#!";
+                    
+                    // Розблоковуємо наступний рівень та викликаємо вікно перемоги
+                    Global.UnlockNextLevel(0);
+                    
+                    if (_levelCompleteMenuNode != null)
+                    {
+                        _levelCompleteMenuNode.Call("ShowVictory");
+                    }
                 }
                 else
                 {

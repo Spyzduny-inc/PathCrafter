@@ -40,7 +40,7 @@ theme_override_constants/margin_top = 20
 [node name="ExitButton" type="Button" parent="CanvasLayer/MarginContainer" unique_id=944693506]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
-text = "Вийти у меню"
+text = "Вийти з рівня"
 
 [node name="Panel" type="Panel" parent="CanvasLayer" unique_id=106143961]
 anchors_preset = 11
@@ -58,10 +58,7 @@ anchors_preset = 11
 anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -268.0
-offset_top = 2.0
-offset_right = -3.0
-offset_bottom = -1.0
+offset_left = -265.0
 grow_horizontal = 0
 grow_vertical = 2
 theme_override_constants/margin_left = 10
@@ -90,13 +87,13 @@ layout_mode = 2
 text = "СКИНУТИ РІВЕНЬ"
 
 [node name="CodeInput" type="CodeEdit" parent="CanvasLayer/Panel/MarginContainer/VBoxContainer" unique_id=789573155]
-custom_minimum_size = Vector2(0, 360)
+custom_minimum_size = Vector2(0, 340)
 layout_mode = 2
 placeholder_text = "пиши свій код тут..."
 gutters_draw_line_numbers = true
 
 [node name="ConsoleOutput" type="Label" parent="CanvasLayer/Panel/MarginContainer/VBoxContainer" unique_id=1394228390]
-custom_minimum_size = Vector2(100, 200)
+custom_minimum_size = Vector2(100, 150)
 layout_mode = 2
 autowrap_mode = 3
 
@@ -107,7 +104,7 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -290.5
+offset_left = -231.0
 offset_top = -321.5
 offset_right = 290.5
 offset_bottom = 321.5
@@ -123,7 +120,7 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -277.75
+offset_left = -246.75
 offset_top = -305.25
 offset_right = 277.75
 offset_bottom = 305.25
@@ -177,7 +174,6 @@ size_flags_vertical = 3
 text = "▲ Сховати підказки"
 
 [node name="Label" type="Label" parent="Panel/MarginContainer/VBoxContainer" unique_id=571520932]
-visible = false
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_vertical = 1
