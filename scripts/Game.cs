@@ -95,7 +95,6 @@ public partial class Game : Node3D
             _spawnedRover.LevelRoot = levelInstance; 
             _spawnedRover.SaveStartPosition(); 
 
-            // Одноразово центруємо камеру на спавні гравця при старті
             CallDeferred(nameof(CenterCameraOnPlayer), playerInstance.GlobalPosition);
         }
     }
@@ -106,7 +105,6 @@ public partial class Game : Node3D
                      ?? GetViewport().FindChild("Camera3D", true, false) as Camera3D;
         if (camera != null)
         {
-            // Якщо у тебе камера прив'язана до контролера, рухаємо його або саму камеру
             var cameraParent = camera.GetParent() as Node3D;
             if (cameraParent != null && cameraParent.Name.ToString().Contains("Controller"))
             {
@@ -167,7 +165,6 @@ public partial class Game : Node3D
     {
         if (_isRunning || CodeInput == null || _spawnedRover == null || !IsInstanceValid(_spawnedRover)) return;
 
-        // Знімаємо фокус з поля вводу коду, щоб камера одразу реагувала на мишу
         GetViewport().GuiReleaseFocus();
 
         _isRunning = true;
