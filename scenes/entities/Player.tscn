@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://co48g5gpfmjof"]
 
 [ext_resource type="Script" uid="uid://bbihiefc83yal" path="res://scripts/Player.cs" id="1_p0vlq"]
+[ext_resource type="PackedScene" uid="uid://elu6gtgsf85l" path="res://assets/textures/3D Models/NRK.glb" id="2_o7et6"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wsqlc"]
-radius = 0.25
-height = 1.0
+[sub_resource type="BoxShape3D" id="BoxShape3D_8d35g"]
+size = Vector3(0.6652832, 0.6856079, 0.74609375)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_wsqlc"]
 radius = 0.25
@@ -15,11 +15,16 @@ collision_mask = 3
 script = ExtResource("1_p0vlq")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1152471682]
-shape = SubResource("CapsuleShape3D_wsqlc")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0018669069, 0.12338257, -0.043255627)
+shape = SubResource("BoxShape3D_8d35g")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=2033749286]
+visible = false
 mesh = SubResource("CapsuleMesh_wsqlc")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1618721369]
 transform = Transform3D(1, 0, 0, 0, 0.9659258, 0.25881904, 0, -0.25881904, 0.9659258, 0, 2, 6)
 current = true
+
+[node name="NRK" parent="." unique_id=1370440792 instance=ExtResource("2_o7et6")]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0.0061637163, -0.05596745, -0.033910275)
