@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://dbcnw7tjrw2eo" path="res://scripts/Game.cs" id="1_movtg"]
 [ext_resource type="PackedScene" uid="uid://co48g5gpfmjof" path="res://scenes/entities/Player.tscn" id="2_qq6cj"]
 
-[node name="Game" type="Node3D" unique_id=1987085889 node_paths=PackedStringArray("ExitButton", "CodeInput", "RunButton", "ResetButton", "ConsoleOutput")]
+[node name="Game" type="Node3D" unique_id=1987085889 node_paths=PackedStringArray("ExitButton", "CodeInput", "RunButton", "ResetButton", "ConsoleOutput", "HelpButton", "HelpPanel")]
 script = ExtResource("1_movtg")
 PlayerScene = ExtResource("2_qq6cj")
 ExitButton = NodePath("CanvasLayer/MarginContainer/ExitButton")
@@ -11,6 +11,8 @@ CodeInput = NodePath("CanvasLayer/Panel/MarginContainer/VBoxContainer/CodeInput"
 RunButton = NodePath("CanvasLayer/Panel/MarginContainer/VBoxContainer/RunButton")
 ResetButton = NodePath("CanvasLayer/Panel/MarginContainer/VBoxContainer/ResetButton")
 ConsoleOutput = NodePath("CanvasLayer/Panel/MarginContainer/VBoxContainer/ConsoleOutput")
+HelpButton = NodePath("CanvasLayer/Panel/MarginContainer/VBoxContainer/HelpButton")
+HelpPanel = NodePath("CanvasLayer/HelpPanel")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=556642334]
 transform = Transform3D(0.70710677, 0.49999994, -0.49999994, 0, 0.7071067, 0.7071067, 0.70710677, -0.49999994, 0.49999994, 0, 0, 0)
@@ -67,6 +69,10 @@ text = "Панель управління марсоходом"
 layout_mode = 2
 text = "▶ ЗАПУСК КОДУ"
 
+[node name="HelpButton" type="Button" parent="CanvasLayer/Panel/MarginContainer/VBoxContainer" unique_id=1268709687]
+layout_mode = 2
+text = "Довідка"
+
 [node name="ResetButton" type="Button" parent="CanvasLayer/Panel/MarginContainer/VBoxContainer" unique_id=1822453053]
 layout_mode = 2
 text = "СКИНУТИ РІВЕНЬ"
@@ -81,3 +87,53 @@ gutters_draw_line_numbers = true
 custom_minimum_size = Vector2(100, 200)
 layout_mode = 2
 autowrap_mode = 3
+
+[node name="HelpPanel" type="Panel" parent="CanvasLayer" unique_id=1053740845]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -290.5
+offset_top = -321.5
+offset_right = 290.5
+offset_bottom = 321.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/HelpPanel" unique_id=745916901]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -277.75
+offset_top = -305.25
+offset_right = 277.75
+offset_bottom = 305.25
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 20
+theme_override_font_sizes/bold_font_size = 20
+theme_override_font_sizes/bold_italics_font_size = 20
+theme_override_font_sizes/italics_font_size = 20
+theme_override_font_sizes/mono_font_size = 20
+bbcode_enabled = true
+text = "[b]ДОСТУПНІ КОМАНДИ:[/b]
+
+[color=#4da6ff]move()[/color] або [color=#4da6ff]forward[/color]
+- Робить один крок вперед.
+- Увага: перевіряйте перешкоди!
+
+[color=#4da6ff]turn_right()[/color] або [color=#4da6ff]right[/color]
+- Поворот на 90 градусів праворуч.
+
+[color=#4da6ff]turn_left()[/color] або [color=#4da6ff]left[/color]
+- Поворот на 90 градусів ліворуч.
+
+[color=#669966]# Ваш текст[/color]
+- Коментар (ігнорується марсоходом)"

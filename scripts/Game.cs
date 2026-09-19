@@ -8,6 +8,9 @@ public partial class Game : Node3D
     [Export] public Button RunButton { get; set; }
     [Export] public Button ResetButton { get; set; } 
     [Export] public Label ConsoleOutput { get; set; }
+    
+    [Export] public Button HelpButton { get; set; }
+    [Export] public Control HelpPanel { get; set; }
 
     private Player _spawnedRover;
     private Node3D _finishPoint;
@@ -24,8 +27,6 @@ public partial class Game : Node3D
             AddChild(levelInstance);
 
             SpawnPlayer(levelInstance);
-            
-            // Шукаємо фініш через надійний рекурсивний пошук
             _finishPoint = FindFinishPoint(levelInstance);
         }
 
@@ -47,16 +48,45 @@ public partial class Game : Node3D
             ResetButton.Pressed += OnResetButtonPressed;
             ResetButton.Disabled = true; 
         }
+
+        if (HelpButton != null && HelpPanel != null)
+        {
+            HelpButton.FocusMode = Control.FocusModeEnum.None;
+            HelpButton.Pressed += () => HelpPanel.Visible = !HelpPanel.Visible;
+        }
+
+        if (CodeInput != null)
+        {
+            CodeInput.AutoBraceCompletionEnabled = true;
+            CodeInput.AutoBraceCompletionHighlightMatching = true;
+
+            var highlighter = new CodeHighlighter();
+            
+            Color functionColor = new Color(0.3f, 0.7f, 1.0f); // Блакитний
+            Color commentColor = new Color(0.4f, 0.6f, 0.4f);  // Зелений
+
+            // Фарбуємо дужки () в той самий синій колір, що і команди
+            highlighter.SymbolColor = functionColor;
+
+            highlighter.AddKeywordColor("move", functionColor);
+            highlighter.AddKeywordColor("forward", functionColor);
+            highlighter.AddKeywordColor("turn_right", functionColor);
+            highlighter.AddKeywordColor("right", functionColor);
+            highlighter.AddKeywordColor("turn_left", functionColor);
+            highlighter.AddKeywordColor("left", functionColor);
+
+            highlighter.AddColorRegion("#", "", commentColor, true);
+
+            CodeInput.SyntaxHighlighter = highlighter;
+        }
     }
 
     private void SpawnPlayer(Node3D levelInstance)
     {
         if (PlayerScene == null) return;
         
-        // Спочатку шукаємо за метаданими (якщо ти ставив їх руками)
         Node3D spawnPoint = FindNodeWithMeta(levelInstance, "is_player_spawn");
         
-        // Якщо метаданих немає (редактор їх не зберіг), шукаємо модуль спавну за файлом
         if (spawnPoint == null)
         {
             spawnPoint = FindSpawnPoint(levelInstance);
@@ -69,7 +99,6 @@ public partial class Game : Node3D
             AddChild(playerInstance);
 
             _spawnedRover = playerInstance as Player;
-            // ВАЖЛИВО: Передаємо корінь рівня марсоходу для сканування
             _spawnedRover.LevelRoot = levelInstance; 
             _spawnedRover.SaveStartPosition(); 
         }
@@ -86,7 +115,6 @@ public partial class Game : Node3D
         return null;
     }
 
-    // Рекурсивний пошук старту (якщо метадані злетіли)
     private Node3D FindSpawnPoint(Node node)
     {
         string identity = (node.SceneFilePath + " " + node.Name).ToLower();
@@ -100,7 +128,6 @@ public partial class Game : Node3D
         return null;
     }
 
-    // Рекурсивний пошук фінішу за оригінальним файлом
     private Node3D FindFinishPoint(Node node)
     {
         string identity = (node.SceneFilePath + " " + node.Name).ToLower();
@@ -122,6 +149,8 @@ public partial class Game : Node3D
         RunButton.Disabled = true;
         if (ResetButton != null) ResetButton.Disabled = true;
         CodeInput.Editable = false; 
+        
+        if (HelpPanel != null) HelpPanel.Visible = false;
         
         if (ConsoleOutput != null) ConsoleOutput.Text = "Запуск програми...\n";
 

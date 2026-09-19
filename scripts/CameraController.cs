@@ -2,7 +2,6 @@ using Godot;
 
 public partial class CameraController : Camera3D
 {
-    // Зменшена швидкість для клавіатури
     [Export] public float KeyboardPanSpeed { get; set; } = 7.0f;
     [Export] public float MousePanSpeed { get; set; } = 0.05f; 
     [Export] public float ZoomSpeed { get; set; } = 2.0f;
@@ -13,7 +12,12 @@ public partial class CameraController : Camera3D
 
     public override void _Process(double delta)
     {
-        // 1. Рух з клавіатури (ТІЛЬКИ стрілочки)
+        // Перевіряємо, чи не пише зараз гравець код (блокуємо стрілочки)
+        Control focusOwner = GetViewport().GuiGetFocusOwner();
+        if (focusOwner is TextEdit || focusOwner is LineEdit) 
+            return;
+
+        // 1. Рух з клавіатури
         Vector3 panDirection = Vector3.Zero;
 
         if (Input.IsPhysicalKeyPressed(Key.Up)) panDirection.Z -= 1;
@@ -24,17 +28,26 @@ public partial class CameraController : Camera3D
         if (panDirection != Vector3.Zero)
         {
             panDirection = panDirection.Normalized();
-            // Рухаємо тільки по площині XZ (паралельно землі)
             GlobalPosition += new Vector3(panDirection.X, 0, panDirection.Z) * KeyboardPanSpeed * (float)delta;
         }
     }
 
     public override void _UnhandledInput(InputEvent @event)
     {
+        // Якщо клікнули лівою кнопкою миші по порожньому місцю (не по UI) — знімаємо фокус з коду
+        if (@event is InputEventMouseButton clickEvent && clickEvent.ButtonIndex == MouseButton.Left && clickEvent.Pressed)
+        {
+            GetViewport().GuiReleaseFocus();
+        }
+
+        // Блокуємо зум і перетягування мишею, якщо гравець пише код
+        Control focusOwner = GetViewport().GuiGetFocusOwner();
+        if (focusOwner is TextEdit || focusOwner is LineEdit) 
+            return;
+
         // 2. Обробка кліків миші (Зум та затискання кнопки для панорамування)
         if (@event is InputEventMouseButton mouseBtnEvent)
         {
-            // Зум на прокрутку коліщатка
             if (mouseBtnEvent.ButtonIndex == MouseButton.WheelUp && mouseBtnEvent.Pressed)
             {
                 Zoom(-ZoomSpeed);
@@ -44,14 +57,13 @@ public partial class CameraController : Camera3D
                 Zoom(ZoomSpeed);
             }
             
-            // Вмикаємо/вимикаємо режим перетягування (ТІЛЬКИ на затиснуте коліщатко)
             if (mouseBtnEvent.ButtonIndex == MouseButton.Middle)
             {
                 isPanningWithMouse = mouseBtnEvent.Pressed;
             }
         }
 
-        // 3. Рух мишею при затиснутій кнопці
+        // 3. Рух мишею при затиснутій середній кнопці
         if (@event is InputEventMouseMotion mouseMotionEvent && isPanningWithMouse)
         {
             Vector3 dragMotion = new Vector3(-mouseMotionEvent.Relative.X, 0, -mouseMotionEvent.Relative.Y) * MousePanSpeed;
@@ -61,10 +73,8 @@ public partial class CameraController : Camera3D
 
     private void Zoom(float amount)
     {
-        // Рухаємо камеру по її власному вектору Z (вперед/назад під кутом -45)
         Vector3 newPos = Position + Transform.Basis.Z * amount;
 
-        // Блокуємо вихід за межі мінімального та максимального наближення
         if (newPos.Y >= MinZoom && newPos.Y <= MaxZoom)
         {
             Position = newPos;
