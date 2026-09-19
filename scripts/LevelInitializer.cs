@@ -2,7 +2,8 @@ using Godot;
 
 public partial class LevelInitializer : Node3D
 {
-    [Export] public PackedScene SkyScene { get; set; }
+	[Export] public PackedScene SkyScene { get; set; }
+
 
     public override void _Ready()
     {
@@ -14,13 +15,13 @@ public partial class LevelInitializer : Node3D
                 SkyScene = GD.Load<PackedScene>("res://scenes/environment/sky.tscn");
             }
 
-            if (SkyScene != null)
-            {
-                var skyInstance = SkyScene.Instantiate();
-                skyInstance.Name = "SkyEnvironment";
-                AddChild(skyInstance);
-                GD.Print("[LevelInitializer] Небо успішно завантажено на рівень!");
-            }
-        }
-    }
+			if (SkyScene != null)
+			{
+				var skyInstance = SkyScene.Instantiate();
+				skyInstance.Name = "SkyEnvironment";
+				AddChild(skyInstance);
+				GD.Print("[LevelInitializer] Небо успішно завантажено на рівень!");
+			}
+		}
+	}
 }

@@ -1,14 +1,14 @@
 [gd_scene format=3 uid="uid://dg0vws2uqmj4m"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_wsqlc"]
+[ext_resource type="PackedScene" uid="uid://crt8vpmpxcwaa" path="res://scenes/models scenes/Rock Models.tscn" id="1_ksjcj"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_wsqlc"]
 
 [node name="Rock" type="StaticBody3D" unique_id=309534127]
 collision_layer = 2
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=2081288299]
-mesh = SubResource("BoxMesh_wsqlc")
-
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1005459472]
 shape = SubResource("BoxShape3D_wsqlc")
+
+[node name="rock_largeB2" parent="." unique_id=1489160653 instance=ExtResource("1_ksjcj")]
+transform = Transform3D(0.9833176, 0, 0, 0, 1.0554852, 0, 0, 0, 1.0562487, 0, -0.52237004, 0)

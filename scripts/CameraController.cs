@@ -8,7 +8,7 @@ public partial class CameraController : Camera3D
     [Export] public float MinZoom { get; set; } = 3.0f;
     [Export] public float MaxZoom { get; set; } = 30.0f;
 
-    private bool isPanningWithMouse = false;
+	private bool isPanningWithMouse = false;
 
     public override void _Process(double delta)
     {
@@ -20,10 +20,10 @@ public partial class CameraController : Camera3D
         // 1. Рух з клавіатури
         Vector3 panDirection = Vector3.Zero;
 
-        if (Input.IsPhysicalKeyPressed(Key.Up)) panDirection.Z -= 1;
-        if (Input.IsPhysicalKeyPressed(Key.Down)) panDirection.Z += 1;
-        if (Input.IsPhysicalKeyPressed(Key.Left)) panDirection.X -= 1;
-        if (Input.IsPhysicalKeyPressed(Key.Right)) panDirection.X += 1;
+		if (Input.IsPhysicalKeyPressed(Key.Up)) panDirection.Z -= 1;
+		if (Input.IsPhysicalKeyPressed(Key.Down)) panDirection.Z += 1;
+		if (Input.IsPhysicalKeyPressed(Key.Left)) panDirection.X -= 1;
+		if (Input.IsPhysicalKeyPressed(Key.Right)) panDirection.X += 1;
 
         if (panDirection != Vector3.Zero)
         {
