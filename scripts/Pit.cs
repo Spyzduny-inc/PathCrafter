@@ -14,7 +14,7 @@ public partial class Pit : Area3D
         if (body.Name == "Player")
         {
             GD.Print("Гравець впав у яму! Перезапуск...");
-            GetTree().ReloadCurrentScene();
+            //GetTree().ReloadCurrentScene();
         }
     }
 }

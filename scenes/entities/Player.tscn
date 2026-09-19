@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://co48g5gpfmjof"]
 
 [ext_resource type="Script" uid="uid://bbihiefc83yal" path="res://scripts/Player.cs" id="1_p0vlq"]
+[ext_resource type="Script" uid="uid://l417kou8m6l6" path="res://scripts/CameraController.cs" id="2_o7et6"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wsqlc"]
 radius = 0.25
@@ -21,5 +22,7 @@ shape = SubResource("CapsuleShape3D_wsqlc")
 mesh = SubResource("CapsuleMesh_wsqlc")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1618721369]
-transform = Transform3D(1, 0, 0, 0, 0.9659258, 0.25881904, 0, -0.25881904, 0.9659258, 0, 2, 6)
+transform = Transform3D(1, 0, 0, 0, 0.8178766, 0.5753937, 0, -0.5753936, 0.81787664, 0, 2.9875998, 4.5038652)
+top_level = true
 current = true
+script = ExtResource("2_o7et6")
