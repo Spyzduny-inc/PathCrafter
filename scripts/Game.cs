@@ -4,9 +4,9 @@ public partial class Game : Node3D
 {
     [Export] public PackedScene PlayerScene { get; set; }
     [Export] public Button ExitButton { get; set; }
-    [Export] public CodeEdit CodeInput { get; set; } // Оновлено на CodeEdit
+    [Export] public CodeEdit CodeInput { get; set; } 
     [Export] public Button RunButton { get; set; }
-    [Export] public Button ResetButton { get; set; } // Нова кнопка для скидання
+    [Export] public Button ResetButton { get; set; } 
     [Export] public Label ConsoleOutput { get; set; }
 
     private Player _spawnedRover;
@@ -15,31 +15,18 @@ public partial class Game : Node3D
 
     public override void _Ready()
     {
-        if (string.IsNullOrEmpty(Global.SelectedLevelPath))
-        {
-            GD.PrintErr("[Game] Шлях до рівня порожній!");
-            return;
-        }
+        if (string.IsNullOrEmpty(Global.SelectedLevelPath)) return;
 
         var levelScene = GD.Load<PackedScene>(Global.SelectedLevelPath);
         if (levelScene != null)
         {
             var levelInstance = levelScene.Instantiate<Node3D>();
             AddChild(levelInstance);
-            GD.Print($"[Game] Рівень завантажено: {Global.SelectedLevelPath}");
 
             SpawnPlayer(levelInstance);
             
-            // Шукаємо модуль фінішу за його назвою (FinishPoint)
+            // Шукаємо фініш через надійний рекурсивний пошук
             _finishPoint = FindFinishPoint(levelInstance);
-            if (_finishPoint != null)
-            {
-                GD.Print($"[Game] Фініш знайдено: {_finishPoint.Name}");
-            }
-            else
-            {
-                GD.PrintErr("[Game] Увага! Блок фінішу не знайдено на рівні!");
-            }
         }
 
         if (ExitButton != null)
@@ -58,15 +45,22 @@ public partial class Game : Node3D
         {
             ResetButton.FocusMode = Control.FocusModeEnum.None;
             ResetButton.Pressed += OnResetButtonPressed;
-            ResetButton.Disabled = true; // Вимикаємо до першого запуску
+            ResetButton.Disabled = true; 
         }
     }
 
     private void SpawnPlayer(Node3D levelInstance)
     {
         if (PlayerScene == null) return;
-
+        
+        // Спочатку шукаємо за метаданими (якщо ти ставив їх руками)
         Node3D spawnPoint = FindNodeWithMeta(levelInstance, "is_player_spawn");
+        
+        // Якщо метаданих немає (редактор їх не зберіг), шукаємо модуль спавну за файлом
+        if (spawnPoint == null)
+        {
+            spawnPoint = FindSpawnPoint(levelInstance);
+        }
         
         if (spawnPoint != null)
         {
@@ -75,16 +69,15 @@ public partial class Game : Node3D
             AddChild(playerInstance);
 
             _spawnedRover = playerInstance as Player;
-            _spawnedRover.SaveStartPosition(); // Запам'ятовуємо старт
-            GD.Print("[Game] Марсохід успішно заспавнено!");
+            // ВАЖЛИВО: Передаємо корінь рівня марсоходу для сканування
+            _spawnedRover.LevelRoot = levelInstance; 
+            _spawnedRover.SaveStartPosition(); 
         }
     }
 
     private Node3D FindNodeWithMeta(Node node, string metaName)
     {
-        if (node is Node3D node3d && node3d.HasMeta(metaName) && node3d.GetMeta(metaName).AsBool())
-            return node3d;
-
+        if (node is Node3D node3d && node3d.HasMeta(metaName) && node3d.GetMeta(metaName).AsBool()) return node3d;
         foreach (Node child in node.GetChildren())
         {
             var result = FindNodeWithMeta(child, metaName);
@@ -93,20 +86,31 @@ public partial class Game : Node3D
         return null;
     }
 
-    // Рекурсивний пошук вузла фінішу за назвою
+    // Рекурсивний пошук старту (якщо метадані злетіли)
+    private Node3D FindSpawnPoint(Node node)
+    {
+        string identity = (node.SceneFilePath + " " + node.Name).ToLower();
+        if (node is Node3D node3d && identity.Contains("spawn")) return node3d;
+        
+        foreach (Node child in node.GetChildren())
+        {
+            var result = FindSpawnPoint(child);
+            if (result != null) return result;
+        }
+        return null;
+    }
+
+    // Рекурсивний пошук фінішу за оригінальним файлом
     private Node3D FindFinishPoint(Node node)
     {
-        if (node is Node3D node3d && node.Name.ToString().Contains("FinishPoint"))
-        {
-            return node3d;
-        }
-
+        string identity = (node.SceneFilePath + " " + node.Name).ToLower();
+        if (node is Node3D node3d && identity.Contains("finish")) return node3d;
+        
         foreach (Node child in node.GetChildren())
         {
             var result = FindFinishPoint(child);
             if (result != null) return result;
         }
-
         return null;
     }
 
@@ -117,7 +121,7 @@ public partial class Game : Node3D
         _isRunning = true;
         RunButton.Disabled = true;
         if (ResetButton != null) ResetButton.Disabled = true;
-        CodeInput.Editable = false; // Блокуємо редагування коду
+        CodeInput.Editable = false; 
         
         if (ConsoleOutput != null) ConsoleOutput.Text = "Запуск програми...\n";
 
@@ -131,22 +135,23 @@ public partial class Game : Node3D
 
             if (line == "move()" || line == "forward")
             {
-                bool success = await _spawnedRover.MoveForward();
-                if (!success) // Якщо колись додамо перевірку на зіткнення зі стінами
+                Player.MoveResult result = await _spawnedRover.MoveForward();
+                
+                if (result == Player.MoveResult.HitWall)
                 {
-                    if (ConsoleOutput != null) ConsoleOutput.Text += "\n[ КРИТИЧНА ПОМИЛКА ]: Аварія! Врізався у стіну!";
+                    if (ConsoleOutput != null) ConsoleOutput.Text += "\n[ КРИТИЧНА ПОМИЛКА ]: Аварія! Марсохід в'єбався в стіну!";
+                    crashed = true;
+                    break;
+                }
+                else if (result == Player.MoveResult.FellInPit)
+                {
+                    if (ConsoleOutput != null) ConsoleOutput.Text += "\n[ КРИТИЧНА ПОМИЛКА ]: Аварія! Марсохід впав у канаву!";
                     crashed = true;
                     break;
                 }
             }
-            else if (line == "turn_right()" || line == "right")
-            {
-                await _spawnedRover.TurnRight();
-            }
-            else if (line == "turn_left()" || line == "left")
-            {
-                await _spawnedRover.TurnLeft();
-            }
+            else if (line == "turn_right()" || line == "right") await _spawnedRover.TurnRight();
+            else if (line == "turn_left()" || line == "left") await _spawnedRover.TurnLeft();
             else
             {
                 if (ConsoleOutput != null) ConsoleOutput.Text += $"\n[ СИНТАКСИЧНА ПОМИЛКА ]: Невідома команда '{line}'!";
@@ -154,18 +159,14 @@ public partial class Game : Node3D
                 break;
             }
 
-            // Пауза між командами для візуалу
             await ToSignal(GetTree().CreateTimer(0.2), SceneTreeTimer.SignalName.Timeout);
         }
 
-        // Перевірка фінішу після завершення всіх рядків коду
         if (!crashed)
         {
-            // Перевіряємо дистанцію до фінішу (менше 0.5 означає, що ми стоїмо прямо на ньому)
             if (_finishPoint != null && _spawnedRover.GlobalPosition.DistanceTo(_finishPoint.GlobalPosition) < 0.5f)
             {
                 if (ConsoleOutput != null) ConsoleOutput.Text += "\n[ УСПІХ ]: Рівень пройдено! Ти бог C#!";
-                // TODO: Додати логіку переходу на наступний рівень
             }
             else
             {
@@ -174,7 +175,6 @@ public partial class Game : Node3D
         }
 
         _isRunning = false;
-        // Вмикаємо кнопку скидання, щоб гравець міг спробувати ще раз
         if (ResetButton != null) ResetButton.Disabled = false; 
     }
 
@@ -185,7 +185,6 @@ public partial class Game : Node3D
             _spawnedRover.ResetToStart();
             if (ConsoleOutput != null) ConsoleOutput.Text = "Рівень скинуто. Пиши код заново.";
             
-            // Повертаємо інтерфейс у початковий стан
             if (CodeInput != null) CodeInput.Editable = true;
             if (RunButton != null) RunButton.Disabled = false;
             if (ResetButton != null) ResetButton.Disabled = true;
