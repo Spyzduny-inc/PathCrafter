@@ -7,9 +7,9 @@
 script = ExtResource("1_movtg")
 PlayerScene = ExtResource("2_qq6cj")
 ExitButton = NodePath("CanvasLayer/MarginContainer/ExitButton")
-CodeInput = NodePath("CanvasLayer/Panel/VBoxContainer/CodeInput")
-RunButton = NodePath("CanvasLayer/Panel/VBoxContainer/RunButton")
-ConsoleOutput = NodePath("CanvasLayer/Panel/VBoxContainer/ConsoleOutput")
+CodeInput = NodePath("CanvasLayer/Panel/MarginContainer/VBoxContainer/CodeInput")
+RunButton = NodePath("CanvasLayer/Panel/MarginContainer/VBoxContainer/RunButton")
+ConsoleOutput = NodePath("CanvasLayer/Panel/MarginContainer/VBoxContainer/ConsoleOutput")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=556642334]
 transform = Transform3D(0.70710677, 0.49999994, -0.49999994, 0, 0.7071067, 0.7071067, 0.70710677, -0.49999994, 0.49999994, 0, 0, 0)
@@ -37,24 +37,42 @@ grow_horizontal = 0
 grow_vertical = 2
 size_flags_vertical = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Panel" unique_id=632065638]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Panel" unique_id=169517380]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -268.0
+offset_top = 2.0
+offset_right = -3.0
+offset_bottom = -1.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
 
-[node name="Label" type="Label" parent="CanvasLayer/Panel/VBoxContainer" unique_id=1913750227]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Panel/MarginContainer" unique_id=632065638]
 layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Panel/MarginContainer/VBoxContainer" unique_id=1913750227]
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
 text = "Панель управління марсоходом"
 
-[node name="RunButton" type="Button" parent="CanvasLayer/Panel/VBoxContainer" unique_id=1276308224]
+[node name="RunButton" type="Button" parent="CanvasLayer/Panel/MarginContainer/VBoxContainer" unique_id=1276308224]
 layout_mode = 2
 text = "▶ ЗАПУСК КОДУ"
 
-[node name="CodeInput" type="TextEdit" parent="CanvasLayer/Panel/VBoxContainer" unique_id=1331292768]
+[node name="CodeInput" type="CodeEdit" parent="CanvasLayer/Panel/MarginContainer/VBoxContainer" unique_id=789573155]
 custom_minimum_size = Vector2(0, 360)
 layout_mode = 2
 placeholder_text = "пиши свій код тут..."
+gutters_draw_line_numbers = true
 
-[node name="ConsoleOutput" type="Label" parent="CanvasLayer/Panel/VBoxContainer" unique_id=1394228390]
-custom_minimum_size = Vector2(0, 200)
+[node name="ConsoleOutput" type="Label" parent="CanvasLayer/Panel/MarginContainer/VBoxContainer" unique_id=1394228390]
+custom_minimum_size = Vector2(100, 200)
 layout_mode = 2
+autowrap_mode = 3
