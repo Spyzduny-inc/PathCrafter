@@ -1,4 +1,5 @@
 using Godot;
+using System;
 
 public partial class CameraController : Camera3D
 {
@@ -8,7 +9,7 @@ public partial class CameraController : Camera3D
     [Export] public float MinZoom { get; set; } = 3.0f;
     [Export] public float MaxZoom { get; set; } = 30.0f;
 
-	private bool isPanningWithMouse = false;
+    private bool isPanningWithMouse = false;
 
     public override void _Process(double delta)
     {
@@ -17,18 +18,23 @@ public partial class CameraController : Camera3D
         if (focusOwner is TextEdit || focusOwner is LineEdit) 
             return;
 
+        // Коефіцієнт масштабування швидкості залежно від поточної висоти (Y).
+        // Чим ближче до землі (менший Y), тим плавнішою стає камера.
+        float heightFactor = Mathf.Clamp(Position.Y / MaxZoom, 0.2f, 1.0f);
+
         // 1. Рух з клавіатури
         Vector3 panDirection = Vector3.Zero;
 
-		if (Input.IsPhysicalKeyPressed(Key.Up)) panDirection.Z -= 1;
-		if (Input.IsPhysicalKeyPressed(Key.Down)) panDirection.Z += 1;
-		if (Input.IsPhysicalKeyPressed(Key.Left)) panDirection.X -= 1;
-		if (Input.IsPhysicalKeyPressed(Key.Right)) panDirection.X += 1;
+        if (Input.IsPhysicalKeyPressed(Key.Up)) panDirection.Z -= 1;
+        if (Input.IsPhysicalKeyPressed(Key.Down)) panDirection.Z += 1;
+        if (Input.IsPhysicalKeyPressed(Key.Left)) panDirection.X -= 1;
+        if (Input.IsPhysicalKeyPressed(Key.Right)) panDirection.X += 1;
 
         if (panDirection != Vector3.Zero)
         {
             panDirection = panDirection.Normalized();
-            GlobalPosition += new Vector3(panDirection.X, 0, panDirection.Z) * KeyboardPanSpeed * (float)delta;
+            // Множимо швидкість на heightFactor, щоб на ближчому зумі камера не літала шалено
+            GlobalPosition += new Vector3(panDirection.X, 0, panDirection.Z) * KeyboardPanSpeed * heightFactor * (float)delta;
         }
     }
 
@@ -66,7 +72,8 @@ public partial class CameraController : Camera3D
         // 3. Рух мишею при затиснутій середній кнопці
         if (@event is InputEventMouseMotion mouseMotionEvent && isPanningWithMouse)
         {
-            Vector3 dragMotion = new Vector3(-mouseMotionEvent.Relative.X, 0, -mouseMotionEvent.Relative.Y) * MousePanSpeed;
+            float heightFactor = Mathf.Clamp(Position.Y / MaxZoom, 0.2f, 1.0f);
+            Vector3 dragMotion = new Vector3(-mouseMotionEvent.Relative.X, 0, -mouseMotionEvent.Relative.Y) * MousePanSpeed * heightFactor;
             GlobalPosition += dragMotion;
         }
     }
@@ -79,5 +86,15 @@ public partial class CameraController : Camera3D
         {
             Position = newPos;
         }
+    }
+
+    // Метод для автоцентрування камери на старті рівня
+    public void CenterOn(Vector3 targetPos)
+    {
+        // Зберігаємо поточну висоту (зум), але ставимо камеру над гравцем
+        float currentY = Position.Y;
+        if (currentY < MinZoom) currentY = 10.0f; // Дефолтна висота, якщо була занадто низько
+
+        GlobalPosition = new Vector3(targetPos.X, currentY, targetPos.Z + 5.0f);
     }
 }

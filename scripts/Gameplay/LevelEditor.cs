@@ -167,26 +167,20 @@ public partial class LevelEditor : Node3D
         return $"Level_{maxNumber + 1}";
     }
 
-    // ==========================================
-    // ВИПРАВЛЕНИЙ МЕТОД ЗБЕРЕЖЕННЯ (БЕЗ UI)
-    // ==========================================
     private void ExecuteSave(string savePath)
     {
         GD.Print($"[LevelEditor] Пакуємо сцену для збереження у {savePath}...");
         
-        // 1. Створюємо чистий корінь для рівня (без скриптів і UI)
         Node3D levelRoot = new Node3D();
         levelRoot.Name = "Level";
         AddChild(levelRoot); 
 
-        // Визначаємо, хто був власником об'єктів до цього
         Node originalOwner = Engine.IsEditorHint() && GetTree().EditedSceneRoot != null 
             ? GetTree().EditedSceneRoot 
             : GetTree().CurrentScene;
 
         var sky = GetNodeOrNull("SkyEnvironment");
 
-        // 2. ПЕРЕНОСИМО ОБ'ЄКТИ В ЧИСТИЙ КОРІНЬ
         if (GridGeneratorNode != null)
         {
             GridGeneratorNode.GetParent().RemoveChild(GridGeneratorNode);
@@ -212,7 +206,6 @@ public partial class LevelEditor : Node3D
             }
         }
 
-        // 3. ПАКУЄМО ТІЛЬКИ ЧИСТИЙ КОРІНЬ
         var packedScene = new PackedScene();
         var result = packedScene.Pack(levelRoot);
         
@@ -229,7 +222,6 @@ public partial class LevelEditor : Node3D
             GD.PrintErr($"[LevelEditor] Помилка пакування сцени: {result}");
         }
 
-        // 4. ПОВЕРТАЄМО ВСЕ НАЗАД В РЕДАКТОР
         if (GridGeneratorNode != null)
         {
             levelRoot.RemoveChild(GridGeneratorNode);
@@ -255,10 +247,8 @@ public partial class LevelEditor : Node3D
             }
         }
 
-        // 5. Видаляємо тимчасовий корінь
         levelRoot.QueueFree();
     }
-    // ==========================================
 
     private void OnGenerateLevelPressed()
     {
@@ -351,6 +341,11 @@ public partial class LevelEditor : Node3D
                 return; 
             }
 
+            if (CurrentSelection == SelectedItem.Finish && IsFinishPlaced())
+            {
+                return;
+            }
+
             SpawnPrefab(spawnPos);
         }
     }
@@ -436,6 +431,21 @@ public partial class LevelEditor : Node3D
         return false;
     }
 
+    private bool IsFinishPlaced()
+    {
+        foreach (var obj in spawnedObjectsHistory)
+        {
+            if (obj != null && GodotObject.IsInstanceValid(obj))
+            {
+                if (obj.HasMeta("is_finish") && obj.GetMeta("is_finish").AsBool())
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     private void SpawnPrefab(Vector3 position)
     {
         Node3D newObj = null;
@@ -443,7 +453,13 @@ public partial class LevelEditor : Node3D
         {
             case SelectedItem.Rock: if (RockScene != null) newObj = RockScene.Instantiate<Node3D>(); break;
             case SelectedItem.Pit: if (PitScene != null) newObj = PitScene.Instantiate<Node3D>(); break;
-            case SelectedItem.Finish: if (FinishScene != null) newObj = FinishScene.Instantiate<Node3D>(); break;
+            case SelectedItem.Finish: 
+                if (FinishScene != null) 
+                {
+                    newObj = FinishScene.Instantiate<Node3D>();
+                    newObj.SetMeta("is_finish", true); 
+                }
+                break;
             case SelectedItem.PlayerSpawn: 
                 if (PlayerSpawnScene != null) 
                 {

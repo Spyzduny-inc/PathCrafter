@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dg0vws2uqmj4m"]
 
-[ext_resource type="Script" uid="uid://dogm6wpqvnby4" path="res://scripts/RandomRotation.cs" id="1_hsb5f"]
+[ext_resource type="Script" uid="uid://dogm6wpqvnby4" path="res://scripts/Gameplay/RandomRotation.cs" id="1_hsb5f"]
 [ext_resource type="PackedScene" uid="uid://crt8vpmpxcwaa" path="res://scenes/models scenes/Rock Models.tscn" id="1_ksjcj"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_wsqlc"]

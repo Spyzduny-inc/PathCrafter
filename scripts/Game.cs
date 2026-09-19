@@ -94,6 +94,29 @@ public partial class Game : Node3D
             _spawnedRover = playerInstance as Player;
             _spawnedRover.LevelRoot = levelInstance; 
             _spawnedRover.SaveStartPosition(); 
+
+            // Одноразово центруємо камеру на спавні гравця при старті
+            CallDeferred(nameof(CenterCameraOnPlayer), playerInstance.GlobalPosition);
+        }
+    }
+
+    private void CenterCameraOnPlayer(Vector3 targetPos)
+    {
+        var camera = GetNodeOrNull<Camera3D>("CameraController/Camera3D") 
+                     ?? GetViewport().FindChild("Camera3D", true, false) as Camera3D;
+        if (camera != null)
+        {
+            // Якщо у тебе камера прив'язана до контролера, рухаємо його або саму камеру
+            var cameraParent = camera.GetParent() as Node3D;
+            if (cameraParent != null && cameraParent.Name.ToString().Contains("Controller"))
+            {
+                cameraParent.GlobalPosition = new Vector3(targetPos.X, cameraParent.GlobalPosition.Y, targetPos.Z);
+            }
+            else
+            {
+                camera.GlobalPosition = new Vector3(targetPos.X, camera.GlobalPosition.Y + 5.0f, targetPos.Z + 5.0f);
+                camera.LookAt(targetPos);
+            }
         }
     }
 
@@ -136,22 +159,16 @@ public partial class Game : Node3D
     {
         _isRunning = false; 
         GetViewport().GuiReleaseFocus();
-
-        // 1. Повністю випилюємо весь корінь гри з пам'яті рушія вручну
         QueueFree();
-
-        // 2. Безпечно переходимо в меню через глобальний шлях дерева
         GetTree().CallDeferred(SceneTree.MethodName.ChangeSceneToFile, "res://scenes/ui/MainMenu.tscn");
-    }
-
-    private void ChangeToMenu()
-    {
-        GetTree().ChangeSceneToFile("res://scenes/ui/MainMenu.tscn");
     }
 
     private async void OnRunButtonPressed()
     {
         if (_isRunning || CodeInput == null || _spawnedRover == null || !IsInstanceValid(_spawnedRover)) return;
+
+        // Знімаємо фокус з поля вводу коду, щоб камера одразу реагувала на мишу
+        GetViewport().GuiReleaseFocus();
 
         _isRunning = true;
         RunButton.Disabled = true;
@@ -201,7 +218,6 @@ public partial class Game : Node3D
                     break;
                 }
 
-                // Використовуємо безпечний таймер (false = не ігнорувати зупинку дерева)
                 await ToSignal(GetTree().CreateTimer(0.2, false), SceneTreeTimer.SignalName.Timeout);
             }
 

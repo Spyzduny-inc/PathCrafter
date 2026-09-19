@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://co48g5gpfmjof"]
 
-[ext_resource type="Script" uid="uid://bbihiefc83yal" path="res://scripts/Player.cs" id="1_p0vlq"]
-[ext_resource type="Script" uid="uid://l417kou8m6l6" path="res://scripts/CameraController.cs" id="2_o7et6"]
+[ext_resource type="Script" uid="uid://bbihiefc83yal" path="res://scripts/Gameplay/Player.cs" id="1_p0vlq"]
+[ext_resource type="Script" uid="uid://l417kou8m6l6" path="res://scripts/Gameplay/CameraController.cs" id="2_o7et6"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wsqlc"]
 radius = 0.25
