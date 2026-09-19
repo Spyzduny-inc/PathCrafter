@@ -1,4 +1,5 @@
 using Godot;
+using System;
 
 public partial class Game : Node3D
 {
@@ -33,7 +34,7 @@ public partial class Game : Node3D
         if (ExitButton != null)
         {
             ExitButton.FocusMode = Control.FocusModeEnum.None;
-            ExitButton.Pressed += () => GetTree().ChangeSceneToFile("res://scenes/ui/MainMenu.tscn");
+            ExitButton.Pressed += OnExitButtonPressed;
         }
 
         if (RunButton != null)
@@ -61,20 +62,16 @@ public partial class Game : Node3D
             CodeInput.AutoBraceCompletionHighlightMatching = true;
 
             var highlighter = new CodeHighlighter();
-            
-            Color functionColor = new Color(0.3f, 0.7f, 1.0f); // Блакитний
-            Color commentColor = new Color(0.4f, 0.6f, 0.4f);  // Зелений
+            Color functionColor = new Color(0.3f, 0.7f, 1.0f); 
+            Color commentColor = new Color(0.4f, 0.6f, 0.4f);  
 
-            // Фарбуємо дужки () в той самий синій колір, що і команди
             highlighter.SymbolColor = functionColor;
-
             highlighter.AddKeywordColor("move", functionColor);
             highlighter.AddKeywordColor("forward", functionColor);
             highlighter.AddKeywordColor("turn_right", functionColor);
             highlighter.AddKeywordColor("right", functionColor);
             highlighter.AddKeywordColor("turn_left", functionColor);
             highlighter.AddKeywordColor("left", functionColor);
-
             highlighter.AddColorRegion("#", "", commentColor, true);
 
             CodeInput.SyntaxHighlighter = highlighter;
@@ -86,11 +83,7 @@ public partial class Game : Node3D
         if (PlayerScene == null) return;
         
         Node3D spawnPoint = FindNodeWithMeta(levelInstance, "is_player_spawn");
-        
-        if (spawnPoint == null)
-        {
-            spawnPoint = FindSpawnPoint(levelInstance);
-        }
+        if (spawnPoint == null) spawnPoint = FindSpawnPoint(levelInstance);
         
         if (spawnPoint != null)
         {
@@ -119,7 +112,6 @@ public partial class Game : Node3D
     {
         string identity = (node.SceneFilePath + " " + node.Name).ToLower();
         if (node is Node3D node3d && identity.Contains("spawn")) return node3d;
-        
         foreach (Node child in node.GetChildren())
         {
             var result = FindSpawnPoint(child);
@@ -132,7 +124,6 @@ public partial class Game : Node3D
     {
         string identity = (node.SceneFilePath + " " + node.Name).ToLower();
         if (node is Node3D node3d && identity.Contains("finish")) return node3d;
-        
         foreach (Node child in node.GetChildren())
         {
             var result = FindFinishPoint(child);
@@ -141,9 +132,26 @@ public partial class Game : Node3D
         return null;
     }
 
+    private void OnExitButtonPressed()
+    {
+        _isRunning = false; 
+        GetViewport().GuiReleaseFocus();
+
+        // 1. Повністю випилюємо весь корінь гри з пам'яті рушія вручну
+        QueueFree();
+
+        // 2. Безпечно переходимо в меню через глобальний шлях дерева
+        GetTree().CallDeferred(SceneTree.MethodName.ChangeSceneToFile, "res://scenes/ui/MainMenu.tscn");
+    }
+
+    private void ChangeToMenu()
+    {
+        GetTree().ChangeSceneToFile("res://scenes/ui/MainMenu.tscn");
+    }
+
     private async void OnRunButtonPressed()
     {
-        if (_isRunning || CodeInput == null || _spawnedRover == null) return;
+        if (_isRunning || CodeInput == null || _spawnedRover == null || !IsInstanceValid(_spawnedRover)) return;
 
         _isRunning = true;
         RunButton.Disabled = true;
@@ -151,65 +159,83 @@ public partial class Game : Node3D
         CodeInput.Editable = false; 
         
         if (HelpPanel != null) HelpPanel.Visible = false;
-        
         if (ConsoleOutput != null) ConsoleOutput.Text = "Запуск програми...\n";
 
         string[] lines = CodeInput.Text.Split('\n');
         bool crashed = false;
 
-        foreach (string rawLine in lines)
+        try
         {
-            string line = rawLine.Trim().ToLower();
-            if (string.IsNullOrEmpty(line) || line.StartsWith("#")) continue;
-
-            if (line == "move()" || line == "forward")
+            foreach (string rawLine in lines)
             {
-                Player.MoveResult result = await _spawnedRover.MoveForward();
-                
-                if (result == Player.MoveResult.HitWall)
+                if (!_isRunning || !IsInsideTree() || !IsInstanceValid(this) || !IsInstanceValid(_spawnedRover)) return; 
+
+                string line = rawLine.Trim().ToLower();
+                if (string.IsNullOrEmpty(line) || line.StartsWith("#")) continue;
+
+                if (line == "move()" || line == "forward")
                 {
-                    if (ConsoleOutput != null) ConsoleOutput.Text += "\n[ КРИТИЧНА ПОМИЛКА ]: Аварія! Марсохід в'єбався в стіну!";
+                    Player.MoveResult result = await _spawnedRover.MoveForward();
+                    
+                    if (!_isRunning || !IsInsideTree() || !IsInstanceValid(this)) return; 
+
+                    if (result == Player.MoveResult.HitWall)
+                    {
+                        if (ConsoleOutput != null) ConsoleOutput.Text += "\n[ КРИТИЧНА ПОМИЛКА ]: Аварія! Марсохід в'єбався в стіну!";
+                        crashed = true;
+                        break;
+                    }
+                    else if (result == Player.MoveResult.FellInPit)
+                    {
+                        if (ConsoleOutput != null) ConsoleOutput.Text += "\n[ КРИТИЧНА ПОМИЛКА ]: Аварія! Марсохід впав у канаву!";
+                        crashed = true;
+                        break;
+                    }
+                }
+                else if (line == "turn_right()" || line == "right") await _spawnedRover.TurnRight();
+                else if (line == "turn_left()" || line == "left") await _spawnedRover.TurnLeft();
+                else
+                {
+                    if (ConsoleOutput != null) ConsoleOutput.Text += $"\n[ СИНТАКСИЧНА ПОМИЛКА ]: Невідома команда '{line}'!";
                     crashed = true;
                     break;
                 }
-                else if (result == Player.MoveResult.FellInPit)
+
+                // Використовуємо безпечний таймер (false = не ігнорувати зупинку дерева)
+                await ToSignal(GetTree().CreateTimer(0.2, false), SceneTreeTimer.SignalName.Timeout);
+            }
+
+            if (!_isRunning || !IsInsideTree() || !IsInstanceValid(this)) return;
+
+            if (!crashed)
+            {
+                if (_finishPoint != null && IsInstanceValid(_finishPoint) && _spawnedRover.GlobalPosition.DistanceTo(_finishPoint.GlobalPosition) < 0.5f)
                 {
-                    if (ConsoleOutput != null) ConsoleOutput.Text += "\n[ КРИТИЧНА ПОМИЛКА ]: Аварія! Марсохід впав у канаву!";
-                    crashed = true;
-                    break;
+                    if (ConsoleOutput != null) ConsoleOutput.Text += "\n[ УСПІХ ]: Рівень пройдено! Ти бог C#!";
+                }
+                else
+                {
+                    if (ConsoleOutput != null) ConsoleOutput.Text += "\n[ ПРОВАЛ ]: Код завершився, але ти не на фініші. Бах і капець!";
                 }
             }
-            else if (line == "turn_right()" || line == "right") await _spawnedRover.TurnRight();
-            else if (line == "turn_left()" || line == "left") await _spawnedRover.TurnLeft();
-            else
-            {
-                if (ConsoleOutput != null) ConsoleOutput.Text += $"\n[ СИНТАКСИЧНА ПОМИЛКА ]: Невідома команда '{line}'!";
-                crashed = true;
-                break;
-            }
-
-            await ToSignal(GetTree().CreateTimer(0.2), SceneTreeTimer.SignalName.Timeout);
         }
-
-        if (!crashed)
+        catch (Exception ex)
         {
-            if (_finishPoint != null && _spawnedRover.GlobalPosition.DistanceTo(_finishPoint.GlobalPosition) < 0.5f)
+            GD.PrintErr($"[Game] Перехоплено помилку: {ex.Message}");
+        }
+        finally
+        {
+            if (IsInstanceValid(this))
             {
-                if (ConsoleOutput != null) ConsoleOutput.Text += "\n[ УСПІХ ]: Рівень пройдено! Ти бог C#!";
-            }
-            else
-            {
-                if (ConsoleOutput != null) ConsoleOutput.Text += "\n[ ПРОВАЛ ]: Код завершився, але ти не на фініші. Бах і капець!";
+                _isRunning = false;
+                if (ResetButton != null) ResetButton.Disabled = false; 
             }
         }
-
-        _isRunning = false;
-        if (ResetButton != null) ResetButton.Disabled = false; 
     }
 
     private void OnResetButtonPressed()
     {
-        if (_spawnedRover != null)
+        if (_spawnedRover != null && IsInstanceValid(_spawnedRover))
         {
             _spawnedRover.ResetToStart();
             if (ConsoleOutput != null) ConsoleOutput.Text = "Рівень скинуто. Пиши код заново.";

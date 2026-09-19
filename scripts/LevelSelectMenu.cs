@@ -1,4 +1,5 @@
 using Godot;
+using System;
 
 public partial class LevelSelectMenu : Control
 {
@@ -10,6 +11,9 @@ public partial class LevelSelectMenu : Control
 
     public override void _Ready()
     {
+        // ФІКС КРАШІВ: Чистимо пам'ять при вході в меню вибору
+        GC.Collect();
+
         if (BackButton != null) BackButton.Pressed += OnBackButtonPressed;
         GenerateMenu();
     }
@@ -18,7 +22,6 @@ public partial class LevelSelectMenu : Control
     {
         if (ChaptersContainer == null) return;
 
-        // 1. Завантажуємо офіційні глави з MainLevelConfig.tres (якщо є)
         if (Config != null && Config.Chapters != null)
         {
             foreach (var chapter in Config.Chapters)
@@ -27,7 +30,6 @@ public partial class LevelSelectMenu : Control
             }
         }
 
-        // 2. Автоматично шукаємо і додаємо кастомні рівні з папки
         AutoLoadCustomLevels();
     }
 
@@ -86,7 +88,7 @@ public partial class LevelSelectMenu : Control
             if (!dir.CurrentIsDir() && fileName.EndsWith(".tscn"))
             {
                 string scenePath = CustomsDir + fileName;
-                string levelName = fileName.Replace(".tscn", ""); // Прибираємо .tscn для тексту кнопки
+                string levelName = fileName.Replace(".tscn", "");
 
                 var btn = new Button();
                 btn.Text = levelName;
@@ -107,12 +109,15 @@ public partial class LevelSelectMenu : Control
         if (!string.IsNullOrEmpty(path))
         {
             Global.SelectedLevelPath = path;
-            GetTree().ChangeSceneToFile("res://scenes/utilities/Game.tscn");
+            // Знімаємо фокус, щоб інтерфейс не крашнувся при видаленні
+            GetViewport().GuiReleaseFocus();
+            GetTree().CallDeferred(SceneTree.MethodName.ChangeSceneToFile, "res://scenes/utilities/Game.tscn");
         }
     }
 
     private void OnBackButtonPressed()
     {
-        GetTree().ChangeSceneToFile("res://scenes/ui/MainMenu.tscn");
+        GetViewport().GuiReleaseFocus();
+        GetTree().CallDeferred(SceneTree.MethodName.ChangeSceneToFile, "res://scenes/ui/MainMenu.tscn");
     }
 }

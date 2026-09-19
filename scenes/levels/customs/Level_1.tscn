@@ -3,16 +3,14 @@
 [ext_resource type="PackedScene" uid="uid://bluw823eeqtyj" path="res://scenes/utilities/GridGenerator.tscn" id="1_aywml"]
 [ext_resource type="PackedScene" uid="uid://bfgbydrfmwrd8" path="res://scenes/modules/Floor.tscn" id="3_me14g"]
 [ext_resource type="PackedScene" uid="uid://vu10lch3wfts" path="res://scenes/environment/sky.tscn" id="4_4rm01"]
+[ext_resource type="Texture2D" uid="uid://ds6w3ckqo0ilm" path="res://assets/textures/Skyboxes/Back.jpg" id="4_rpcw1"]
 [ext_resource type="PackedScene" uid="uid://djypk3wx4hs4q" path="res://scenes/modules/Pit.tscn" id="5_nxcxs"]
 [ext_resource type="PackedScene" uid="uid://bmmwdfhkay4cg" path="res://scenes/modules/PlayerSpawn.tscn" id="6_se0ys"]
 [ext_resource type="PackedScene" uid="uid://dg0vws2uqmj4m" path="res://scenes/modules/Rock.tscn" id="8_de547"]
 [ext_resource type="PackedScene" uid="uid://dsha5ifsdq7jt" path="res://scenes/modules/FinishPoint.tscn" id="9_j1otg"]
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_jbl18"]
-load_path = "res://.godot/imported/skybox-night.png-edffc950eb704c1add1a0c13dc09e990.s3tc.ctex"
-
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_pphty"]
-panorama = SubResource("CompressedTexture2D_jbl18")
+panorama = ExtResource("4_rpcw1")
 
 [sub_resource type="Sky" id="Sky_j66xd"]
 sky_material = SubResource("PanoramaSkyMaterial_pphty")

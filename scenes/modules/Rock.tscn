@@ -1,11 +1,13 @@
 [gd_scene format=3 uid="uid://dg0vws2uqmj4m"]
 
+[ext_resource type="Script" uid="uid://dogm6wpqvnby4" path="res://scripts/RandomRotation.cs" id="1_hsb5f"]
 [ext_resource type="PackedScene" uid="uid://crt8vpmpxcwaa" path="res://scenes/models scenes/Rock Models.tscn" id="1_ksjcj"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_wsqlc"]
 
 [node name="Rock" type="StaticBody3D" unique_id=309534127]
 collision_layer = 2
+script = ExtResource("1_hsb5f")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1005459472]
 shape = SubResource("BoxShape3D_wsqlc")

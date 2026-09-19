@@ -1,10 +1,13 @@
 using Godot;
+using System; // Додано для доступу до GC (Garbage Collector)
 
 public partial class MainMenu : Control
 {
     public override void _Ready()
     {
-        // Знаходимо кнопки і підписуємося на подію Pressed
+        // ФІКС КРАШІВ: Примусово вичищаємо з пам'яті зомбі-об'єкти від попередніх сцен
+        GC.Collect();
+
         GetNode<Button>("Margin/MenuButtons/PlayButton").Pressed += OnPlayPressed;
         GetNode<Button>("Margin/MenuButtons/EditorButton").Pressed += OnEditorPressed;
         GetNode<Button>("Margin/MenuButtons/SettingsButton").Pressed += OnSettingsPressed;
@@ -13,14 +16,13 @@ public partial class MainMenu : Control
 
     private void OnPlayPressed()
     {
-        // Завантажуємо меню вибору рівнів
-        GetTree().ChangeSceneToFile("res://scenes/ui/LevelSelectMenu.tscn");
+        // Вбудований безпечний перехід Godot
+        GetTree().CallDeferred(SceneTree.MethodName.ChangeSceneToFile, "res://scenes/ui/LevelSelectMenu.tscn");
     }
 
     private void OnEditorPressed()
     {
-        // Завантажуємо сцену редактора рівнів
-        GetTree().ChangeSceneToFile("res://scenes/levels/LevelEditor.tscn");
+        GetTree().CallDeferred(SceneTree.MethodName.ChangeSceneToFile, "res://scenes/levels/LevelEditor.tscn");
     }
 
     private void OnSettingsPressed()
@@ -30,7 +32,6 @@ public partial class MainMenu : Control
 
     private void OnQuitPressed()
     {
-        // Закриваємо гру
         GetTree().Quit();
     }
 }
