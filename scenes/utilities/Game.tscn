@@ -3,12 +3,13 @@
 [ext_resource type="Script" uid="uid://dbcnw7tjrw2eo" path="res://scripts/Game.cs" id="1_movtg"]
 [ext_resource type="PackedScene" uid="uid://co48g5gpfmjof" path="res://scenes/entities/Player.tscn" id="2_qq6cj"]
 
-[node name="Game" type="Node3D" unique_id=1987085889 node_paths=PackedStringArray("ExitButton", "CodeInput", "RunButton", "ConsoleOutput")]
+[node name="Game" type="Node3D" unique_id=1987085889 node_paths=PackedStringArray("ExitButton", "CodeInput", "RunButton", "ResetButton", "ConsoleOutput")]
 script = ExtResource("1_movtg")
 PlayerScene = ExtResource("2_qq6cj")
 ExitButton = NodePath("CanvasLayer/MarginContainer/ExitButton")
 CodeInput = NodePath("CanvasLayer/Panel/MarginContainer/VBoxContainer/CodeInput")
 RunButton = NodePath("CanvasLayer/Panel/MarginContainer/VBoxContainer/RunButton")
+ResetButton = NodePath("CanvasLayer/Panel/MarginContainer/VBoxContainer/ResetButton")
 ConsoleOutput = NodePath("CanvasLayer/Panel/MarginContainer/VBoxContainer/ConsoleOutput")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=556642334]
@@ -65,6 +66,10 @@ text = "Панель управління марсоходом"
 [node name="RunButton" type="Button" parent="CanvasLayer/Panel/MarginContainer/VBoxContainer" unique_id=1276308224]
 layout_mode = 2
 text = "▶ ЗАПУСК КОДУ"
+
+[node name="ResetButton" type="Button" parent="CanvasLayer/Panel/MarginContainer/VBoxContainer" unique_id=1822453053]
+layout_mode = 2
+text = "СКИНУТИ РІВЕНЬ"
 
 [node name="CodeInput" type="CodeEdit" parent="CanvasLayer/Panel/MarginContainer/VBoxContainer" unique_id=789573155]
 custom_minimum_size = Vector2(0, 360)

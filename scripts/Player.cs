@@ -13,6 +13,28 @@ public partial class Player : CharacterBody3D
         new Vector3(-1, 0, 0)
     };
 
+    private Vector3 _startPosition;
+    private float _startRotationY;
+    private int _startDirection = 0;
+
+    public void SaveStartPosition()
+    {
+        _startPosition = GlobalPosition;
+        _startRotationY = Rotation.Y;
+        _startDirection = _currentDirection;
+    }
+
+    public void ResetToStart()
+    {
+        GlobalPosition = _startPosition;
+        
+        Vector3 rot = Rotation;
+        rot.Y = _startRotationY;
+        Rotation = rot;
+        
+        _currentDirection = _startDirection;
+    }
+
     public async Task<bool> MoveForward()
     {
         Vector3 forwardDir = _directions[_currentDirection];
@@ -45,3 +67,4 @@ public partial class Player : CharacterBody3D
         await ToSignal(tween, Tween.SignalName.Finished);
     }
 }
+
