@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://b4okdimpcg65q"]
 
-[ext_resource type="Script" uid="uid://dw25t2x8seug2" path="res://scripts/MainMenu.cs" id="1_vjtqc"]
-[ext_resource type="VideoStream" uid="uid://6cv0isabdxpp" path="res://assets/ui/menu_background.ogv" id="2_6jbdy"]
+[ext_resource type="Script" uid="uid://dw25t2x8seug2" path="res://scripts/UI/MainMenu.cs" id="1_vjtqc"]
+[ext_resource type="VideoStream" uid="uid://c1ntgiik8022l" path="res://assets/ui/Background_MainMenu.ogv" id="2_6jbdy"]
 
 [node name="MainMenu" type="Control" unique_id=2081475866]
 layout_mode = 3
@@ -21,6 +21,7 @@ grow_horizontal = 2
 grow_vertical = 2
 stream = ExtResource("2_6jbdy")
 autoplay = true
+expand = true
 loop = true
 
 [node name="Margin" type="MarginContainer" parent="." unique_id=2055526615]

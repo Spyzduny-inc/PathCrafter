@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://q54o7noxvega"]
+
+[ext_resource type="Script" uid="uid://d0cnaga2h7gt" path="res://scripts/UI/LevelCompleteMenu.cs" id="1_pf08x"]
+
+[node name="LevelCompleteMenu" type="CanvasLayer" unique_id=359760500 node_paths=PackedStringArray("NextLevelButton", "MenuButton", "TitleLabel")]
+script = ExtResource("1_pf08x")
+NextLevelButton = NodePath("PanelContainer/VBoxContainer/NextButton")
+MenuButton = NodePath("PanelContainer/VBoxContainer/MenuButton")
+TitleLabel = NodePath("PanelContainer/VBoxContainer/LabelTitle")
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=1349865868]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -194.5
+offset_top = -127.0
+offset_right = 194.5
+offset_bottom = 127.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer" unique_id=71692049]
+layout_mode = 2
+
+[node name="LabelTitle" type="Label" parent="PanelContainer/VBoxContainer" unique_id=113790643]
+layout_mode = 2
+text = "Рівень пройдено! "
+
+[node name="LabelText" type="Label" parent="PanelContainer/VBoxContainer" unique_id=1503657116]
+layout_mode = 2
+text = "Ти бог C# та володар марсоходів!"
+
+[node name="NextButton" type="Button" parent="PanelContainer/VBoxContainer" unique_id=1379205292]
+layout_mode = 2
+text = "Наступний рівень"
+
+[node name="MenuButton" type="Button" parent="PanelContainer/VBoxContainer" unique_id=1798176255]
+layout_mode = 2
+text = "Головне меню"

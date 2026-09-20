@@ -1,4 +1,6 @@
 using Godot;
+using System;
+using System.Collections.Generic; // Потрібно для HashSet
 
 public partial class LevelSelectMenu : Control
 {
@@ -10,6 +12,9 @@ public partial class LevelSelectMenu : Control
 
     public override void _Ready()
     {
+        // ФІКС КРАШІВ: Чистимо пам'ять при вході в меню вибору
+        GC.Collect();
+
         if (BackButton != null) BackButton.Pressed += OnBackButtonPressed;
         GenerateMenu();
     }
@@ -18,17 +23,29 @@ public partial class LevelSelectMenu : Control
     {
         if (ChaptersContainer == null) return;
 
-        // 1. Завантажуємо офіційні глави з MainLevelConfig.tres (якщо є)
+        // Збираємо шляхи всіх рівнів, які вже є в главах, щоб уникнути дублікатів
+        var registeredLevelPaths = new HashSet<string>();
+
         if (Config != null && Config.Chapters != null)
         {
             foreach (var chapter in Config.Chapters)
             {
+                if (chapter.Levels != null)
+                {
+                    foreach (var level in chapter.Levels)
+                    {
+                        if (!string.IsNullOrEmpty(level.LevelScenePath))
+                        {
+                            registeredLevelPaths.Add(level.LevelScenePath);
+                        }
+                    }
+                }
                 CreateChapterUI(chapter.ChapterName, chapter.Levels);
             }
         }
 
-        // 2. Автоматично шукаємо і додаємо кастомні рівні з папки
-        AutoLoadCustomLevels();
+        // Передаємо цей список у метод кастомних рівнів для фільтрації
+        AutoLoadCustomLevels(registeredLevelPaths);
     }
 
     private void CreateChapterUI(string title, Godot.Collections.Array<LevelData> levels)
@@ -61,10 +78,34 @@ public partial class LevelSelectMenu : Control
         ChaptersContainer.AddChild(spacer);
     }
 
-    private void AutoLoadCustomLevels()
+    private void AutoLoadCustomLevels(HashSet<string> registeredLevelPaths)
     {
         using var dir = DirAccess.Open(CustomsDir);
         if (dir == null) return;
+
+        // Збираємо спершу відфільтровані файли, щоб не малювати пустий розділ, якщо всі рівні вже в главах
+        var validFiles = new List<(string Name, string Path)>();
+
+        dir.ListDirBegin();
+        string fileName = dir.GetNext();
+        while (fileName != "")
+        {
+            if (!dir.CurrentIsDir() && fileName.EndsWith(".tscn"))
+            {
+                string scenePath = CustomsDir + fileName;
+                
+                // ПРОПУСКАЄМО РІВЕНЬ, ЯКЩО ВІН ВЖЕ Є В ГЛАВАХ
+                if (!registeredLevelPaths.Contains(scenePath))
+                {
+                    string levelName = fileName.Replace(".tscn", "");
+                    validFiles.Add((levelName, scenePath));
+                }
+            }
+            fileName = dir.GetNext();
+        }
+
+        // Якщо всі кастомні рівні вже задіяні в сюжеті — не створюємо секцію взагалі
+        if (validFiles.Count == 0) return;
 
         var chapterLabel = new Label();
         chapterLabel.Text = "Створені рівні";
@@ -79,22 +120,14 @@ public partial class LevelSelectMenu : Control
         grid.SizeFlagsHorizontal = SizeFlags.ShrinkCenter;
         ChaptersContainer.AddChild(grid);
 
-        dir.ListDirBegin();
-        string fileName = dir.GetNext();
-        while (fileName != "")
+        foreach (var file in validFiles)
         {
-            if (!dir.CurrentIsDir() && fileName.EndsWith(".tscn"))
-            {
-                string scenePath = CustomsDir + fileName;
-                string levelName = fileName.Replace(".tscn", ""); // Прибираємо .tscn для тексту кнопки
-
-                var btn = new Button();
-                btn.Text = levelName;
-                btn.CustomMinimumSize = new Vector2(150, 80);
-                btn.Pressed += () => LoadLevel(scenePath);
-                grid.AddChild(btn);
-            }
-            fileName = dir.GetNext();
+            var btn = new Button();
+            btn.Text = file.Name;
+            btn.CustomMinimumSize = new Vector2(150, 80);
+            string scenePath = file.Path;
+            btn.Pressed += () => LoadLevel(scenePath);
+            grid.AddChild(btn);
         }
         
         var spacer = new Control();
@@ -107,12 +140,15 @@ public partial class LevelSelectMenu : Control
         if (!string.IsNullOrEmpty(path))
         {
             Global.SelectedLevelPath = path;
-            GetTree().ChangeSceneToFile("res://scenes/utilities/Game.tscn");
+            // Знімаємо фокус, щоб інтерфейс не крашнувся при видаленні
+            GetViewport().GuiReleaseFocus();
+            GetTree().CallDeferred(SceneTree.MethodName.ChangeSceneToFile, "res://scenes/utilities/Game.tscn");
         }
     }
 
     private void OnBackButtonPressed()
     {
-        GetTree().ChangeSceneToFile("res://scenes/ui/MainMenu.tscn");
+        GetViewport().GuiReleaseFocus();
+        GetTree().CallDeferred(SceneTree.MethodName.ChangeSceneToFile, "res://scenes/ui/MainMenu.tscn");
     }
 }

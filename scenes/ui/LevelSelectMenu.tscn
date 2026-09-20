@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://chvv0pejwnvog"]
 
-[ext_resource type="Script" uid="uid://uoutmetf2d40" path="res://scripts/LevelSelectMenu.cs" id="1_bryfk"]
-[ext_resource type="VideoStream" uid="uid://6cv0isabdxpp" path="res://assets/ui/menu_background.ogv" id="1_mooua"]
+[ext_resource type="Script" uid="uid://uoutmetf2d40" path="res://scripts/UI/LevelSelectMenu.cs" id="1_bryfk"]
 [ext_resource type="Resource" uid="uid://c8ji0po8hh23d" path="res://resources/MainLevelConfig.tres" id="2_hu017"]
+[ext_resource type="VideoStream" uid="uid://c1ntgiik8022l" path="res://assets/ui/Background_MainMenu.ogv" id="3_bryfk"]
 
 [node name="LevelSelectMenu" type="Control" unique_id=827852119 node_paths=PackedStringArray("ChaptersContainer", "BackButton")]
 layout_mode = 3
@@ -23,8 +23,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-stream = ExtResource("1_mooua")
+stream = ExtResource("3_bryfk")
 autoplay = true
+expand = true
 loop = true
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=513571831]

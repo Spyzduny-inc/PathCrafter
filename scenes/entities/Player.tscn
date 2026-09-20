@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://co48g5gpfmjof"]
 
-[ext_resource type="Script" uid="uid://bbihiefc83yal" path="res://scripts/Player.cs" id="1_p0vlq"]
-[ext_resource type="PackedScene" uid="uid://elu6gtgsf85l" path="res://assets/textures/3D Models/NRK.glb" id="2_o7et6"]
+[ext_resource type="Script" uid="uid://bbihiefc83yal" path="res://scripts/Gameplay/Player.cs" id="1_p0vlq"]
+[ext_resource type="Script" uid="uid://l417kou8m6l6" path="res://scripts/Gameplay/CameraController.cs" id="2_o7et6"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_8d35g"]
 size = Vector3(0.6652832, 0.6856079, 0.74609375)
@@ -23,7 +23,8 @@ visible = false
 mesh = SubResource("CapsuleMesh_wsqlc")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1618721369]
-transform = Transform3D(1, 0, 0, 0, 0.9659258, 0.25881904, 0, -0.25881904, 0.9659258, 0, 2, 6)
+transform = Transform3D(1, 0, 0, 0, 0.6226057, 0.78253573, 0, -0.78253573, 0.6226057, 0, 3.8667083, 3.1123972)
+top_level = true
 current = true
 
 [node name="NRK" parent="." unique_id=1370440792 instance=ExtResource("2_o7et6")]
