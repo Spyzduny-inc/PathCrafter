@@ -5,28 +5,17 @@
 [ext_resource type="Script" uid="uid://l417kou8m6l6" path="res://scripts/Gameplay/CameraController.cs" id="3_24gqh"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_8d35g"]
-size = Vector3(0.6652832, 0.6856079, 0.74609375)
+size = Vector3(0.6652832, 0.6856079, 0.71435547)
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_wsqlc"]
-radius = 0.25
-height = 1.0
-
-[sub_resource type="BoxMesh" id="BoxMesh_24gqh"]
-
-[node name="Player" type="CharacterBody3D" unique_id=932391911]
+[node name="Player" type="CharacterBody3D" unique_id=932391911 node_paths=PackedStringArray("LeftWheels", "RightWheels")]
 collision_mask = 3
 script = ExtResource("1_p0vlq")
-
-[node name="NRK" parent="." unique_id=409379132 instance=ExtResource("2_o7et6")]
-transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, -0.35929933, 0)
+LeftWheels = [NodePath("NRK/Wheel_BackLeft"), NodePath("NRK/Wheel_FrontLeft")]
+RightWheels = [NodePath("NRK/Wheel_BackRight"), NodePath("NRK/Wheel_FrontRight")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=555617924]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.002, -0.14686829, -0.043)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.002, -0.14686829, -0.058869142)
 shape = SubResource("BoxShape3D_8d35g")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1721960934]
-visible = false
-mesh = SubResource("CapsuleMesh_wsqlc")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1688325427]
 transform = Transform3D(1, 0, 0, 0, 0.6226057, 0.78253573, 0, -0.78253573, 0.6226057, 0, 3.8667083, 3.1123972)
@@ -34,6 +23,7 @@ top_level = true
 current = true
 script = ExtResource("3_24gqh")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=1475988527]
-visible = false
-mesh = SubResource("BoxMesh_24gqh")
+[node name="NRK" parent="." unique_id=353151265 instance=ExtResource("2_o7et6")]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0.0056797266, -0.33139762, -0.06253597)
+
+[editable path="NRK"]

@@ -3,8 +3,12 @@
   "WorkspaceRootPath": "E:\\PathCrafter\\PathCrafter\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{FA7AE603-8F75-48FD-80AD-3E33767CC936}|PathCrafter.csproj|e:\\pathcrafter\\pathcrafter\\scripts\\ui\\mainmenu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FA7AE603-8F75-48FD-80AD-3E33767CC936}|PathCrafter.csproj|solutionrelative:scripts\\ui\\mainmenu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{FA7AE603-8F75-48FD-80AD-3E33767CC936}|PathCrafter.csproj|e:\\pathcrafter\\pathcrafter\\scripts\\gameplay\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FA7AE603-8F75-48FD-80AD-3E33767CC936}|PathCrafter.csproj|solutionrelative:scripts\\gameplay\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FA7AE603-8F75-48FD-80AD-3E33767CC936}|PathCrafter.csproj|e:\\pathcrafter\\pathcrafter\\scripts\\gameplay\\gridgenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FA7AE603-8F75-48FD-80AD-3E33767CC936}|PathCrafter.csproj|solutionrelative:scripts\\gameplay\\gridgenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -23,14 +27,27 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "MainMenu.cs",
-              "DocumentMoniker": "E:\\PathCrafter\\PathCrafter\\scripts\\UI\\MainMenu.cs",
-              "RelativeDocumentMoniker": "scripts\\UI\\MainMenu.cs",
-              "ToolTip": "E:\\PathCrafter\\PathCrafter\\scripts\\UI\\MainMenu.cs",
-              "RelativeToolTip": "scripts\\UI\\MainMenu.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACQAAAABAAAAAAAAAA==",
+              "Title": "Player.cs",
+              "DocumentMoniker": "E:\\PathCrafter\\PathCrafter\\scripts\\Gameplay\\Player.cs",
+              "RelativeDocumentMoniker": "scripts\\Gameplay\\Player.cs",
+              "ToolTip": "E:\\PathCrafter\\PathCrafter\\scripts\\Gameplay\\Player.cs",
+              "RelativeToolTip": "scripts\\Gameplay\\Player.cs",
+              "ViewState": "AgIAAGoAAAAAAAAAAAAswIkAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-22T20:24:49.624Z",
+              "WhenOpened": "2026-09-23T09:12:13.878Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "GridGenerator.cs",
+              "DocumentMoniker": "E:\\PathCrafter\\PathCrafter\\scripts\\Gameplay\\GridGenerator.cs",
+              "RelativeDocumentMoniker": "scripts\\Gameplay\\GridGenerator.cs",
+              "ToolTip": "E:\\PathCrafter\\PathCrafter\\scripts\\Gameplay\\GridGenerator.cs",
+              "RelativeToolTip": "scripts\\Gameplay\\GridGenerator.cs",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAswCoAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-23T09:03:35.89Z",
               "EditorCaption": ""
             }
           ]
