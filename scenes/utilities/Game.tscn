@@ -132,20 +132,25 @@ theme_override_font_sizes/bold_italics_font_size = 20
 theme_override_font_sizes/italics_font_size = 20
 theme_override_font_sizes/mono_font_size = 20
 bbcode_enabled = true
-text = "[b]ДОСТУПНІ КОМАНДИ:[/b]
+text = "[b]C++ ROVER API[/b]
 
-[color=#4da6ff]move()[/color] або [color=#4da6ff]forward[/color]
-- Робить один крок вперед.
-- Увага: перевіряйте перешкоди!
+[b]Обов'язкова структура:[/b]
+[color=#e066ff]#include <moving>[/color]
 
-[color=#4da6ff]turn_right()[/color] або [color=#4da6ff]right[/color]
-- Поворот на 90 градусів праворуч.
+[color=#e066ff]int[/color] [color=#4da6ff]main[/color]() {
+    [color=#669966]// ваш код[/color]
+    [color=#e066ff]return[/color] 0;
+}
 
-[color=#4da6ff]turn_left()[/color] або [color=#4da6ff]left[/color]
-- Поворот на 90 градусів ліворуч.
+[b]Команди:[/b]
+- [color=#4da6ff]rover.move();[/color]
+- [color=#4da6ff]rover.turn_left();[/color]
+- [color=#4da6ff]rover.turn_right();[/color]
 
-[color=#669966]# Ваш текст[/color]
-- Коментар (ігнорується марсоходом)"
+[b]Приклад циклу:[/b]
+[color=#e066ff]for[/color]([color=#e066ff]int[/color] i = 0; i < 3; i++) {
+    [color=#4da6ff]rover.move();[/color]
+}"
 
 [node name="DesertPlane" type="MeshInstance3D" parent="." unique_id=1252101572]
 transform = Transform3D(500, 0, 0, 0, 1, 0, 0, 0, 500, 0, 0.492, 0)

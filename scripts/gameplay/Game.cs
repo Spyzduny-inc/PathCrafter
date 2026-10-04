@@ -74,19 +74,25 @@ public partial class Game : Node3D
             CodeInput.AutoBraceCompletionHighlightMatching = true;
 
             var highlighter = new CodeHighlighter();
-            Color functionColor = new Color(0.3f, 0.7f, 1.0f); 
-            Color commentColor = new Color(0.4f, 0.6f, 0.4f);  
+            Color functionColor = new Color(0.3f, 0.7f, 1.0f);
+            Color keywordColor = new Color(0.9f, 0.4f, 0.8f);
+            Color commentColor = new Color(0.4f, 0.6f, 0.4f);
 
-            highlighter.SymbolColor = functionColor;
+            highlighter.SymbolColor = new Color(0.8f, 0.8f, 0.8f);
+            highlighter.AddKeywordColor("#include", keywordColor);
+            highlighter.AddKeywordColor("int", keywordColor);
+            highlighter.AddKeywordColor("main", functionColor);
+            highlighter.AddKeywordColor("return", keywordColor);
+            highlighter.AddKeywordColor("for", keywordColor);
+            highlighter.AddKeywordColor("rover", functionColor);
             highlighter.AddKeywordColor("move", functionColor);
-            highlighter.AddKeywordColor("forward", functionColor);
             highlighter.AddKeywordColor("turn_right", functionColor);
-            highlighter.AddKeywordColor("right", functionColor);
             highlighter.AddKeywordColor("turn_left", functionColor);
-            highlighter.AddKeywordColor("left", functionColor);
-            highlighter.AddColorRegion("#", "", commentColor, true);
+            highlighter.AddColorRegion("//", "", commentColor, true);
+            highlighter.AddColorRegion("/*", "*/", commentColor, false);
 
             CodeInput.SyntaxHighlighter = highlighter;
+            CodeInput.PlaceholderText = "#include <moving>\n\nint main() {\n    rover.move();\n    return 0;\n}";
         }
     }
 
@@ -175,45 +181,45 @@ public partial class Game : Node3D
         if (HelpPanel != null) HelpPanel.Visible = false;
         if (ConsoleOutput != null) ConsoleOutput.Text = "Запуск програми...\n";
 
-        string[] lines = CodeInput.Text.Split('\n');
         bool crashed = false;
 
         try
         {
-            foreach (string rawLine in lines)
+            var commands = CodeParser.Parse(CodeInput.Text);
+
+            foreach (var cmd in commands)
             {
-                if (!_isRunning || !IsInsideTree() || !IsInstanceValid(this) || !IsInstanceValid(_spawnedRover)) return; 
+                if (!_isRunning || !IsInsideTree() || !IsInstanceValid(this) || !IsInstanceValid(_spawnedRover)) return;
 
-                string line = rawLine.Trim().ToLower();
-                if (string.IsNullOrEmpty(line) || line.StartsWith("#")) continue;
-
-                if (line == "move()" || line == "forward")
+                switch (cmd.Type)
                 {
-                    Player.MoveResult result = await _spawnedRover.MoveForward();
-                    
-                    if (!_isRunning || !IsInsideTree() || !IsInstanceValid(this)) return; 
+                    case CommandType.Move:
+                        Player.MoveResult result = await _spawnedRover.MoveForward();
 
-                    if (result == Player.MoveResult.HitWall)
-                    {
-                        if (ConsoleOutput != null) ConsoleOutput.Text += "\n[ КРИТИЧНА ПОМИЛКА ]: Аварія! Марсохід в'єбався в стіну!";
-                        crashed = true;
+                        if (!_isRunning || !IsInsideTree() || !IsInstanceValid(this)) return;
+
+                        if (result == Player.MoveResult.HitWall)
+                        {
+                            if (ConsoleOutput != null) ConsoleOutput.Text += "\n[ КРИТИЧНА ПОМИЛКА ]: Аварія! Марсохід в'єбався в стіну!";
+                            crashed = true;
+                        }
+                        else if (result == Player.MoveResult.FellInPit)
+                        {
+                            if (ConsoleOutput != null) ConsoleOutput.Text += "\n[ КРИТИЧНА ПОМИЛКА ]: Аварія! Марсохід впав у канаву!";
+                            crashed = true;
+                        }
                         break;
-                    }
-                    else if (result == Player.MoveResult.FellInPit)
-                    {
-                        if (ConsoleOutput != null) ConsoleOutput.Text += "\n[ КРИТИЧНА ПОМИЛКА ]: Аварія! Марсохід впав у канаву!";
-                        crashed = true;
+
+                    case CommandType.TurnRight:
+                        await _spawnedRover.TurnRight();
                         break;
-                    }
+
+                    case CommandType.TurnLeft:
+                        await _spawnedRover.TurnLeft();
+                        break;
                 }
-                else if (line == "turn_right()" || line == "right") await _spawnedRover.TurnRight();
-                else if (line == "turn_left()" || line == "left") await _spawnedRover.TurnLeft();
-                else
-                {
-                    if (ConsoleOutput != null) ConsoleOutput.Text += $"\n[ СИНТАКСИЧНА ПОМИЛКА ]: Невідома команда '{line}'!";
-                    crashed = true;
-                    break;
-                }
+
+                if (crashed) break;
 
                 await ToSignal(GetTree().CreateTimer(0.2, false), SceneTreeTimer.SignalName.Timeout);
             }
@@ -239,6 +245,10 @@ public partial class Game : Node3D
                     if (ConsoleOutput != null) ConsoleOutput.Text += "\n[ ПРОВАЛ ]: Код завершився, але ти не на фініші. Бах і капець!";
                 }
             }
+        }
+        catch (FormatException fex)
+        {
+            if (ConsoleOutput != null) ConsoleOutput.Text += $"\n[ СИНТАКСИЧНА ПОМИЛКА ]: {fex.Message}!";
         }
         catch (Exception ex)
         {
