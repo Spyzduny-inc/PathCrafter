@@ -12,6 +12,8 @@ public partial class Game : Node3D
     
     [Export] public Button HelpButton { get; set; }
     [Export] public Control HelpPanel { get; set; }
+    [Export] public Control RightEngineerPanel { get; set; }
+    [Export] public Button ToggleTerminalButton { get; set; }
 
     private CanvasLayer _levelCompleteMenuNode;
 
@@ -21,7 +23,10 @@ public partial class Game : Node3D
 
     public override void _Ready()
     {
-        if (string.IsNullOrEmpty(Global.SelectedLevelPath)) return;
+        if (string.IsNullOrEmpty(Global.SelectedLevelPath))
+        {
+            Global.SelectedLevelPath = "res://scenes/levels/level_1.tscn";
+        }
 
         var levelScene = GD.Load<PackedScene>(Global.SelectedLevelPath);
         if (levelScene != null)
@@ -58,6 +63,16 @@ public partial class Game : Node3D
         {
             HelpButton.FocusMode = Control.FocusModeEnum.None;
             HelpButton.Pressed += () => HelpPanel.Visible = !HelpPanel.Visible;
+        }
+
+        if (ToggleTerminalButton != null && RightEngineerPanel != null)
+        {
+            ToggleTerminalButton.FocusMode = Control.FocusModeEnum.None;
+            ToggleTerminalButton.Pressed += () =>
+            {
+                RightEngineerPanel.Visible = !RightEngineerPanel.Visible;
+                ToggleTerminalButton.Text = RightEngineerPanel.Visible ? "[ > ] СХОВАТИ КОД" : "[ < ] ВІДКРИТИ КОД";
+            };
         }
 
         // Автоматично завантажуємо і додаємо меню перемоги на рівень із файлу сцени

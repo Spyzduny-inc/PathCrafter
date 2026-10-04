@@ -1,6 +1,6 @@
 using Godot;
 using System;
-using System.Collections.Generic; // Потрібно для HashSet
+using System.Collections.Generic;
 
 public partial class LevelSelectMenu : Control
 {
@@ -8,11 +8,10 @@ public partial class LevelSelectMenu : Control
     [Export] public VBoxContainer ChaptersContainer { get; set; }
     [Export] public Button BackButton { get; set; }
 
-    private const string CustomsDir = "res://scenes/levels/customs/";
+    private const string CustomsDir = Paths.CustomsDirectory;
 
     public override void _Ready()
     {
-        // ФІКС КРАШІВ: Чистимо пам'ять при вході в меню вибору
         GC.Collect();
 
         if (BackButton != null) BackButton.Pressed += OnBackButtonPressed;
@@ -23,7 +22,6 @@ public partial class LevelSelectMenu : Control
     {
         if (ChaptersContainer == null) return;
 
-        // Збираємо шляхи всіх рівнів, які вже є в главах, щоб уникнути дублікатів
         var registeredLevelPaths = new HashSet<string>();
 
         if (Config != null && Config.Chapters != null)
@@ -44,37 +42,75 @@ public partial class LevelSelectMenu : Control
             }
         }
 
-        // Передаємо цей список у метод кастомних рівнів для фільтрації
         AutoLoadCustomLevels(registeredLevelPaths);
+    }
+
+    private StyleBoxFlat CreateNormalStyle()
+    {
+        var box = new StyleBoxFlat();
+        box.BgColor = new Color(0.118f, 0.118f, 0.18f, 0.85f);
+        box.CornerRadiusTopLeft = 4;
+        box.CornerRadiusTopRight = 4;
+        box.CornerRadiusBottomRight = 4;
+        box.CornerRadiusBottomLeft = 4;
+        box.ContentMarginLeft = 12;
+        box.ContentMarginTop = 8;
+        box.ContentMarginRight = 12;
+        box.ContentMarginBottom = 8;
+        return box;
+    }
+
+    private StyleBoxFlat CreateHoverStyle()
+    {
+        var box = new StyleBoxFlat();
+        box.BgColor = new Color(0.165f, 0.165f, 0.24f, 0.95f);
+        box.BorderWidthLeft = 4;
+        box.BorderColor = new Color(0.902f, 0.361f, 0f, 1f);
+        box.CornerRadiusTopLeft = 2;
+        box.CornerRadiusTopRight = 4;
+        box.CornerRadiusBottomRight = 4;
+        box.CornerRadiusBottomLeft = 2;
+        box.ContentMarginLeft = 12;
+        box.ContentMarginTop = 8;
+        box.ContentMarginRight = 12;
+        box.ContentMarginBottom = 8;
+        return box;
     }
 
     private void CreateChapterUI(string title, Godot.Collections.Array<LevelData> levels)
     {
         var chapterLabel = new Label();
-        chapterLabel.Text = title;
-        chapterLabel.AddThemeFontSizeOverride("font_size", 28);
-        chapterLabel.HorizontalAlignment = HorizontalAlignment.Center;
+        chapterLabel.Text = title.ToUpper();
+        chapterLabel.AddThemeFontSizeOverride("font_size", 18);
+        chapterLabel.AddThemeColorOverride("font_color", new Color(0.902f, 0.361f, 0f, 1f));
+        chapterLabel.HorizontalAlignment = HorizontalAlignment.Left;
         ChaptersContainer.AddChild(chapterLabel);
 
         var grid = new GridContainer();
-        grid.Columns = 5; 
-        grid.AddThemeConstantOverride("h_separation", 20);
-        grid.AddThemeConstantOverride("v_separation", 20);
-        grid.SizeFlagsHorizontal = SizeFlags.ShrinkCenter;
+        grid.Columns = 3; 
+        grid.AddThemeConstantOverride("h_separation", 12);
+        grid.AddThemeConstantOverride("v_separation", 12);
+        grid.SizeFlagsHorizontal = SizeFlags.Fill;
         ChaptersContainer.AddChild(grid);
 
         foreach (var level in levels)
         {
             var btn = new Button();
             btn.Text = level.LevelName;
-            btn.CustomMinimumSize = new Vector2(150, 80);
+            btn.CustomMinimumSize = new Vector2(130, 60);
+            btn.AddThemeStyleboxOverride("normal", CreateNormalStyle());
+            btn.AddThemeStyleboxOverride("hover", CreateHoverStyle());
+            btn.AddThemeStyleboxOverride("focus", CreateHoverStyle());
+            btn.AddThemeColorOverride("font_color", new Color(0.796f, 0.835f, 0.882f, 1f));
+            btn.AddThemeColorOverride("font_hover_color", new Color(1f, 1f, 1f, 1f));
+
             string scenePath = level.LevelScenePath;
             btn.Pressed += () => LoadLevel(scenePath);
             grid.AddChild(btn);
         }
 
         var spacer = new Control();
-        spacer.CustomMinimumSize = new Vector2(0, 40);
+        spacer.CustomMinimumSize = new Vector2(0, 20);
         ChaptersContainer.AddChild(spacer);
     }
 
@@ -83,7 +119,6 @@ public partial class LevelSelectMenu : Control
         using var dir = DirAccess.Open(CustomsDir);
         if (dir == null) return;
 
-        // Збираємо спершу відфільтровані файли, щоб не малювати пустий розділ, якщо всі рівні вже в главах
         var validFiles = new List<(string Name, string Path)>();
 
         dir.ListDirBegin();
@@ -94,7 +129,6 @@ public partial class LevelSelectMenu : Control
             {
                 string scenePath = CustomsDir + fileName;
                 
-                // ПРОПУСКАЄМО РІВЕНЬ, ЯКЩО ВІН ВЖЕ Є В ГЛАВАХ
                 if (!registeredLevelPaths.Contains(scenePath))
                 {
                     string levelName = fileName.Replace(".tscn", "");
@@ -104,34 +138,40 @@ public partial class LevelSelectMenu : Control
             fileName = dir.GetNext();
         }
 
-        // Якщо всі кастомні рівні вже задіяні в сюжеті — не створюємо секцію взагалі
         if (validFiles.Count == 0) return;
 
         var chapterLabel = new Label();
-        chapterLabel.Text = "Створені рівні";
-        chapterLabel.AddThemeFontSizeOverride("font_size", 28);
-        chapterLabel.HorizontalAlignment = HorizontalAlignment.Center;
+        chapterLabel.Text = "КОРИСТУВАЦЬКІ РІВНІ";
+        chapterLabel.AddThemeFontSizeOverride("font_size", 18);
+        chapterLabel.AddThemeColorOverride("font_color", new Color(0.902f, 0.361f, 0f, 1f));
+        chapterLabel.HorizontalAlignment = HorizontalAlignment.Left;
         ChaptersContainer.AddChild(chapterLabel);
 
         var grid = new GridContainer();
-        grid.Columns = 5; 
-        grid.AddThemeConstantOverride("h_separation", 20);
-        grid.AddThemeConstantOverride("v_separation", 20);
-        grid.SizeFlagsHorizontal = SizeFlags.ShrinkCenter;
+        grid.Columns = 3; 
+        grid.AddThemeConstantOverride("h_separation", 12);
+        grid.AddThemeConstantOverride("v_separation", 12);
+        grid.SizeFlagsHorizontal = SizeFlags.Fill;
         ChaptersContainer.AddChild(grid);
 
         foreach (var file in validFiles)
         {
             var btn = new Button();
             btn.Text = file.Name;
-            btn.CustomMinimumSize = new Vector2(150, 80);
+            btn.CustomMinimumSize = new Vector2(130, 60);
+            btn.AddThemeStyleboxOverride("normal", CreateNormalStyle());
+            btn.AddThemeStyleboxOverride("hover", CreateHoverStyle());
+            btn.AddThemeStyleboxOverride("focus", CreateHoverStyle());
+            btn.AddThemeColorOverride("font_color", new Color(0.796f, 0.835f, 0.882f, 1f));
+            btn.AddThemeColorOverride("font_hover_color", new Color(1f, 1f, 1f, 1f));
+
             string scenePath = file.Path;
             btn.Pressed += () => LoadLevel(scenePath);
             grid.AddChild(btn);
         }
         
         var spacer = new Control();
-        spacer.CustomMinimumSize = new Vector2(0, 40);
+        spacer.CustomMinimumSize = new Vector2(0, 20);
         ChaptersContainer.AddChild(spacer);
     }
 
@@ -140,15 +180,14 @@ public partial class LevelSelectMenu : Control
         if (!string.IsNullOrEmpty(path))
         {
             Global.SelectedLevelPath = path;
-            // Знімаємо фокус, щоб інтерфейс не крашнувся при видаленні
             GetViewport().GuiReleaseFocus();
-            GetTree().CallDeferred(SceneTree.MethodName.ChangeSceneToFile, "res://scenes/utilities/Game.tscn");
+            GetTree().CallDeferred(SceneTree.MethodName.ChangeSceneToFile, Paths.GameScene);
         }
     }
 
     private void OnBackButtonPressed()
     {
         GetViewport().GuiReleaseFocus();
-        GetTree().CallDeferred(SceneTree.MethodName.ChangeSceneToFile, "res://scenes/ui/MainMenu.tscn");
+        GetTree().CallDeferred(SceneTree.MethodName.ChangeSceneToFile, Paths.MainMenuScene);
     }
 }
