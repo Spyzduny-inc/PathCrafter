@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://dbcnw7tjrw2eo" path="res://scripts/gameplay/Game.cs" id="1_movtg"]
 [ext_resource type="PackedScene" uid="uid://co48g5gpfmjof" path="res://scenes/entities/Player.tscn" id="2_qq6cj"]
 [ext_resource type="Texture2D" uid="uid://d2m0s2gecb6v" path="res://assets/textures/Sprites2D/sand_base_01.png" id="3_qq6cj"]
-[ext_resource type="Script" uid="uid://b70t8240gc7ax" path="res://scripts/ui/CameraHelpPanel.cs" id="4_ru417"]
+[ext_resource type="Script" path="res://scripts/ui/DraggableDocsPanel.cs" id="4_docs_drag"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6im4y"]
 albedo_texture = ExtResource("3_qq6cj")
@@ -123,17 +123,21 @@ corner_radius_bottom_left = 4
 color = Color(0.901961, 0.360784, 0, 0.4)
 thickness = 1
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_CameraHelpBg"]
-bg_color = Color(0.067, 0.067, 0.106, 0.9)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_CameraHintPill"]
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+bg_color = Color(0.06, 0.08, 0.13, 0.7)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(0.192, 0.196, 0.267, 1)
-corner_radius_top_left = 0
-corner_radius_top_right = 0
-corner_radius_bottom_right = 0
-corner_radius_bottom_left = 0
+border_color = Color(0.901961, 0.360784, 0, 0.3)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
 
 [node name="Game" type="Node3D" unique_id=1987085889 node_paths=PackedStringArray("ExitButton", "CodeInput", "RunButton", "ResetButton", "ConsoleOutput", "HelpButton", "HelpPanel", "RightEngineerPanel", "ToggleTerminalButton")]
 script = ExtResource("1_movtg")
@@ -317,18 +321,14 @@ clip_text = true
 [node name="HelpPanel" type="PanelContainer" parent="CanvasLayer" unique_id=1053740845]
 visible = false
 custom_minimum_size = Vector2(400, 480)
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -200.0
-offset_top = -240.0
-offset_right = 200.0
-offset_bottom = 240.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 3
+anchors_preset = 0
+offset_left = 300.0
+offset_top = 70.0
+offset_right = 700.0
+offset_bottom = 550.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_DocsPanelBg")
+script = ExtResource("4_docs_drag")
 
 [node name="Margin" type="MarginContainer" parent="CanvasLayer/HelpPanel"]
 layout_mode = 2
@@ -345,7 +345,7 @@ theme_override_constants/separation = 12
 layout_mode = 2
 theme_override_colors/font_color = Color(0.901961, 0.360784, 0, 1)
 theme_override_font_sizes/font_size = 15
-text = "[ C++ ROVER API ]"
+text = "::: [ C++ ROVER API ] :::"
 horizontal_alignment = 1
 
 [node name="Separator" type="HSeparator" parent="CanvasLayer/HelpPanel/Margin/VBox"]
@@ -379,49 +379,27 @@ text = "[b]Обов'язкова структура:[/b]
 transform = Transform3D(500, 0, 0, 0, 1, 0, 0, 0, 500, 0, 0.492, 0)
 mesh = SubResource("PlaneMesh_wsqlc")
 
-[node name="Panel" type="PanelContainer" parent="." unique_id=620839191]
+[node name="CameraControlsHint" type="PanelContainer" parent="CanvasLayer" unique_id=620839191]
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 20.0
-offset_top = -40.0
+offset_top = -90.0
 offset_right = 320.0
-offset_bottom = -20.0
+offset_bottom = -15.0
 grow_vertical = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-theme_override_styles/panel = SubResource("StyleBoxFlat_CameraHelpBg")
-script = ExtResource("4_ru417")
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_CameraHintPill")
 
-[node name="MarginContainer" type="MarginContainer" parent="Panel" unique_id=875556470]
+[node name="HintLabel" type="Label" parent="CanvasLayer/CameraControlsHint" unique_id=571520932]
 layout_mode = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 6
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 6
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer" unique_id=2079313959]
-layout_mode = 2
-theme_override_constants/separation = 4
-
-[node name="ToggleHelpBtn" type="Button" parent="Panel/MarginContainer/VBoxContainer" unique_id=198734918]
-custom_minimum_size = Vector2(0, 24)
-layout_mode = 2
-size_flags_horizontal = 0
-theme_override_colors/font_color = Color(0.796078, 0.835294, 0.882353, 1)
-theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.9, 0.93, 0.96, 0.95)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.9)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
 theme_override_font_sizes/font_size = 12
-theme_override_styles/normal = SubResource("StyleBoxFlat_ResetBtnNormal")
-theme_override_styles/hover = SubResource("StyleBoxFlat_ResetBtnHover")
-text = "[ - ] Сховати підказки"
-
-[node name="Label" type="Label" parent="Panel/MarginContainer/VBoxContainer" unique_id=571520932]
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
-size_flags_vertical = 1
-theme_override_colors/font_color = Color(0.580392, 0.643137, 0.721569, 1)
-theme_override_font_sizes/font_size = 12
-text = "• СКМ / Стрілочки — Переміщення
-• Колесико миші — Зум (масштабування)
+text = "• СКМ / Стрілочки — Переміщення камери
+• Колесико миші — Масштабування (зум)
 • Клік ЛКМ — Скинути фокус з коду"
 autowrap_mode = 3

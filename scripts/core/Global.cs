@@ -10,6 +10,9 @@ public partial class Global : Node
     // Система прогресу рівнів (на старті доступний лише 0-й рівень)
     public static int UnlockedLevelIndex { get; set; } = 0;
 
+    // Збережена позиція панелі документації
+    public static Vector2? SavedDocsPosition { get; set; } = null;
+
     public override void _Ready()
     {
         // Примусово глушимо систему доступності Linux для цього процесу, 
