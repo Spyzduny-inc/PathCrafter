@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://q54o7noxvega"]
 
-[ext_resource type="Script" uid="uid://d0cnaga2h7gt" path="res://scripts/UI/LevelCompleteMenu.cs" id="1_pf08x"]
+[ext_resource type="Script" uid="uid://d0cnaga2h7gt" path="res://scripts/ui/LevelCompleteMenu.cs" id="1_pf08x"]
 
 [node name="LevelCompleteMenu" type="CanvasLayer" unique_id=359760500 node_paths=PackedStringArray("NextLevelButton", "MenuButton", "TitleLabel")]
 script = ExtResource("1_pf08x")

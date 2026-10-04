@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://co48g5gpfmjof"]
 
-[ext_resource type="Script" uid="uid://bbihiefc83yal" path="res://scripts/Gameplay/Player.cs" id="1_p0vlq"]
+[ext_resource type="Script" uid="uid://bbihiefc83yal" path="res://scripts/gameplay/Player.cs" id="1_p0vlq"]
 [ext_resource type="PackedScene" uid="uid://elu6gtgsf85l" path="res://assets/textures/3D Models/NRK.glb" id="2_o7et6"]
-[ext_resource type="Script" uid="uid://l417kou8m6l6" path="res://scripts/Gameplay/CameraController.cs" id="3_24gqh"]
+[ext_resource type="Script" uid="uid://l417kou8m6l6" path="res://scripts/gameplay/CameraController.cs" id="3_24gqh"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_8d35g"]
 size = Vector3(0.6652832, 0.6856079, 0.74609375)

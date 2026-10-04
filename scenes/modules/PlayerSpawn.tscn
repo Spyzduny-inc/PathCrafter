@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bmmwdfhkay4cg"]
 
-[ext_resource type="Script" uid="uid://bhfott8jrillg" path="res://scripts/PlayerSpawn.cs" id="1_ct3xg"]
+[ext_resource type="Script" uid="uid://bhfott8jrillg" path="res://scripts/gameplay/PlayerSpawn.cs" id="1_ct3xg"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wsqlc"]
 albedo_color = Color(0.9529412, 0.35686275, 0.29803923, 0.39215687)
