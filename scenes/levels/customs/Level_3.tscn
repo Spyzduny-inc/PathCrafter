@@ -6,11 +6,8 @@
 [ext_resource type="PackedScene" path="res://scenes/environment/sky.tscn" id="4_d06lt"]
 [ext_resource type="Texture2D" path="res://assets/textures/Skyboxes/Back.jpg" id="5_j2pdq"]
 [ext_resource type="PackedScene" path="res://scenes/modules/Pit.tscn" id="6_2rapd"]
-[ext_resource type="Script" path="res://scripts/gameplay/Pit.cs" id="7_2np6y"]
 [ext_resource type="PackedScene" path="res://scenes/modules/PlayerSpawn.tscn" id="8_46set"]
-[ext_resource type="Script" path="res://scripts/gameplay/PlayerSpawn.cs" id="9_vgwld"]
 [ext_resource type="PackedScene" path="res://scenes/modules/Rock.tscn" id="10_0vsi0"]
-[ext_resource type="Script" path="res://scripts/gameplay/RandomRotation.cs" id="11_uswak"]
 [ext_resource type="PackedScene" path="res://scenes/modules/FinishPoint.tscn" id="12_31ous"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_pphty"]
@@ -804,598 +801,479 @@ environment = SubResource("Environment_0pte5")
 [node name="Pit" type="Area3D" parent="." unique_id=2140515580 instance=ExtResource("6_2rapd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.51, 0)
 collision_layer = 2
-script = ExtResource("7_2np6y")
 
 [node name="@Area3D@627" type="Area3D" parent="." unique_id=177953289 instance=ExtResource("6_2rapd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0.51, 0)
 collision_layer = 2
-script = ExtResource("7_2np6y")
 
 [node name="@Area3D@628" type="Area3D" parent="." unique_id=1356558758 instance=ExtResource("6_2rapd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0.51, 0)
 collision_layer = 2
-script = ExtResource("7_2np6y")
 
 [node name="@Area3D@629" type="Area3D" parent="." unique_id=1044489337 instance=ExtResource("6_2rapd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0.51, 2)
 collision_layer = 2
-script = ExtResource("7_2np6y")
 
 [node name="@Area3D@630" type="Area3D" parent="." unique_id=937398634 instance=ExtResource("6_2rapd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0.51, 2)
 collision_layer = 2
-script = ExtResource("7_2np6y")
 
 [node name="@Area3D@631" type="Area3D" parent="." unique_id=52031080 instance=ExtResource("6_2rapd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.51, 2)
 collision_layer = 2
-script = ExtResource("7_2np6y")
 
 [node name="@Area3D@632" type="Area3D" parent="." unique_id=705228034 instance=ExtResource("6_2rapd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.51, 4)
 collision_layer = 2
-script = ExtResource("7_2np6y")
 
 [node name="@Area3D@633" type="Area3D" parent="." unique_id=397639055 instance=ExtResource("6_2rapd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0.51, 4)
 collision_layer = 2
-script = ExtResource("7_2np6y")
 
 [node name="@Area3D@634" type="Area3D" parent="." unique_id=550795541 instance=ExtResource("6_2rapd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0.51, 4)
 collision_layer = 2
-script = ExtResource("7_2np6y")
 
 [node name="@Area3D@635" type="Area3D" parent="." unique_id=952160522 instance=ExtResource("6_2rapd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.51, 5)
 collision_layer = 2
-script = ExtResource("7_2np6y")
 
 [node name="@Area3D@636" type="Area3D" parent="." unique_id=1077955748 instance=ExtResource("6_2rapd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.51, 4)
 collision_layer = 2
-script = ExtResource("7_2np6y")
 
 [node name="PlayerSpawn" type="Area3D" parent="." unique_id=608881730 instance=ExtResource("8_46set")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1, 6)
 collision_layer = 2
-script = ExtResource("9_vgwld")
 metadata/is_player_spawn = true
 
 [node name="Rock" type="StaticBody3D" parent="." unique_id=309534127 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(-0.7187832, 0, 0.6952343, 0, 1, 0, -0.6952343, 0, -0.7187832, -8, 1, 7)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@893" type="StaticBody3D" parent="." unique_id=1857060687 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(-0.87011796, 0, -0.49284354, 0, 1, 0, 0.49284354, 0, -0.87011796, -7, 1, 7)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@894" type="StaticBody3D" parent="." unique_id=1186333655 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(-0.54866123, 0, 0.8360448, 0, 1, 0, -0.8360448, 0, -0.54866123, -6, 1, 7)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@895" type="StaticBody3D" parent="." unique_id=104248810 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(-0.95412815, 0, -0.29939854, 0, 1, 0, 0.29939854, 0, -0.95412815, -5, 1, 7)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@896" type="StaticBody3D" parent="." unique_id=1675536404 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(0.7600859, 0, -0.6498226, 0, 1, 0, 0.6498226, 0, 0.7600859, -4, 1, 7)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@897" type="StaticBody3D" parent="." unique_id=180536907 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(0.2528838, 0, 0.96749663, 0, 1, 0, -0.96749663, 0, 0.2528838, -3, 1, 7)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@898" type="StaticBody3D" parent="." unique_id=1321465685 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(0.25058907, 0, 0.9680936, 0, 1, 0, -0.9680936, 0, 0.25058907, -2, 1, 7)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@899" type="StaticBody3D" parent="." unique_id=2048592055 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(-0.43595216, 0, 0.8999699, 0, 1, 0, -0.8999699, 0, -0.43595216, -1, 1, 7)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@900" type="StaticBody3D" parent="." unique_id=1940572117 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(0.8851361, 0, 0.46533218, 0, 1, 0, -0.46533218, 0, 0.8851361, 0, 1, 7)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@901" type="StaticBody3D" parent="." unique_id=1467007533 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(0.9984121, 0, -0.056332618, 0, 1, 0, 0.056332618, 0, 0.9984121, 1, 1, 7)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@902" type="StaticBody3D" parent="." unique_id=576170169 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(-0.96881896, 0, -0.24776971, 0, 1, 0, 0.24776971, 0, -0.96881896, 2, 1, 7)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@903" type="StaticBody3D" parent="." unique_id=520560575 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(-0.9606243, 0, -0.2778507, 0, 1, 0, 0.2778507, 0, -0.9606243, 3, 1, 7)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@904" type="StaticBody3D" parent="." unique_id=1348835680 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(-0.65413284, 0, -0.7563797, 0, 1, 0, 0.7563797, 0, -0.65413284, 4, 1, 7)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@905" type="StaticBody3D" parent="." unique_id=2102896387 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(-0.99898005, 0, -0.045153607, 0, 1, 0, 0.045153607, 0, -0.99898005, 5, 1, 7)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@906" type="StaticBody3D" parent="." unique_id=882185652 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(-0.95397574, 0, -0.29988372, 0, 1, 0, 0.29988372, 0, -0.95397574, 6, 1, 7)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@907" type="StaticBody3D" parent="." unique_id=1496795562 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(-0.033489153, 0, -0.99943906, 0, 1, 0, 0.99943906, 0, -0.033489153, 7, 1, 7)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@908" type="StaticBody3D" parent="." unique_id=166224842 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(0.6223381, 0, -0.7827485, 0, 1, 0, 0.7827485, 0, 0.6223381, 7, 1, 6)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@909" type="StaticBody3D" parent="." unique_id=2035574593 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(-0.5498768, 0, -0.8352458, 0, 1, 0, 0.8352458, 0, -0.5498768, 7, 1, 5)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@910" type="StaticBody3D" parent="." unique_id=312808643 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(-0.112302996, 0, 0.993674, 0, 1, 0, -0.993674, 0, -0.112302996, 7, 1, 4)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@911" type="StaticBody3D" parent="." unique_id=501669284 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(0.53173786, 0, 0.846909, 0, 1, 0, -0.846909, 0, 0.53173786, 7, 1, 3)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@912" type="StaticBody3D" parent="." unique_id=484218993 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(-0.82728845, 0, -0.56177735, 0, 1, 0, 0.56177735, 0, -0.82728845, 7, 1, 0)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@913" type="StaticBody3D" parent="." unique_id=510438962 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(0.36588162, 0, -0.9306614, 0, 1, 0, 0.9306614, 0, 0.36588162, 7, 1, 1)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@914" type="StaticBody3D" parent="." unique_id=1158995341 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(-0.26319692, 0, 0.9647421, 0, 1, 0, -0.9647421, 0, -0.26319692, 7, 1, 2)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@915" type="StaticBody3D" parent="." unique_id=1222910740 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(-0.3993197, 0, -0.91681176, 0, 1, 0, 0.91681176, 0, -0.3993197, 7, 1, -1)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@916" type="StaticBody3D" parent="." unique_id=2079687075 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(-0.9996636, 0, 0.025936468, 0, 1, 0, -0.025936468, 0, -0.9996636, 7, 1, -2)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@917" type="StaticBody3D" parent="." unique_id=1144795966 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(-0.996264, 0, 0.08635995, 0, 1, 0, -0.08635995, 0, -0.996264, 7, 1, -3)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@918" type="StaticBody3D" parent="." unique_id=1897374859 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(0.64218825, 0, -0.76654696, 0, 1, 0, 0.76654696, 0, 0.64218825, 7, 1, -4)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@919" type="StaticBody3D" parent="." unique_id=1858652784 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(-0.27865365, 0, 0.96039164, 0, 1, 0, -0.96039164, 0, -0.27865365, 7, 1, -7)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@920" type="StaticBody3D" parent="." unique_id=307625531 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(0.889759, 0, 0.45643058, 0, 1, 0, -0.45643058, 0, 0.889759, 7, 1, -6)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@921" type="StaticBody3D" parent="." unique_id=1930205449 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(-0.03377765, 0, 0.99942935, 0, 1, 0, -0.99942935, 0, -0.03377765, 7, 1, -5)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@922" type="StaticBody3D" parent="." unique_id=1090651289 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(0.6161886, 0, -0.78759867, 0, 1, 0, 0.78759867, 0, 0.6161886, 7, 1, -8)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@923" type="StaticBody3D" parent="." unique_id=307463905 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(0.38316864, 0, 0.9236784, 0, 1, 0, -0.9236784, 0, 0.38316864, 4, 1, -8)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@924" type="StaticBody3D" parent="." unique_id=455039785 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(0.302864, 0, -0.9530338, 0, 1, 0, 0.9530338, 0, 0.302864, 3, 1, -8)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@928" type="StaticBody3D" parent="." unique_id=1746340395 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(-0.3587813, 0, -0.9334217, 0, 1, 0, 0.9334217, 0, -0.3587813, 6, 1, -8)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@929" type="StaticBody3D" parent="." unique_id=531352094 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(0.025206713, 0, 0.99968225, 0, 1, 0, -0.99968225, 0, 0.025206713, 5, 1, -8)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@930" type="StaticBody3D" parent="." unique_id=166906712 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(-0.53817815, 0, -0.84283113, 0, 1, 0, 0.84283113, 0, -0.53817815, 1, 1, -8)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@931" type="StaticBody3D" parent="." unique_id=1713946729 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(0.36927935, 0, -0.9293184, 0, 1, 0, 0.9293184, 0, 0.36927935, 0, 1, -8)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@932" type="StaticBody3D" parent="." unique_id=1526718881 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(0.8556821, 0, -0.5175019, 0, 1, 0, 0.5175019, 0, 0.8556821, 2, 1, -8)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@933" type="StaticBody3D" parent="." unique_id=1154555563 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(0.38602683, 0, 0.92248756, 0, 1, 0, -0.92248756, 0, 0.38602683, -1, 1, -8)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@934" type="StaticBody3D" parent="." unique_id=1257331677 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(0.10666071, 0, -0.9942955, 0, 1, 0, 0.9942955, 0, 0.10666071, -2, 1, -8)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@935" type="StaticBody3D" parent="." unique_id=262278866 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(0.99618995, 0, -0.0872097, 0, 1, 0, 0.0872097, 0, 0.99618995, -3, 1, -8)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@936" type="StaticBody3D" parent="." unique_id=932490603 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(-0.50878394, 0, 0.8608942, 0, 1, 0, -0.8608942, 0, -0.50878394, -4, 1, -8)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@937" type="StaticBody3D" parent="." unique_id=556220790 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(0.96605283, 0, 0.25834468, 0, 1, 0, -0.25834468, 0, 0.96605283, -5, 1, -8)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@941" type="StaticBody3D" parent="." unique_id=431786321 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(-0.04731573, 0, 0.99887997, 0, 1, 0, -0.99887997, 0, -0.04731573, -8, 1, -7)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@942" type="StaticBody3D" parent="." unique_id=1634662882 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(0.9208507, 0, -0.38991538, 0, 1, 0, 0.38991538, 0, 0.9208507, -8, 1, -8)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@943" type="StaticBody3D" parent="." unique_id=335409056 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(0.8902346, 0, 0.45550233, 0, 1, 0, -0.45550233, 0, 0.8902346, -8, 1, -6)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@944" type="StaticBody3D" parent="." unique_id=210606969 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(0.9997377, 0, 0.022903495, 0, 1, 0, -0.022903495, 0, 0.9997377, -8, 1, -5)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@945" type="StaticBody3D" parent="." unique_id=1783324635 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(-0.36471146, 0, 0.9311206, 0, 1, 0, -0.9311206, 0, -0.36471146, -8, 1, -4)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@946" type="StaticBody3D" parent="." unique_id=1177124891 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(0.93752044, 0, 0.34793022, 0, 1, 0, -0.34793022, 0, 0.93752044, -8, 1, -3)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@957" type="StaticBody3D" parent="." unique_id=347703914 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(0.31072587, 0, -0.9504996, 0, 1, 0, 0.9504996, 0, 0.31072587, -8, 1, 6)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@958" type="StaticBody3D" parent="." unique_id=2062801408 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(0.707492, 0, 0.70672137, 0, 1, 0, -0.70672137, 0, 0.707492, -8, 1, 5)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@959" type="StaticBody3D" parent="." unique_id=1201369980 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(0.0134007055, 0, 0.99991024, 0, 1, 0, -0.99991024, 0, 0.0134007055, -8, 1, 4)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@960" type="StaticBody3D" parent="." unique_id=280928320 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(0.93804985, 0, -0.3465004, 0, 1, 0, 0.3465004, 0, 0.93804985, -8, 1, 3)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@961" type="StaticBody3D" parent="." unique_id=1857147259 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(0.9931328, 0, 0.11699234, 0, 1, 0, -0.11699234, 0, 0.9931328, -8, 1, 2)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@962" type="StaticBody3D" parent="." unique_id=1932853654 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(-0.7534524, 0, -0.6575024, 0, 1, 0, 0.6575024, 0, -0.7534524, -8, 1, 1)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@963" type="StaticBody3D" parent="." unique_id=727129216 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(-0.25213754, 0, -0.9676914, 0, 1, 0, 0.9676914, 0, -0.25213754, -8, 1, 0)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@964" type="StaticBody3D" parent="." unique_id=826550522 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(-0.07311489, 0, -0.9973235, 0, 1, 0, 0.9973235, 0, -0.07311489, -8, 1, -1)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@965" type="StaticBody3D" parent="." unique_id=368618186 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(0.17372048, 0, -0.984795, 0, 1, 0, 0.984795, 0, 0.17372048, -8, 1, -2)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@966" type="StaticBody3D" parent="." unique_id=180297102 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(-0.2072025, 0, 0.97829807, 0, 1, 0, -0.97829807, 0, -0.2072025, -7, 1, -8)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@967" type="StaticBody3D" parent="." unique_id=1428361128 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(0.99447644, 0, -0.10496018, 0, 1, 0, 0.10496018, 0, 0.99447644, -6, 1, -8)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@968" type="StaticBody3D" parent="." unique_id=760733453 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(0.06265969, 0, -0.99803495, 0, 1, 0, 0.99803495, 0, 0.06265969, -1, 1, -5)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@969" type="StaticBody3D" parent="." unique_id=653213412 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(0.66874444, 0, 0.7434923, 0, 1, 0, -0.7434923, 0, 0.66874444, -1, 1, -4)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@970" type="StaticBody3D" parent="." unique_id=302754048 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(-0.85771525, 0, -0.514125, 0, 1, 0, 0.514125, 0, -0.85771525, -1, 1, -3)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@971" type="StaticBody3D" parent="." unique_id=75607449 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(0.98962057, 0, 0.14370514, 0, 1, 0, -0.14370514, 0, 0.98962057, 0, 1, -2)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@972" type="StaticBody3D" parent="." unique_id=1108202288 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(-0.8103199, 0, 0.5859878, 0, 1, 0, -0.5859878, 0, -0.8103199, 1, 1, -1)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@973" type="StaticBody3D" parent="." unique_id=558728753 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(0.42692074, 0, -0.90428907, 0, 1, 0, 0.90428907, 0, 0.42692074, 2, 1, 0)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@974" type="StaticBody3D" parent="." unique_id=1524294105 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(0.9895752, 0, 0.14401722, 0, 1, 0, -0.14401722, 0, 0.9895752, 2, 1, 1)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@975" type="StaticBody3D" parent="." unique_id=25414995 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(-0.6515477, 0, 0.7586077, 0, 1, 0, -0.7586077, 0, -0.6515477, 3, 1, 1)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@976" type="StaticBody3D" parent="." unique_id=978130197 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(0.40914, 0, 0.9124716, 0, 1, 0, -0.9124716, 0, 0.40914, 5, 1, -4)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@977" type="StaticBody3D" parent="." unique_id=1135230504 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(0.99919313, 0, 0.040163007, 0, 1, 0, -0.040163007, 0, 0.99919313, 5, 1, -3)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@978" type="StaticBody3D" parent="." unique_id=682849045 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(-0.92356855, 0, -0.38343334, 0, 1, 0, 0.38343334, 0, -0.92356855, 5, 1, -2)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@979" type="StaticBody3D" parent="." unique_id=1817280713 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(-0.9389479, 0, 0.3440593, 0, 1, 0, -0.3440593, 0, -0.9389479, 5, 1, -1)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@980" type="StaticBody3D" parent="." unique_id=132044169 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(-0.93862104, 0, -0.34495005, 0, 1, 0, 0.34495005, 0, -0.93862104, 5, 1, 0)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@982" type="StaticBody3D" parent="." unique_id=526646781 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(0.9897993, 0, 0.14246863, 0, 1, 0, -0.14246863, 0, 0.9897993, 4, 1, 1)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@984" type="StaticBody3D" parent="." unique_id=1622047005 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(-0.5155258, 0, -0.85687405, 0, 1, 0, 0.85687405, 0, -0.5155258, 3, 1, 2)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@985" type="StaticBody3D" parent="." unique_id=1314283792 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(-0.7573783, 0, -0.6529764, 0, 1, 0, 0.6529764, 0, -0.7573783, -5, 1, -5)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@986" type="StaticBody3D" parent="." unique_id=1498893078 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(-0.94499683, 0, 0.32707942, 0, 1, 0, -0.32707942, 0, -0.94499683, -5, 1, -4)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@987" type="StaticBody3D" parent="." unique_id=1175948370 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(0.38613954, 0, 0.9224404, 0, 1, 0, -0.9224404, 0, 0.38613954, -5, 1, -3)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@988" type="StaticBody3D" parent="." unique_id=369522322 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(0.048662346, 0, 0.9988153, 0, 1, 0, -0.9988153, 0, 0.048662346, -5, 1, -2)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@989" type="StaticBody3D" parent="." unique_id=945081499 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(0.6530936, 0, 0.75727725, 0, 1, 0, -0.75727725, 0, 0.6530936, -5, 1, -1)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@990" type="StaticBody3D" parent="." unique_id=1006383440 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(0.1538527, 0, 0.9880938, 0, 1, 0, -0.9880938, 0, 0.1538527, -5, 1, 0)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@991" type="StaticBody3D" parent="." unique_id=989768455 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(0.54887307, 0, 0.83590573, 0, 1, 0, -0.83590573, 0, 0.54887307, -5, 1, 1)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@992" type="StaticBody3D" parent="." unique_id=1789216438 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(0.9921086, 0, 0.12538144, 0, 1, 0, -0.12538144, 0, 0.9921086, -5, 1, 2)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@993" type="StaticBody3D" parent="." unique_id=1486649877 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(0.51132065, 0, 0.85939, 0, 1, 0, -0.85939, 0, 0.51132065, -6, 1, 4)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@994" type="StaticBody3D" parent="." unique_id=262478796 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(0.98124164, 0, -0.19278172, 0, 1, 0, 0.19278172, 0, 0.98124164, -6, 1, 5)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@995" type="StaticBody3D" parent="." unique_id=1087651897 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(0.99324733, 0, 0.11601597, 0, 1, 0, -0.11601597, 0, 0.99324733, -5, 1, 5)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@996" type="StaticBody3D" parent="." unique_id=336707185 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(-0.35347325, 0, 0.93544465, 0, 1, 0, -0.93544465, 0, -0.35347325, 2, 1, 6)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@997" type="StaticBody3D" parent="." unique_id=1627875904 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(0.65154445, 0, -0.7586104, 0, 1, 0, 0.7586104, 0, 0.65154445, 3, 1, 6)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@998" type="StaticBody3D" parent="." unique_id=1916703475 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(0.33509567, 0, -0.9421841, 0, 1, 0, 0.9421841, 0, 0.33509567, 3, 1, 5)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@999" type="StaticBody3D" parent="." unique_id=526411992 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(-0.9925576, 0, 0.121776044, 0, 1, 0, -0.121776044, 0, -0.9925576, 6, 1, 2)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@1000" type="StaticBody3D" parent="." unique_id=1158515549 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(-0.57064235, 0, -0.8211987, 0, 1, 0, 0.8211987, 0, -0.57064235, 3, 1, -6)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@1001" type="StaticBody3D" parent="." unique_id=892119487 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(-0.00053970417, 0, 0.9999999, 0, 1, 0, -0.9999999, 0, -0.00053970417, 3, 1, -5)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@1002" type="StaticBody3D" parent="." unique_id=1626247450 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(-0.5716135, 0, -0.820523, 0, 1, 0, 0.820523, 0, -0.5716135, 2, 1, -4)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@1003" type="StaticBody3D" parent="." unique_id=860795700 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(-0.5937319, 0, -0.80466294, 0, 1, 0, 0.80466294, 0, -0.5937319, 2, 1, -2)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@1004" type="StaticBody3D" parent="." unique_id=1746077470 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(-0.7098699, 0, 0.7043328, 0, 1, 0, -0.7043328, 0, -0.7098699, -3, 1, -4)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@1005" type="StaticBody3D" parent="." unique_id=105320125 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(0.50457156, 0, 0.8633699, 0, 1, 0, -0.8633699, 0, 0.50457156, -3, 1, -3)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@StaticBody3D@1006" type="StaticBody3D" parent="." unique_id=93294797 instance=ExtResource("10_0vsi0")]
 transform = Transform3D(0.0155747915, 0, -0.9998787, 0, 1, 0, 0.9998787, 0, 0.0155747915, -2, 1, -3)
 collision_layer = 2
-script = ExtResource("11_uswak")
 
 [node name="@Area3D@1007" type="Area3D" parent="." unique_id=44153560 instance=ExtResource("6_2rapd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.51, -4)
 collision_layer = 2
-script = ExtResource("7_2np6y")
 
 [node name="@Area3D@1008" type="Area3D" parent="." unique_id=164396969 instance=ExtResource("6_2rapd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.51, -2)
 collision_layer = 2
-script = ExtResource("7_2np6y")
 
 [node name="@Area3D@1009" type="Area3D" parent="." unique_id=1203755875 instance=ExtResource("6_2rapd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0.51, -7)
 collision_layer = 2
-script = ExtResource("7_2np6y")
 
 [node name="@Area3D@1010" type="Area3D" parent="." unique_id=1026112847 instance=ExtResource("6_2rapd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.51, 5)
 collision_layer = 2
-script = ExtResource("7_2np6y")
 
 [node name="@Area3D@1012" type="Area3D" parent="." unique_id=1551061316 instance=ExtResource("6_2rapd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0.51, 4)
 collision_layer = 2
-script = ExtResource("7_2np6y")
 
 [node name="@Area3D@1013" type="Area3D" parent="." unique_id=202154949 instance=ExtResource("6_2rapd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0.51, 6)
 collision_layer = 2
-script = ExtResource("7_2np6y")
 
 [node name="@Area3D@1014" type="Area3D" parent="." unique_id=1603524018 instance=ExtResource("6_2rapd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0.51, 5)
 collision_layer = 2
-script = ExtResource("7_2np6y")
 
 [node name="@Area3D@1015" type="Area3D" parent="." unique_id=798016874 instance=ExtResource("6_2rapd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0.51, -6)
 collision_layer = 2
-script = ExtResource("7_2np6y")
 
 [node name="@Area3D@1016" type="Area3D" parent="." unique_id=12868241 instance=ExtResource("6_2rapd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0.51, -2)
 collision_layer = 2
-script = ExtResource("7_2np6y")
 
 [node name="@Area3D@1017" type="Area3D" parent="." unique_id=163745601 instance=ExtResource("6_2rapd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0.51, -7)
 collision_layer = 2
-script = ExtResource("7_2np6y")
 
 [node name="FinishPoint" type="Area3D" parent="." unique_id=419309008 instance=ExtResource("12_31ous")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1, 0)

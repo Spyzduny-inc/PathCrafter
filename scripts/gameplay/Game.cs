@@ -29,6 +29,8 @@ public partial class Game : Node3D
             var levelInstance = levelScene.Instantiate<Node3D>();
             AddChild(levelInstance);
 
+            GridManager.Instance?.ScanLevel(levelInstance);
+
             SpawnPlayer(levelInstance);
             _finishPoint = FindFinishPoint(levelInstance);
         }
@@ -92,8 +94,7 @@ public partial class Game : Node3D
     {
         if (PlayerScene == null) return;
         
-        Node3D spawnPoint = FindNodeWithMeta(levelInstance, "is_player_spawn");
-        if (spawnPoint == null) spawnPoint = FindSpawnPoint(levelInstance);
+        Node3D spawnPoint = FindSpawnPoint(levelInstance);
         
         if (spawnPoint != null)
         {
@@ -128,21 +129,10 @@ public partial class Game : Node3D
         }
     }
 
-    private Node3D FindNodeWithMeta(Node node, string metaName)
-    {
-        if (node is Node3D node3d && node3d.HasMeta(metaName) && node3d.GetMeta(metaName).AsBool()) return node3d;
-        foreach (Node child in node.GetChildren())
-        {
-            var result = FindNodeWithMeta(child, metaName);
-            if (result != null) return result;
-        }
-        return null;
-    }
-
     private Node3D FindSpawnPoint(Node node)
     {
-        string identity = (node.SceneFilePath + " " + node.Name).ToLower();
-        if (node is Node3D node3d && identity.Contains("spawn")) return node3d;
+        if (node is Tile tile && tile.Type == TileType.PlayerSpawn) return tile;
+        if (node is Node3D node3d && node3d.HasMeta("is_player_spawn") && node3d.GetMeta("is_player_spawn").AsBool()) return node3d;
         foreach (Node child in node.GetChildren())
         {
             var result = FindSpawnPoint(child);
@@ -153,8 +143,8 @@ public partial class Game : Node3D
 
     private Node3D FindFinishPoint(Node node)
     {
-        string identity = (node.SceneFilePath + " " + node.Name).ToLower();
-        if (node is Node3D node3d && identity.Contains("finish")) return node3d;
+        if (node is Tile tile && tile.Type == TileType.Finish) return tile;
+        if (node is Node3D node3d && node3d.HasMeta("is_finish") && node3d.GetMeta("is_finish").AsBool()) return node3d;
         foreach (Node child in node.GetChildren())
         {
             var result = FindFinishPoint(child);

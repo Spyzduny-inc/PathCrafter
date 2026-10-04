@@ -5,18 +5,38 @@ public partial class Tile : Node3D
     [Export] public TileType Type { get; set; } = TileType.Empty;
     [Export] public Vector2I GridPosition { get; set; }
 
+    public Vector2I CurrentGridPosition =>
+        GridPosition != Vector2I.Zero
+            ? GridPosition
+            : new Vector2I(Mathf.RoundToInt(GlobalPosition.X), Mathf.RoundToInt(GlobalPosition.Z));
+
     public override void _Ready()
     {
-        var gridManager = GetViewport()?.FindChild("GridManager", recursive: true, owned: false) as GridManager
-                          ?? GetTree()?.Root?.FindChild("GridManager", recursive: true, owned: false) as GridManager;
+        if (GridPosition == Vector2I.Zero)
+        {
+            GridPosition = CurrentGridPosition;
+        }
 
-        if (gridManager != null)
+        GridManager.Instance?.RegisterTile(CurrentGridPosition, Type);
+
+        if (Type == TileType.PlayerSpawn)
         {
-            gridManager.RegisterTile(GridPosition, Type);
+            Node currentScene = GetTree()?.CurrentScene;
+            bool isEditor = currentScene != null && currentScene.Name.ToString().Contains("LevelEditor");
+            if (!isEditor)
+            {
+                Visible = false;
+            }
         }
-        else
+
+        if (Type == TileType.Wall)
         {
-            GD.PrintErr($"[Tile] GridManager not found for Tile at {GridPosition}");
+            Rotation = new Vector3(Rotation.X, (float)GD.RandRange(0, Mathf.Tau), Rotation.Z);
         }
+    }
+
+    public override void _ExitTree()
+    {
+        GridManager.Instance?.UnregisterTile(CurrentGridPosition);
     }
 }

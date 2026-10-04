@@ -1,0 +1,57 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/utilities/GridGenerator.tscn" id="1_ckiro"]
+[ext_resource type="Script" path="res://scripts/gameplay/GridGenerator.cs" id="2_uqdk1"]
+[ext_resource type="PackedScene" path="res://scenes/modules/Floor.tscn" id="3_6y3ht"]
+[ext_resource type="PackedScene" path="res://scenes/environment/sky.tscn" id="4_olfef"]
+[ext_resource type="Texture2D" path="res://assets/textures/Skyboxes/Back.jpg" id="5_mutnx"]
+[ext_resource type="PackedScene" path="res://scenes/modules/PlayerSpawn.tscn" id="6_q3osf"]
+[ext_resource type="Script" path="res://scripts/gameplay/Tile.cs" id="7_r18uc"]
+[ext_resource type="PackedScene" path="res://scenes/modules/FinishPoint.tscn" id="8_j81f1"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_pphty"]
+panorama = ExtResource("5_mutnx")
+
+[sub_resource type="Sky" id="Sky_j66xd"]
+sky_material = SubResource("PanoramaSkyMaterial_pphty")
+
+[sub_resource type="Environment" id="Environment_0pte5"]
+background_mode = 2
+sky = SubResource("Sky_j66xd")
+
+[node name="Level" type="Node3D" unique_id=640256420]
+
+[node name="GridGenerator" type="Node3D" parent="." unique_id=1438332029 instance=ExtResource("1_ckiro")]
+script = ExtResource("2_uqdk1")
+FloorScene = ExtResource("3_6y3ht")
+GridWidth = 2
+GridDepth = 2
+
+[node name="Floor" type="StaticBody3D" parent="GridGenerator" unique_id=1293758163 instance=ExtResource("3_6y3ht")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -1)
+
+[node name="@StaticBody3D@409" type="StaticBody3D" parent="GridGenerator" unique_id=1016707126 instance=ExtResource("3_6y3ht")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0)
+
+[node name="@StaticBody3D@410" type="StaticBody3D" parent="GridGenerator" unique_id=842322791 instance=ExtResource("3_6y3ht")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+
+[node name="@StaticBody3D@411" type="StaticBody3D" parent="GridGenerator" unique_id=1546506276 instance=ExtResource("3_6y3ht")]
+
+[node name="SkyEnvironment" type="WorldEnvironment" parent="." unique_id=797077821 instance=ExtResource("4_olfef")]
+environment = SubResource("Environment_0pte5")
+
+[node name="PlayerSpawn" type="Area3D" parent="." unique_id=608881730 instance=ExtResource("6_q3osf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+collision_layer = 2
+script = ExtResource("7_r18uc")
+Type = 4
+metadata/is_player_spawn = true
+
+[node name="FinishPoint" type="Area3D" parent="." unique_id=419309008 instance=ExtResource("8_j81f1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -1)
+collision_layer = 2
+script = ExtResource("7_r18uc")
+Type = 3
+GridPosition = Vector2i(0, -1)
+metadata/is_finish = true

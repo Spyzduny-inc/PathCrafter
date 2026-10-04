@@ -18,8 +18,7 @@ public partial class Player : CharacterBody3D
     private Vector3 _startPosition;
     private float _startRotationY;
     private int _startDirection = 0;
-    
-    // Сюди Game.cs передає корінь рівня
+
     public Node3D LevelRoot { get; set; }
 
     public void SaveStartPosition()
@@ -44,25 +43,18 @@ public partial class Player : CharacterBody3D
     {
         Vector3 forwardDir = _directions[_currentDirection];
         Vector3 targetPosition = GlobalPosition + forwardDir;
+        Vector2I targetGridPos = new Vector2I(Mathf.RoundToInt(targetPosition.X), Mathf.RoundToInt(targetPosition.Z));
 
-        bool hitRock = false;
-        bool hitPit = false;
-        bool hasFloor = false;
+        TileType tileAtTarget = GridManager.Instance != null 
+            ? GridManager.Instance.GetTileAt(targetGridPos) 
+            : TileType.Empty;
 
-        // Запускаємо глибинне рекурсивне сканування рівня
-        if (LevelRoot != null)
-        {
-            Vector2 targetPos2D = new Vector2(targetPosition.X, targetPosition.Z);
-            ScanCellForModules(LevelRoot, targetPos2D, ref hasFloor, ref hitRock, ref hitPit);
-        }
-
-        // Логіка результатів кроку
-        if (hitRock)
+        if (tileAtTarget == TileType.Wall)
         {
             return MoveResult.HitWall;
         }
-        
-        if (hitPit || !hasFloor)
+
+        if (tileAtTarget == TileType.Pit)
         {
             var fallTween = CreateTween();
             fallTween.TweenProperty(this, "position", targetPosition + new Vector3(0, -2.0f, 0), 0.4f);
@@ -70,41 +62,15 @@ public partial class Player : CharacterBody3D
             return MoveResult.FellInPit;
         }
 
-        // Плавний успішний крок
-        var tween = CreateTween();
-        tween.TweenProperty(this, "position", targetPosition, 0.3f);
-        await ToSignal(tween, Tween.SignalName.Finished);
-        
-        return MoveResult.Success;
-    }
+        if (GridManager.Instance == null || GridManager.Instance.IsWalkable(targetGridPos))
+        {
+            var tween = CreateTween();
+            tween.TweenProperty(this, "position", targetPosition, 0.3f);
+            await ToSignal(tween, Tween.SignalName.Finished);
+            return MoveResult.Success;
+        }
 
-    // Той самий рекурсивний метод, якого не вистачало. Він шукає всюди.
-    private void ScanCellForModules(Node currentNode, Vector2 targetPos2D, ref bool hasFloor, ref bool hitRock, ref bool hitPit)
-    {
-        if (currentNode is Node3D block)
-        {
-            // Об'єднуємо шлях до префабу і поточне ім'я (щоб точно зловити Floor.tscn, Rock.tscn тощо)
-            string identity = (block.SceneFilePath + " " + block.Name).ToLower();
-            
-            // Якщо це взагалі модуль з наших ассетів
-            if (identity.Contains("floor") || identity.Contains("rock") || identity.Contains("pit") || identity.Contains("finish") || identity.Contains("spawn"))
-            {
-                // Перевіряємо, чи лежить він на цільовій координаті (з похибкою 0.2 для надійності)
-                Vector2 blockPos2D = new Vector2(block.GlobalPosition.X, block.GlobalPosition.Z);
-                if (blockPos2D.DistanceTo(targetPos2D) < 0.2f)
-                {
-                    if (identity.Contains("rock")) hitRock = true;
-                    if (identity.Contains("pit")) hitPit = true;
-                    if (identity.Contains("floor") || identity.Contains("finish") || identity.Contains("spawn")) hasFloor = true;
-                }
-            }
-        }
-        
-        // Рекурсія: ліземо всередину кожного знайденого вузла
-        foreach (Node child in currentNode.GetChildren())
-        {
-            ScanCellForModules(child, targetPos2D, ref hasFloor, ref hitRock, ref hitPit);
-        }
+        return MoveResult.HitWall;
     }
 
     public async Task TurnRight()
