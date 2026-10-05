@@ -1,8 +1,36 @@
 [gd_scene format=3 uid="uid://chvv0pejwnvog"]
 
-[ext_resource type="Script" uid="uid://uoutmetf2d40" path="res://scripts/LevelSelectMenu.cs" id="1_bryfk"]
-[ext_resource type="VideoStream" uid="uid://6cv0isabdxpp" path="res://assets/ui/menu_background.ogv" id="1_mooua"]
+[ext_resource type="Script" uid="uid://uoutmetf2d40" path="res://scripts/ui/LevelSelectMenu.cs" id="1_bryfk"]
 [ext_resource type="Resource" uid="uid://c8ji0po8hh23d" path="res://resources/MainLevelConfig.tres" id="2_hu017"]
+[ext_resource type="VideoStream" uid="uid://c1ntgiik8022l" path="res://assets/ui/Background_MainMenu.ogv" id="3_bryfk"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_Separator"]
+color = Color(0.901961, 0.360784, 0, 0.4)
+thickness = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_BackBtnNormal"]
+content_margin_left = 16.0
+content_margin_top = 10.0
+content_margin_right = 16.0
+content_margin_bottom = 10.0
+bg_color = Color(0.06, 0.09, 0.16, 0.4)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_BackBtnHover"]
+content_margin_left = 16.0
+content_margin_top = 10.0
+content_margin_right = 16.0
+content_margin_bottom = 10.0
+bg_color = Color(0.117647, 0.117647, 0.180392, 0.8)
+border_width_left = 4
+border_color = Color(0.901961, 0.360784, 0, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 2
 
 [node name="LevelSelectMenu" type="Control" unique_id=827852119 node_paths=PackedStringArray("ChaptersContainer", "BackButton")]
 layout_mode = 3
@@ -13,8 +41,8 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_bryfk")
 Config = ExtResource("2_hu017")
-ChaptersContainer = NodePath("MarginContainer/VBoxContainer/ScrollContainer/ChaptersContainer")
-BackButton = NodePath("MarginContainer/VBoxContainer/BackButton")
+ChaptersContainer = NodePath("MarginContainer/HBoxMain/MenuPanel/ScrollContainer/ChaptersContainer")
+BackButton = NodePath("MarginContainer/HBoxMain/MenuPanel/BackButton")
 
 [node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="." unique_id=1904951591]
 layout_mode = 1
@@ -23,8 +51,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-stream = ExtResource("1_mooua")
+mouse_filter = 2
+stream = ExtResource("3_bryfk")
 autoplay = true
+expand = true
 loop = true
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=513571831]
@@ -34,26 +64,68 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 64
-theme_override_constants/margin_top = 64
-theme_override_constants/margin_right = 64
-theme_override_constants/margin_bottom = 64
+theme_override_constants/margin_left = 80
+theme_override_constants/margin_top = 80
+theme_override_constants/margin_right = 80
+theme_override_constants/margin_bottom = 80
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=795168621]
+[node name="HBoxMain" type="HBoxContainer" parent="MarginContainer"]
 layout_mode = 2
+theme_override_constants/separation = 40
 
-[node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer" unique_id=1380127367]
+[node name="MenuPanel" type="VBoxContainer" parent="MarginContainer/HBoxMain"]
 layout_mode = 2
-text = "ВИБІР РІВНЯ"
-horizontal_alignment = 1
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.4
+theme_override_constants/separation = 20
 
-[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer" unique_id=1245890974]
+[node name="HeaderContainer" type="VBoxContainer" parent="MarginContainer/HBoxMain/MenuPanel"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="TitleLabel" type="Label" parent="MarginContainer/HBoxMain/MenuPanel/HeaderContainer" unique_id=1380127367]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.901961, 0.360784, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.9)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 32
+text = "ВИБІР МІСІЇ // MISSION SELECT"
+
+[node name="SubtitleLabel" type="Label" parent="MarginContainer/HBoxMain/MenuPanel/HeaderContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.580392, 0.643137, 0.721569, 1)
+theme_override_font_sizes/font_size = 14
+text = "TACTICAL DEPLOYMENT // SELECT SECTOR"
+
+[node name="Separator" type="HSeparator" parent="MarginContainer/HBoxMain/MenuPanel"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_Separator")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/HBoxMain/MenuPanel" unique_id=1245890974]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="ChaptersContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer" unique_id=1953879668]
+[node name="ChaptersContainer" type="VBoxContainer" parent="MarginContainer/HBoxMain/MenuPanel/ScrollContainer" unique_id=1953879668]
 layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 20
 
-[node name="BackButton" type="Button" parent="MarginContainer/VBoxContainer" unique_id=1118386898]
+[node name="BackButton" type="Button" parent="MarginContainer/HBoxMain/MenuPanel" unique_id=1118386898]
+custom_minimum_size = Vector2(180, 44)
 layout_mode = 2
-text = "Назад"
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0.796078, 0.835294, 0.882353, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_BackBtnNormal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_BackBtnHover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_BackBtnHover")
+text = "< НАЗАД"
+
+[node name="Spacer" type="Control" parent="MarginContainer/HBoxMain"]
+layout_mode = 2
+mouse_filter = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.6

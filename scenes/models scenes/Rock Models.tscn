@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://crt8vpmpxcwaa"]
+
+[ext_resource type="PackedScene" uid="uid://dp0pdu2qfa5g1" path="res://assets/textures/3D Models/Rock Models.glb" id="1_8j30k"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_w3o2h"]
+albedo_color = Color(0.59336776, 0.48478448, 0.30424425, 1)
+
+[node name="rock_largeB2" unique_id=1489160653 instance=ExtResource("1_8j30k")]
+
+[node name="rock_largeB" parent="." index="0" unique_id=200343740]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_w3o2h")

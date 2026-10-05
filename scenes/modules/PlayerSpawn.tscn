@@ -1,25 +1,34 @@
 [gd_scene format=3 uid="uid://bmmwdfhkay4cg"]
 
-[ext_resource type="Script" uid="uid://bhfott8jrillg" path="res://scripts/PlayerSpawn.cs" id="1_ct3xg"]
+[ext_resource type="Script" uid="uid://cjuu3j2n20ejp" path="res://scripts/gameplay/Tile.cs" id="1_tile"]
+[ext_resource type="PackedScene" uid="uid://elu6gtgsf85l" path="res://assets/textures/3D Models/NRK.glb" id="2_nrk"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wsqlc"]
-albedo_color = Color(0.9529412, 0.35686275, 0.29803923, 0.39215687)
+[sub_resource type="BoxShape3D" id="BoxShape3D_spawn"]
+size = Vector3(0.8, 0.8, 0.8)
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_wsqlc"]
-material = SubResource("StandardMaterial3D_wsqlc")
-radius = 0.25
-height = 1.0
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_arrow"]
+transparency = 1
+albedo_color = Color(0.901961, 0.360784, 0, 0.9)
+emission_enabled = true
+emission = Color(0.901961, 0.360784, 0, 1)
+emission_energy_multiplier = 2.0
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wsqlc"]
-radius = 0.25
-height = 1.0
+[sub_resource type="PrismMesh" id="PrismMesh_arrow"]
+material = SubResource("StandardMaterial3D_arrow")
+size = Vector3(0.3, 0.3, 0.12)
 
 [node name="PlayerSpawn" type="Area3D" unique_id=608881730]
 collision_layer = 2
-script = ExtResource("1_ct3xg")
+script = ExtResource("1_tile")
+Type = 4
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1309387576]
-mesh = SubResource("CapsuleMesh_wsqlc")
+[node name="NRK" parent="." instance=ExtResource("2_nrk")]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, -0.359, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=632541115]
-shape = SubResource("CapsuleShape3D_wsqlc")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+shape = SubResource("BoxShape3D_spawn")
+
+[node name="DirectionArrow" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.45, -0.55)
+mesh = SubResource("PrismMesh_arrow")

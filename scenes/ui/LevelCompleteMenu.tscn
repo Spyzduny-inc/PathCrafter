@@ -1,0 +1,147 @@
+[gd_scene format=3 uid="uid://q54o7noxvega"]
+
+[ext_resource type="Script" uid="uid://d0cnaga2h7gt" path="res://scripts/ui/LevelCompleteMenu.cs" id="1_pf08x"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_VictoryBg"]
+bg_color = Color(0.067, 0.067, 0.106, 0.96)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.901961, 0.360784, 0, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_Separator"]
+color = Color(0.901961, 0.360784, 0, 0.4)
+thickness = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_BtnNormal"]
+content_margin_left = 16.0
+content_margin_top = 10.0
+content_margin_right = 16.0
+content_margin_bottom = 10.0
+bg_color = Color(0.117647, 0.117647, 0.180392, 0.8)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_BtnHover"]
+content_margin_left = 16.0
+content_margin_top = 10.0
+content_margin_right = 16.0
+content_margin_bottom = 10.0
+bg_color = Color(0.165, 0.165, 0.24, 0.95)
+border_width_left = 4
+border_color = Color(0.901961, 0.360784, 0, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_BtnPressed"]
+content_margin_left = 16.0
+content_margin_top = 10.0
+content_margin_right = 16.0
+content_margin_bottom = 10.0
+bg_color = Color(0.7, 0.28, 0, 0.85)
+border_width_left = 4
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 2
+
+[node name="LevelCompleteMenu" type="CanvasLayer" unique_id=359760500 node_paths=PackedStringArray("NextLevelButton", "MenuButton", "TitleLabel")]
+script = ExtResource("1_pf08x")
+NextLevelButton = NodePath("PanelContainer/Margin/VBoxContainer/NextButton")
+MenuButton = NodePath("PanelContainer/Margin/VBoxContainer/MenuButton")
+TitleLabel = NodePath("PanelContainer/Margin/VBoxContainer/HeaderTitle")
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=1349865868]
+custom_minimum_size = Vector2(460, 320)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -230.0
+offset_top = -160.0
+offset_right = 230.0
+offset_bottom = 160.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_VictoryBg")
+
+[node name="Margin" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 28
+theme_override_constants/margin_bottom = 24
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/Margin" unique_id=71692049]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="HeaderTitle" type="Label" parent="PanelContainer/Margin/VBoxContainer" unique_id=113790643]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.901961, 0.360784, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.9)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 22
+text = "[ МІСІЮ ВИКОНАНО ]"
+horizontal_alignment = 1
+
+[node name="SubtitleLabel" type="Label" parent="PanelContainer/Margin/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.580392, 0.643137, 0.721569, 1)
+theme_override_font_sizes/font_size = 12
+text = "MISSION ACCOMPLISHED // SECTOR CLEAR"
+horizontal_alignment = 1
+
+[node name="Separator" type="HSeparator" parent="PanelContainer/Margin/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_Separator")
+
+[node name="DescriptionLabel" type="Label" parent="PanelContainer/Margin/VBoxContainer" unique_id=1503657116]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.796078, 0.835294, 0.882353, 1)
+theme_override_font_sizes/font_size = 14
+text = "Марсохід успішно дістався фінішної зони! Програму C++ виконано без помилок."
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Spacer" type="Control" parent="PanelContainer/Margin/VBoxContainer"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+
+[node name="NextButton" type="Button" parent="PanelContainer/Margin/VBoxContainer" unique_id=1379205292]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.796078, 0.835294, 0.882353, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_BtnNormal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_BtnHover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_BtnPressed")
+theme_override_styles/focus = SubResource("StyleBoxFlat_BtnHover")
+text = "> НАСТУПНА МІСІЯ"
+
+[node name="MenuButton" type="Button" parent="PanelContainer/Margin/VBoxContainer" unique_id=1798176255]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.796078, 0.835294, 0.882353, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_BtnNormal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_BtnHover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_BtnPressed")
+theme_override_styles/focus = SubResource("StyleBoxFlat_BtnHover")
+text = "< ГОЛОВНЕ МЕНЮ"

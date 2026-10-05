@@ -8,6 +8,10 @@
 
 config_version=5
 
+[accessibility]
+
+general/accessibility_support=2
+
 [application]
 
 config/name="PathCrafter"
@@ -17,6 +21,7 @@ config/features=PackedStringArray("4.7", "C#", "Forward Plus")
 [autoload]
 
 Global="*uid://c8omxoujy88pq"
+GridManager="*uid://d3adtkdq4nsao"
 
 [display]
 

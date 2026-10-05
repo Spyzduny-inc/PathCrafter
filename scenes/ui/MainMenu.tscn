@@ -1,9 +1,50 @@
 [gd_scene format=3 uid="uid://b4okdimpcg65q"]
 
-[ext_resource type="Script" uid="uid://dw25t2x8seug2" path="res://scripts/MainMenu.cs" id="1_vjtqc"]
-[ext_resource type="VideoStream" uid="uid://6cv0isabdxpp" path="res://assets/ui/menu_background.ogv" id="2_6jbdy"]
+[ext_resource type="Script" uid="uid://dw25t2x8seug2" path="res://scripts/ui/MainMenu.cs" id="1_vjtqc"]
+[ext_resource type="VideoStream" uid="uid://c1ntgiik8022l" path="res://assets/ui/Background_MainMenu.ogv" id="2_6jbdy"]
 
-[node name="MainMenu" type="Control" unique_id=2081475866]
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_Separator"]
+color = Color(0.901961, 0.360784, 0, 0.4)
+thickness = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_BtnNormal"]
+content_margin_left = 16.0
+content_margin_top = 12.0
+content_margin_right = 16.0
+content_margin_bottom = 12.0
+bg_color = Color(0.06, 0.09, 0.16, 0.2)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_BtnHover"]
+content_margin_left = 16.0
+content_margin_top = 12.0
+content_margin_right = 16.0
+content_margin_bottom = 12.0
+bg_color = Color(0.117647, 0.117647, 0.180392, 0.588235)
+border_width_left = 4
+border_color = Color(0.901961, 0.360784, 0, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_BtnPressed"]
+content_margin_left = 16.0
+content_margin_top = 12.0
+content_margin_right = 16.0
+content_margin_bottom = 12.0
+bg_color = Color(0.7, 0.28, 0, 0.8)
+border_width_left = 4
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 2
+
+[node name="MainMenu" type="Control" unique_id=2081475866 node_paths=PackedStringArray("PlayButton", "EditorButton", "SettingsButton", "QuitButton")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -11,6 +52,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_vjtqc")
+PlayButton = NodePath("Margin/HBoxMain/MenuPanel/MenuButtons/PlayButton")
+EditorButton = NodePath("Margin/HBoxMain/MenuPanel/MenuButtons/EditorButton")
+SettingsButton = NodePath("Margin/HBoxMain/MenuPanel/MenuButtons/SettingsButton")
+QuitButton = NodePath("Margin/HBoxMain/MenuPanel/MenuButtons/QuitButton")
 
 [node name="Background" type="VideoStreamPlayer" parent="." unique_id=2110167534]
 layout_mode = 1
@@ -19,8 +64,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 stream = ExtResource("2_6jbdy")
 autoplay = true
+expand = true
 loop = true
 
 [node name="Margin" type="MarginContainer" parent="." unique_id=2055526615]
@@ -30,27 +77,110 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 64
-theme_override_constants/margin_top = 64
-theme_override_constants/margin_right = 64
-theme_override_constants/margin_bottom = 64
+theme_override_constants/margin_left = 80
+theme_override_constants/margin_top = 120
+theme_override_constants/margin_right = 80
+theme_override_constants/margin_bottom = 80
 
-[node name="MenuButtons" type="VBoxContainer" parent="Margin" unique_id=1428698766]
+[node name="HBoxMain" type="HBoxContainer" parent="Margin"]
 layout_mode = 2
-alignment = 1
+theme_override_constants/separation = 40
 
-[node name="PlayButton" type="Button" parent="Margin/MenuButtons" unique_id=1658530046]
+[node name="MenuPanel" type="VBoxContainer" parent="Margin/HBoxMain"]
 layout_mode = 2
-text = "Грати"
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.35
+theme_override_constants/separation = 24
 
-[node name="EditorButton" type="Button" parent="Margin/MenuButtons" unique_id=1744356280]
+[node name="HeaderContainer" type="VBoxContainer" parent="Margin/HBoxMain/MenuPanel"]
 layout_mode = 2
-text = "Редактор"
+theme_override_constants/separation = 6
 
-[node name="SettingsButton" type="Button" parent="Margin/MenuButtons" unique_id=1809198201]
+[node name="Title" type="Label" parent="Margin/HBoxMain/MenuPanel/HeaderContainer"]
 layout_mode = 2
-text = "Налаштування"
+theme_override_colors/font_color = Color(0.901961, 0.360784, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.9)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 52
+text = "PATHCRAFTER"
 
-[node name="QuitButton" type="Button" parent="Margin/MenuButtons" unique_id=1767947471]
+[node name="Subtitle" type="Label" parent="Margin/HBoxMain/MenuPanel/HeaderContainer"]
 layout_mode = 2
-text = "Вихід"
+theme_override_colors/font_color = Color(0.580392, 0.643137, 0.721569, 1)
+theme_override_font_sizes/font_size = 14
+text = "MARS MISSION CONTROL // C++ TERMINAL"
+
+[node name="Separator" type="HSeparator" parent="Margin/HBoxMain/MenuPanel"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_Separator")
+
+[node name="MenuButtons" type="VBoxContainer" parent="Margin/HBoxMain/MenuPanel" unique_id=1428698766]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="PlayButton" type="Button" parent="Margin/HBoxMain/MenuPanel/MenuButtons" unique_id=1658530046]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.796078, 0.835294, 0.882353, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_BtnNormal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_BtnHover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_BtnPressed")
+theme_override_styles/focus = SubResource("StyleBoxFlat_BtnHover")
+text = "> ІНІЦІАЛІЗАЦІЯ (ГРАТИ)"
+alignment = 0
+
+[node name="EditorButton" type="Button" parent="Margin/HBoxMain/MenuPanel/MenuButtons" unique_id=1744356280]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.796078, 0.835294, 0.882353, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_BtnNormal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_BtnHover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_BtnPressed")
+theme_override_styles/focus = SubResource("StyleBoxFlat_BtnHover")
+text = "> РЕДАКТОР БАЗИ"
+alignment = 0
+
+[node name="SettingsButton" type="Button" parent="Margin/HBoxMain/MenuPanel/MenuButtons" unique_id=1809198201]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.796078, 0.835294, 0.882353, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_BtnNormal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_BtnHover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_BtnPressed")
+theme_override_styles/focus = SubResource("StyleBoxFlat_BtnHover")
+text = "> КОНФІГУРАЦІЯ"
+alignment = 0
+
+[node name="QuitButton" type="Button" parent="Margin/HBoxMain/MenuPanel/MenuButtons" unique_id=1767947471]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.796078, 0.835294, 0.882353, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_BtnNormal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_BtnHover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_BtnPressed")
+theme_override_styles/focus = SubResource("StyleBoxFlat_BtnHover")
+text = "> ВІДКЛЮЧЕННЯ"
+alignment = 0
+
+[node name="Spacer" type="Control" parent="Margin/HBoxMain"]
+layout_mode = 2
+mouse_filter = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.65
