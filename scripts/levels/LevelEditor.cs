@@ -13,6 +13,7 @@ public partial class LevelEditor : Node3D
     [Export] public Button PitButton { get; set; }
     [Export] public Button FinishButton { get; set; }
     [Export] public Button PlayerSpawnButton { get; set; }
+    [Export] public Button RotatePlayerButton { get; set; }
     [Export] public Button GenerateButton { get; set; }
     [Export] public Button UndoButton { get; set; }
     [Export] public Button SaveButton { get; set; } 
@@ -27,6 +28,10 @@ public partial class LevelEditor : Node3D
 
     private const float GridSize = 1.0f;
     private List<Node3D> spawnedObjectsHistory = new List<Node3D>();
+
+    private int _spawnRotationIndex = 0; // 0: 0° (North), 1: 90° (East), 2: 180° (South), 3: 270° (West)
+    private readonly float[] _rotationYAngles = new float[] { 0f, 270f, 180f, 90f };
+    private readonly string[] _rotationLabels = new string[] { "0° (ПІВНІЧ)", "90° (СХІД)", "180° (ПІВДЕНЬ)", "270° (ЗАХІД)" };
 
     private enum ActionType { Place, Remove }
     private class EditorAction
@@ -51,6 +56,7 @@ public partial class LevelEditor : Node3D
         if (PitButton != null) PitButton.FocusMode = Control.FocusModeEnum.None;
         if (FinishButton != null) FinishButton.FocusMode = Control.FocusModeEnum.None;
         if (PlayerSpawnButton != null) PlayerSpawnButton.FocusMode = Control.FocusModeEnum.None;
+        if (RotatePlayerButton != null) RotatePlayerButton.FocusMode = Control.FocusModeEnum.None;
         if (GenerateButton != null) GenerateButton.FocusMode = Control.FocusModeEnum.None;
         if (UndoButton != null) UndoButton.FocusMode = Control.FocusModeEnum.None;
         if (SaveButton != null) SaveButton.FocusMode = Control.FocusModeEnum.None;
@@ -59,6 +65,7 @@ public partial class LevelEditor : Node3D
         if (PitButton != null) PitButton.Pressed += () => SetSelection(SelectedItem.Pit, "Яма");
         if (FinishButton != null) FinishButton.Pressed += () => SetSelection(SelectedItem.Finish, "Фініш");
         if (PlayerSpawnButton != null) PlayerSpawnButton.Pressed += () => SetSelection(SelectedItem.PlayerSpawn, "Точка спавну гравця");
+        if (RotatePlayerButton != null) RotatePlayerButton.Pressed += CyclePlayerRotation;
         
         if (GenerateButton != null) GenerateButton.Pressed += OnGenerateLevelPressed;
         if (UndoButton != null) UndoButton.Pressed += PerformUndo;
@@ -70,8 +77,39 @@ public partial class LevelEditor : Node3D
           BackToMenuButton.Pressed += () => GetTree().ChangeSceneToFile("res://scenes/ui/MainMenu.tscn");
         }   
 
+        UpdateRotateButtonText();
         EnsureSkyOnCurrentScene();
         SetupDialogs();
+    }
+
+    private void CyclePlayerRotation()
+    {
+        _spawnRotationIndex = (_spawnRotationIndex + 1) % 4;
+        UpdateRotateButtonText();
+        RotateExistingPlayerSpawn();
+    }
+
+    private void UpdateRotateButtonText()
+    {
+        if (RotatePlayerButton != null)
+        {
+            RotatePlayerButton.Text = $"🔄 НАПРЯМОК: {_rotationLabels[_spawnRotationIndex]}";
+        }
+    }
+
+    private void RotateExistingPlayerSpawn()
+    {
+        foreach (var obj in spawnedObjectsHistory)
+        {
+            if (obj != null && GodotObject.IsInstanceValid(obj))
+            {
+                if (obj.HasMeta("is_player_spawn") && obj.GetMeta("is_player_spawn").AsBool())
+                {
+                    obj.RotationDegrees = new Vector3(0, _rotationYAngles[_spawnRotationIndex], 0);
+                    break;
+                }
+            }
+        }
     }
 
     private void SetupDialogs()
@@ -283,10 +321,67 @@ public partial class LevelEditor : Node3D
     {
         CurrentSelection = item;
         GD.Print($"[LevelEditor] Обрано об'єкт: {name}");
+        UpdateToolButtonStyles();
+    }
+
+    private void UpdateToolButtonStyles()
+    {
+        SetButtonStyle(RockButton, CurrentSelection == SelectedItem.Rock);
+        SetButtonStyle(PitButton, CurrentSelection == SelectedItem.Pit);
+        SetButtonStyle(FinishButton, CurrentSelection == SelectedItem.Finish);
+        SetButtonStyle(PlayerSpawnButton, CurrentSelection == SelectedItem.PlayerSpawn);
+    }
+
+    private void SetButtonStyle(Button btn, bool isActive)
+    {
+        if (btn == null) return;
+
+        if (isActive)
+        {
+            var activeBox = new StyleBoxFlat();
+            activeBox.BgColor = new Color(0.165f, 0.165f, 0.24f, 0.95f);
+            activeBox.BorderWidthLeft = 4;
+            activeBox.BorderColor = new Color(0.902f, 0.361f, 0f, 1f);
+            activeBox.CornerRadiusTopLeft = 2;
+            activeBox.CornerRadiusTopRight = 4;
+            activeBox.CornerRadiusBottomRight = 4;
+            activeBox.CornerRadiusBottomLeft = 2;
+            activeBox.ContentMarginLeft = 12;
+            activeBox.ContentMarginTop = 8;
+            activeBox.ContentMarginRight = 12;
+            activeBox.ContentMarginBottom = 8;
+
+            btn.AddThemeStyleboxOverride("normal", activeBox);
+            btn.AddThemeColorOverride("font_color", new Color(1f, 1f, 1f, 1f));
+        }
+        else
+        {
+            var normalBox = new StyleBoxFlat();
+            normalBox.BgColor = new Color(0.118f, 0.118f, 0.18f, 0.8f);
+            normalBox.CornerRadiusTopLeft = 4;
+            normalBox.CornerRadiusTopRight = 4;
+            normalBox.CornerRadiusBottomRight = 4;
+            normalBox.CornerRadiusBottomLeft = 4;
+            normalBox.ContentMarginLeft = 12;
+            normalBox.ContentMarginTop = 8;
+            normalBox.ContentMarginRight = 12;
+            normalBox.ContentMarginBottom = 8;
+
+            btn.AddThemeStyleboxOverride("normal", normalBox);
+            btn.AddThemeColorOverride("font_color", new Color(0.796f, 0.835f, 0.882f, 1f));
+        }
     }
 
     public override void _UnhandledInput(InputEvent @event)
     {
+        if (@event is InputEventKey keyEvent && keyEvent.Pressed && !keyEvent.Echo)
+        {
+            if (keyEvent.Keycode == Key.R)
+            {
+                CyclePlayerRotation();
+            }
+        }
+
         if (@event is InputEventMouseMotion mouseMotion)
         {
             if ((mouseMotion.ButtonMask & MouseButtonMask.Left) != 0) 
@@ -465,6 +560,7 @@ public partial class LevelEditor : Node3D
                 {
                     newObj = PlayerSpawnScene.Instantiate<Node3D>();
                     newObj.SetMeta("is_player_spawn", true); 
+                    newObj.RotationDegrees = new Vector3(0, _rotationYAngles[_spawnRotationIndex], 0);
                 }
                 break;
         }

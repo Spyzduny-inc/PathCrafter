@@ -25,6 +25,13 @@ public partial class Player : CharacterBody3D
     {
         _startPosition = GlobalPosition;
         _startRotationY = Rotation.Y;
+
+        float degrees = Mathf.PosMod(Mathf.RadToDeg(Rotation.Y), 360f);
+        if (degrees >= 45f && degrees < 135f) _currentDirection = 3;       // 90 deg = left (-X)
+        else if (degrees >= 135f && degrees < 225f) _currentDirection = 2;  // 180 deg = back (+Z)
+        else if (degrees >= 225f && degrees < 315f) _currentDirection = 1;  // 270 deg = right (+X)
+        else _currentDirection = 0;                                        // 0 deg = forward (-Z)
+
         _startDirection = _currentDirection;
     }
 

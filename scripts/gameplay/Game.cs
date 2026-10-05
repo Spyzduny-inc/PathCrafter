@@ -249,6 +249,7 @@ public partial class Game : Node3D
         {
             var playerInstance = PlayerScene.Instantiate<Node3D>();
             playerInstance.Position = spawnPoint.GlobalPosition;
+            playerInstance.Rotation = spawnPoint.Rotation;
             AddChild(playerInstance);
 
             _spawnedRover = playerInstance as Player;
@@ -373,11 +374,14 @@ public partial class Game : Node3D
             {
                 if (_finishPoint != null && IsInstanceValid(_finishPoint) && _spawnedRover.GlobalPosition.DistanceTo(_finishPoint.GlobalPosition) < 0.5f)
                 {
-                    if (ConsoleOutput != null) ConsoleOutput.Text += "\n[ УСПІХ ]: Рівень пройдено! Ти бог C#!";
+                    if (ConsoleOutput != null) ConsoleOutput.Text += "\n[ УСПІХ ]: Місію виконано! Команда C++ успішно опрацьована.";
                     
                     // Розблоковуємо наступний рівень та викликаємо вікно перемоги
                     Global.UnlockNextLevel(0);
                     
+                    if (RightEngineerPanel != null) RightEngineerPanel.Visible = false;
+                    if (ToggleTerminalButton != null) ToggleTerminalButton.Text = "[ < ] ВІДКРИТИ КОД";
+
                     if (_levelCompleteMenuNode != null)
                     {
                         _levelCompleteMenuNode.Call("ShowVictory");

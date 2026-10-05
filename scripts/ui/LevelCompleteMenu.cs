@@ -26,20 +26,26 @@ public partial class LevelCompleteMenu : CanvasLayer
     public void ShowVictory()
     {
         Visible = true;
-        // Знімаємо фокус з усього іншого, щоб гравець міг клацати кнопки мишею
         GetViewport().GuiReleaseFocus();
+
+        // Приховуємо праву панель з кодом, щоб відкрити 3D-вид бази при перемозі
+        var game = GetParent() as Game ?? GetTree().CurrentScene as Game;
+        if (game != null)
+        {
+            if (game.RightEngineerPanel != null) game.RightEngineerPanel.Visible = false;
+            if (game.ToggleTerminalButton != null) game.ToggleTerminalButton.Text = "[ < ] ВІДКРИТИ КОД";
+        }
     }
 
     private void OnNextLevelPressed()
     {
-        // Тут підтягнемо логіку завантаження наступного рівня зі списку
-        GD.Print("[LevelCompleteMenu] Клік: Наступний рівень");
-        // Наприклад, перехід назад у вибір рівнів або наступний файл
-        GetTree().ChangeSceneToFile("res://scenes/ui/LevelSelectMenu.tscn");
+        GetViewport().GuiReleaseFocus();
+        GetTree().CallDeferred(SceneTree.MethodName.ChangeSceneToFile, "res://scenes/ui/LevelSelectMenu.tscn");
     }
 
     private void OnMenuPressed()
     {
-        GetTree().ChangeSceneToFile("res://scenes/ui/MainMenu.tscn");
+        GetViewport().GuiReleaseFocus();
+        GetTree().CallDeferred(SceneTree.MethodName.ChangeSceneToFile, "res://scenes/ui/MainMenu.tscn");
     }
 }

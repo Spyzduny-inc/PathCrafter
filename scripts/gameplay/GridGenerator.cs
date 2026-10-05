@@ -25,15 +25,17 @@ public partial class GridGenerator : Node3D
 	public void GenerateGrid()
 	{
 		// Очищаємо стару сітку перед створенням нової
-		foreach (Node child in GetChildren())
+		while (GetChildCount() > 0)
 		{
+			var child = GetChild(0);
+			RemoveChild(child);
 			child.QueueFree();
 		}
 
 		int startX = -GridWidth / 2;
-		int endX = GridWidth / 2;
+		int endX = startX + GridWidth;
 		int startZ = -GridDepth / 2;
-		int endZ = GridDepth / 2;
+		int endZ = startZ + GridDepth;
 
 		for (int x = startX; x < endX; x++)
 		{
