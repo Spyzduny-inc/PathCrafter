@@ -19,11 +19,11 @@ public static class CodeParser
             throw new FormatException("Помилка компіляції: відсутня точка входу int main() або бібліотека <moving>.");
         }
 
-        // Перевірка на наявність int main()
-        Match mainMatch = Regex.Match(cleanCode, @"\bint\s+main\s*\(\s*\)", RegexOptions.IgnoreCase);
+        // Перевірка на наявність main() (int main() або void main())
+        Match mainMatch = Regex.Match(cleanCode, @"\b(int|void)\s+main\s*\(\s*\)", RegexOptions.IgnoreCase);
         if (!mainMatch.Success)
         {
-            throw new FormatException("Помилка компіляції: відсутня точка входу int main() або бібліотека <moving>.");
+            throw new FormatException("Помилка компіляції: відсутня точка входу main() або бібліотека <moving>.");
         }
 
         // Витягуємо вміст main() всередині фігурних дужок { ... }
@@ -123,8 +123,8 @@ public static class CodeParser
                 continue;
             }
 
-            // Парсимо звичайні команди rover.*
-            Match commandMatch = Regex.Match(remaining, @"^\brover\s*\.\s*(move|turn_left|turn_right)\b\s*(\(\s*\))?", RegexOptions.IgnoreCase);
+            // Парсимо звичайні команди rover.action() у строгому C++ синтаксисі (без пробілів біля крапки, обов'язкові ())
+            Match commandMatch = Regex.Match(remaining, @"^\brover\.(move|turn_left|turn_right)\s*\(\s*\)", RegexOptions.IgnoreCase);
             if (commandMatch.Success)
             {
                 int cmdEndPos = pos + commandMatch.Length;

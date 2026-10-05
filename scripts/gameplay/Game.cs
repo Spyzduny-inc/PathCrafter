@@ -85,30 +85,158 @@ public partial class Game : Node3D
 
         if (CodeInput != null)
         {
-            CodeInput.AutoBraceCompletionEnabled = true;
-            CodeInput.AutoBraceCompletionHighlightMatching = true;
-
-            var highlighter = new CodeHighlighter();
-            Color functionColor = new Color(0.3f, 0.7f, 1.0f);
-            Color keywordColor = new Color(0.9f, 0.4f, 0.8f);
-            Color commentColor = new Color(0.4f, 0.6f, 0.4f);
-
-            highlighter.SymbolColor = new Color(0.8f, 0.8f, 0.8f);
-            highlighter.AddKeywordColor("#include", keywordColor);
-            highlighter.AddKeywordColor("int", keywordColor);
-            highlighter.AddKeywordColor("main", functionColor);
-            highlighter.AddKeywordColor("return", keywordColor);
-            highlighter.AddKeywordColor("for", keywordColor);
-            highlighter.AddKeywordColor("rover", functionColor);
-            highlighter.AddKeywordColor("move", functionColor);
-            highlighter.AddKeywordColor("turn_right", functionColor);
-            highlighter.AddKeywordColor("turn_left", functionColor);
-            highlighter.AddColorRegion("//", "", commentColor, true);
-            highlighter.AddColorRegion("/*", "*/", commentColor, false);
-
-            CodeInput.SyntaxHighlighter = highlighter;
-            CodeInput.PlaceholderText = "#include <moving>\n\nint main() {\n    rover.move();\n    return 0;\n}";
+            SetupCodeEditor();
         }
+    }
+
+    private void SetupCodeEditor()
+    {
+        if (CodeInput == null) return;
+
+        // Встановлюємо білий колір тексту за замовчуванням для невідомих слів/функцій (наприклад moe())
+        CodeInput.AddThemeColorOverride("font_color", new Color(1, 1, 1, 1));
+        CodeInput.AddThemeColorOverride("member_variable_color", new Color(1, 1, 1, 1));
+        CodeInput.AddThemeColorOverride("function_color", new Color(1, 1, 1, 1));
+        CodeInput.AddThemeColorOverride("caret_color", new Color(1, 1, 1, 1));
+        CodeInput.AddThemeColorOverride("font_selected_color", new Color(1, 1, 1, 1));
+        CodeInput.AddThemeColorOverride("selection_color", new Color(0.26f, 0.45f, 0.76f, 0.6f));
+        CodeInput.AddThemeColorOverride("line_number_color", new Color(0.45f, 0.5f, 0.58f, 1));
+
+        // Налаштування автодужок {} () [] <> ""
+        CodeInput.AutoBraceCompletionEnabled = true;
+        CodeInput.AutoBraceCompletionHighlightMatching = true;
+        CodeInput.AutoBraceCompletionPairs = new Godot.Collections.Dictionary
+        {
+            { "{", "}" },
+            { "(", ")" },
+            { "[", "]" },
+            { "<", ">" },
+            { "\"", "\"" }
+        };
+
+        // Тема підсвічування One Dark C++
+        var highlighter = new CodeHighlighter();
+        Color includeColor = Color.FromHtml("#98c379");  // Зелений для #include
+        Color keywordColor = Color.FromHtml("#c678dd");  // Пурпуровий для int, void, return, for, if
+        Color functionColor = Color.FromHtml("#61afef"); // Блакитний для методів move, turn_left, main
+        Color roverColor = Color.FromHtml("#e06c75");    // Червоний/Кораловий для об'єкта rover
+        Color numberColor = Color.FromHtml("#d19a66");   // Оранжевий для чисел
+        Color commentColor = Color.FromHtml("#5c6370");  // Сірий для коментарів
+
+        highlighter.SymbolColor = new Color(0.85f, 0.85f, 0.85f);
+        highlighter.MemberVariableColor = new Color(1f, 1f, 1f, 1f); // ГАРАНТОВАНО БІЛИЙ колір після крапки
+        highlighter.FunctionColor = new Color(1f, 1f, 1f, 1f);       // ГАРАНТОВАНО БІЛИЙ колір для невідомих функцій перед ()
+
+        highlighter.AddKeywordColor("#include", includeColor);
+        highlighter.AddKeywordColor("int", keywordColor);
+        highlighter.AddKeywordColor("void", keywordColor);
+        highlighter.AddKeywordColor("return", keywordColor);
+        highlighter.AddKeywordColor("for", keywordColor);
+        highlighter.AddKeywordColor("if", keywordColor);
+        highlighter.AddKeywordColor("while", keywordColor);
+        highlighter.AddKeywordColor("main", functionColor);
+        highlighter.AddKeywordColor("rover", roverColor);
+
+        // Методи після крапки
+        highlighter.AddMemberKeywordColor("move", functionColor);
+        highlighter.AddMemberKeywordColor("turn_right", functionColor);
+        highlighter.AddMemberKeywordColor("turn_left", functionColor);
+
+        highlighter.AddKeywordColor("move", functionColor);
+        highlighter.AddKeywordColor("turn_right", functionColor);
+        highlighter.AddKeywordColor("turn_left", functionColor);
+
+        for (int i = 0; i <= 9; i++)
+        {
+            highlighter.AddKeywordColor(i.ToString(), numberColor);
+        }
+
+        highlighter.AddColorRegion("//", "", commentColor, true);
+        highlighter.AddColorRegion("/*", "*/", commentColor, false);
+
+        CodeInput.SyntaxHighlighter = highlighter;
+        CodeInput.PlaceholderText = Global.DefaultCodeTemplate;
+
+        // Автозавершення коду (IntelliSense)
+        CodeInput.CodeCompletionEnabled = true;
+        CodeInput.CodeCompletionPrefixes = new Godot.Collections.Array<string> { ".", "<", "#", "r", "ro", "rov", "rover", "m", "t", "f" };
+        CodeInput.Connect(CodeEdit.SignalName.CodeCompletionRequested, Callable.From(OnRequestCodeCompletion));
+
+        // Перехоплення клавіш Tab та Enter для автопідтвердження обраної підказки
+        CodeInput.GuiInput += (InputEvent @event) =>
+        {
+            if (@event is InputEventKey k && k.Pressed && !k.Echo)
+            {
+                if (k.Keycode == Key.Tab || k.Keycode == Key.Enter)
+                {
+                    CodeInput.ConfirmCodeCompletion();
+                }
+            }
+        };
+
+        // Завантажуємо збережений код або базову структуру C++
+        CodeInput.Text = Global.GetCodeForLevel(Global.SelectedLevelPath);
+
+        // Автоматичне збереження та автоматичний виклик автодоповнення при наборі 'r', 'ro', 'rov', 'rover.', '.'
+        CodeInput.TextChanged += () =>
+        {
+            Global.SaveCodeForLevel(Global.SelectedLevelPath, CodeInput.Text);
+
+            int line = CodeInput.GetCaretLine();
+            int col = CodeInput.GetCaretColumn();
+            string fullLine = CodeInput.GetLine(line);
+            if (col <= fullLine.Length)
+            {
+                string lineBefore = fullLine.Substring(0, col);
+                if (lineBefore.EndsWith(".") || System.Text.RegularExpressions.Regex.IsMatch(lineBefore, @"\b(r|ro|rov|rove|rover|m|mov|move|t|tur|turn|f|for|i|inc|incl|include)$", System.Text.RegularExpressions.RegexOptions.IgnoreCase))
+                {
+                    CodeInput.RequestCodeCompletion();
+                }
+            }
+        };
+    }
+
+    private void OnRequestCodeCompletion()
+    {
+        if (CodeInput == null) return;
+
+        int line = CodeInput.GetCaretLine();
+        int col = CodeInput.GetCaretColumn();
+        string fullLineText = CodeInput.GetLine(line);
+        string lineBeforeCaret = col <= fullLineText.Length ? fullLineText.Substring(0, col) : fullLineText;
+        string trimmedBefore = lineBeforeCaret.Trim();
+
+        Color functionColor = Color.FromHtml("#61afef");
+        Color roverColor = Color.FromHtml("#e06c75");
+        Color includeColor = Color.FromHtml("#98c379");
+        Color keywordColor = Color.FromHtml("#c678dd");
+
+        // КОНТЕКСТ 1: Якщо ми пишемо після крапки об'єкта rover. (наприклад "rover." або "rover.m")
+        if (System.Text.RegularExpressions.Regex.IsMatch(lineBeforeCaret, @"\brover\s*\.\s*\w*$"))
+        {
+            CodeInput.AddCodeCompletionOption(CodeEdit.CodeCompletionKind.Member, "move()", "move();", functionColor);
+            CodeInput.AddCodeCompletionOption(CodeEdit.CodeCompletionKind.Member, "turn_left()", "turn_left();", functionColor);
+            CodeInput.AddCodeCompletionOption(CodeEdit.CodeCompletionKind.Member, "turn_right()", "turn_right();", functionColor);
+        }
+        // КОНТЕКСТ 2: На початку файлу чи для вводу #include та main()
+        else if (trimmedBefore.StartsWith("#") || trimmedBefore.StartsWith("<") || line <= 1)
+        {
+            CodeInput.AddCodeCompletionOption(CodeEdit.CodeCompletionKind.Keyword, "#include <moving>", "#include <moving>\n", includeColor);
+            CodeInput.AddCodeCompletionOption(CodeEdit.CodeCompletionKind.Function, "int main()", "int main() {\n    rover.move();\n    return 0;\n}", keywordColor);
+            CodeInput.AddCodeCompletionOption(CodeEdit.CodeCompletionKind.Function, "void main()", "void main() {\n    rover.move();\n}", keywordColor);
+        }
+        // КОНТЕКСТ 3: Усередині тіла функції main()
+        else
+        {
+            CodeInput.AddCodeCompletionOption(CodeEdit.CodeCompletionKind.Keyword, "rover", "rover.", roverColor);
+            CodeInput.AddCodeCompletionOption(CodeEdit.CodeCompletionKind.Function, "rover.move()", "rover.move();", functionColor);
+            CodeInput.AddCodeCompletionOption(CodeEdit.CodeCompletionKind.Function, "rover.turn_left()", "rover.turn_left();", functionColor);
+            CodeInput.AddCodeCompletionOption(CodeEdit.CodeCompletionKind.Function, "rover.turn_right()", "rover.turn_right();", functionColor);
+            CodeInput.AddCodeCompletionOption(CodeEdit.CodeCompletionKind.Keyword, "for (int i = 0; i < N; i++)", "for (int i = 0; i < 3; i++) {\n    \n}", keywordColor);
+            CodeInput.AddCodeCompletionOption(CodeEdit.CodeCompletionKind.Keyword, "return 0;", "return 0;", keywordColor);
+        }
+
+        CodeInput.UpdateCodeCompletionOptions(true);
     }
 
     private void SpawnPlayer(Node3D levelInstance)
