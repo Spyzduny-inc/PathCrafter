@@ -1,6 +1,10 @@
 [gd_scene format=3 uid="uid://djypk3wx4hs4q"]
 
 [ext_resource type="Script" uid="uid://cqk4k1p5k7qxk" path="res://scripts/Gameplay/Pit.cs" id="1_esn5l"]
+[ext_resource type="Texture2D" uid="uid://bbnakd6vu1dcv" path="res://assets/textures/Sprites2D/яма1.png" id="2_kryp7"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kryp7"]
+albedo_texture = ExtResource("2_kryp7")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_wsqlc"]
 size = Vector2(1, 1)
@@ -14,6 +18,7 @@ script = ExtResource("1_esn5l")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=717684836]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.001, 0)
+material_override = SubResource("StandardMaterial3D_kryp7")
 mesh = SubResource("PlaneMesh_wsqlc")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1304719674]
