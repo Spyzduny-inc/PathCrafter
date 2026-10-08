@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://djypk3wx4hs4q"]
 
-[ext_resource type="Script" uid="uid://cqk4k1p5k7qxk" path="res://scripts/Gameplay/Pit.cs" id="1_esn5l"]
+[ext_resource type="Script" uid="uid://cjuu3j2n20ejp" path="res://scripts/gameplay/Tile.cs" id="1_tile"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_wsqlc"]
 size = Vector2(1, 1)
@@ -10,7 +10,8 @@ size = Vector3(1, 0.01, 1)
 
 [node name="Pit" type="Area3D" unique_id=2140515580]
 collision_layer = 2
-script = ExtResource("1_esn5l")
+script = ExtResource("1_tile")
+Type = 2
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=717684836]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.001, 0)

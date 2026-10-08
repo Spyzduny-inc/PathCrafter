@@ -7,11 +7,13 @@
 [sub_resource type="BoxShape3D" id="BoxShape3D_8d35g"]
 size = Vector3(0.6652832, 0.6856079, 0.71435547)
 
-[node name="Player" type="CharacterBody3D" unique_id=932391911 node_paths=PackedStringArray("LeftWheels", "RightWheels")]
+[node name="Player" type="CharacterBody3D" unique_id=932391911 node_paths=PackedStringArray("FrontLeftWheel", "BackLeftWheel", "FrontRightWheel", "BackRightWheel")]
 collision_mask = 3
 script = ExtResource("1_p0vlq")
-LeftWheels = [NodePath("NRK/Wheel_BackLeft"), NodePath("NRK/Wheel_FrontLeft")]
-RightWheels = [NodePath("NRK/Wheel_BackRight"), NodePath("NRK/Wheel_FrontRight")]
+FrontLeftWheel = NodePath("NRK/Wheel_FrontLeft")
+BackLeftWheel = NodePath("NRK/Wheel_BackLeft")
+FrontRightWheel = NodePath("NRK/Wheel_FrontRight")
+BackRightWheel = NodePath("NRK/Wheel_BackRight")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=555617924]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.002, -0.14686829, -0.058869142)

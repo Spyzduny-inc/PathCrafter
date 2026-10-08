@@ -1,32 +1,102 @@
 [gd_scene format=3 uid="uid://dgufoa4ref1o4"]
 
-[ext_resource type="Script" uid="uid://ddrlstwdj2h28" path="res://scripts/Gameplay/LevelEditor.cs" id="1_sxk07"]
+[ext_resource type="Script" uid="uid://ddrlstwdj2h28" path="res://scripts/levels/LevelEditor.cs" id="1_sxk07"]
 [ext_resource type="PackedScene" uid="uid://bluw823eeqtyj" path="res://scenes/utilities/GridGenerator.tscn" id="2_7j0oh"]
 [ext_resource type="PackedScene" uid="uid://dg0vws2uqmj4m" path="res://scenes/modules/Rock.tscn" id="2_7vcq5"]
-[ext_resource type="Script" uid="uid://l417kou8m6l6" path="res://scripts/Gameplay/CameraController.cs" id="3_03p3h"]
+[ext_resource type="Script" uid="uid://l417kou8m6l6" path="res://scripts/gameplay/CameraController.cs" id="3_03p3h"]
 [ext_resource type="PackedScene" uid="uid://bfgbydrfmwrd8" path="res://scenes/modules/Floor.tscn" id="3_wus3n"]
 [ext_resource type="PackedScene" uid="uid://djypk3wx4hs4q" path="res://scenes/modules/Pit.tscn" id="3_x4i5d"]
 [ext_resource type="PackedScene" uid="uid://dsha5ifsdq7jt" path="res://scenes/modules/FinishPoint.tscn" id="4_kr27j"]
 [ext_resource type="PackedScene" uid="uid://bmmwdfhkay4cg" path="res://scenes/modules/PlayerSpawn.tscn" id="5_kr27j"]
 [ext_resource type="PackedScene" uid="uid://vu10lch3wfts" path="res://scenes/environment/sky.tscn" id="5_x4i5d"]
 
-[node name="LevelEditor" type="Node3D" unique_id=734962760 node_paths=PackedStringArray("RockButton", "PitButton", "FinishButton", "PlayerSpawnButton", "GenerateButton", "UndoButton", "SaveButton", "BackToMenuButton", "WidthSpinBox", "HeightSpinBox", "GridGeneratorNode")]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_TopBarBg"]
+bg_color = Color(0.067, 0.067, 0.106, 0.92)
+border_width_bottom = 2
+border_color = Color(0.901961, 0.360784, 0, 0.6)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_RightPanelBg"]
+bg_color = Color(0.067, 0.067, 0.106, 0.92)
+border_width_left = 2
+border_color = Color(0.901961, 0.360784, 0, 0.6)
+corner_radius_top_left = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_Separator"]
+color = Color(0.901961, 0.360784, 0, 0.4)
+thickness = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_BtnNormal"]
+content_margin_left = 8.0
+content_margin_top = 6.0
+content_margin_right = 8.0
+content_margin_bottom = 6.0
+bg_color = Color(0.117647, 0.117647, 0.180392, 0.8)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_BtnHover"]
+content_margin_left = 8.0
+content_margin_top = 6.0
+content_margin_right = 8.0
+content_margin_bottom = 6.0
+bg_color = Color(0.165, 0.165, 0.24, 0.95)
+border_width_left = 3
+border_color = Color(0.901961, 0.360784, 0, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_BtnPressed"]
+content_margin_left = 8.0
+content_margin_top = 6.0
+content_margin_right = 8.0
+content_margin_bottom = 6.0
+bg_color = Color(0.7, 0.28, 0, 0.85)
+border_width_left = 3
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_RotateBtnNormal"]
+content_margin_left = 8.0
+content_margin_top = 6.0
+content_margin_right = 8.0
+content_margin_bottom = 6.0
+bg_color = Color(0.14, 0.14, 0.22, 0.9)
+border_width_left = 2
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.901961, 0.360784, 0, 0.7)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="LevelEditor" type="Node3D" unique_id=734962760 node_paths=PackedStringArray("RockButton", "PitButton", "FinishButton", "PlayerSpawnButton", "RotatePlayerButton", "GenerateButton", "UndoButton", "SaveButton", "BackToMenuButton", "WidthSpinBox", "HeightSpinBox", "GridGeneratorNode")]
 script = ExtResource("1_sxk07")
 RockScene = ExtResource("2_7vcq5")
 PitScene = ExtResource("3_x4i5d")
 FinishScene = ExtResource("4_kr27j")
 PlayerSpawnScene = ExtResource("5_kr27j")
 SkyScene = ExtResource("5_x4i5d")
-RockButton = NodePath("UI/RightPanel/RockButton")
-PitButton = NodePath("UI/RightPanel/PitButton")
-FinishButton = NodePath("UI/RightPanel/FinishButton")
-PlayerSpawnButton = NodePath("UI/RightPanel/PlayerSpawnButton")
-GenerateButton = NodePath("UI/TopBar/GenerateButton")
-UndoButton = NodePath("UI/TopBar/UndoButton")
-SaveButton = NodePath("UI/TopBar/SaveButton")
-BackToMenuButton = NodePath("UI/TopBar/BackToMenuButton")
-WidthSpinBox = NodePath("UI/TopBar/WidthSpinBox")
-HeightSpinBox = NodePath("UI/TopBar/HeightSpinBox")
+RockButton = NodePath("UI/RightPanel/Margin/VBox/RockButton")
+PitButton = NodePath("UI/RightPanel/Margin/VBox/PitButton")
+FinishButton = NodePath("UI/RightPanel/Margin/VBox/FinishButton")
+PlayerSpawnButton = NodePath("UI/RightPanel/Margin/VBox/PlayerSpawnButton")
+RotatePlayerButton = NodePath("UI/RightPanel/Margin/VBox/RotatePlayerButton")
+GenerateButton = NodePath("UI/TopBar/Margin/HBox/GenerateButton")
+UndoButton = NodePath("UI/TopBar/Margin/HBox/UndoButton")
+SaveButton = NodePath("UI/TopBar/Margin/HBox/SaveButton")
+BackToMenuButton = NodePath("UI/TopBar/Margin/HBox/BackToMenuButton")
+WidthSpinBox = NodePath("UI/TopBar/Margin/HBox/WidthSpinBox")
+HeightSpinBox = NodePath("UI/TopBar/Margin/HBox/HeightSpinBox")
 GridGeneratorNode = NodePath("SubViewportContainer/SubViewport/GridGenerator")
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=774831043]
@@ -64,57 +134,207 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="TopBar" type="HBoxContainer" parent="UI" unique_id=1272468982]
+[node name="TopBar" type="PanelContainer" parent="UI" unique_id=1272468982]
+custom_minimum_size = Vector2(0, 46)
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_bottom = 31.0
+offset_bottom = 46.0
 grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_TopBarBg")
 
-[node name="WidthSpinBox" type="SpinBox" parent="UI/TopBar" unique_id=125140432]
+[node name="Margin" type="MarginContainer" parent="UI/TopBar"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 4
+
+[node name="HBox" type="HBoxContainer" parent="UI/TopBar/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="TitleLabel" type="Label" parent="UI/TopBar/Margin/HBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.901961, 0.360784, 0, 1)
+theme_override_font_sizes/font_size = 13
+text = "[ РЕДАКТОР СЕКТОРА ]"
+
+[node name="Spacer" type="Control" parent="UI/TopBar/Margin/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="WidthLabel" type="Label" parent="UI/TopBar/Margin/HBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.796078, 0.835294, 0.882353, 1)
+theme_override_font_sizes/font_size = 12
+text = "Ширина:"
+
+[node name="WidthSpinBox" type="SpinBox" parent="UI/TopBar/Margin/HBox" unique_id=125140432]
+custom_minimum_size = Vector2(58, 30)
 layout_mode = 2
 
-[node name="HeightSpinBox" type="SpinBox" parent="UI/TopBar" unique_id=1735300930]
+[node name="HeightLabel" type="Label" parent="UI/TopBar/Margin/HBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.796078, 0.835294, 0.882353, 1)
+theme_override_font_sizes/font_size = 12
+text = "Глибина:"
+
+[node name="HeightSpinBox" type="SpinBox" parent="UI/TopBar/Margin/HBox" unique_id=1735300930]
+custom_minimum_size = Vector2(58, 30)
 layout_mode = 2
 
-[node name="GenerateButton" type="Button" parent="UI/TopBar" unique_id=510181087]
+[node name="GenerateButton" type="Button" parent="UI/TopBar/Margin/HBox" unique_id=510181087]
+custom_minimum_size = Vector2(100, 32)
 layout_mode = 2
-text = "Створити сітку"
+theme_override_colors/font_color = Color(0.796078, 0.835294, 0.882353, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_BtnNormal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_BtnHover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_BtnPressed")
+theme_override_styles/focus = SubResource("StyleBoxFlat_BtnHover")
+text = "⚙ СІТКА"
 
-[node name="SaveButton" type="Button" parent="UI/TopBar" unique_id=1739776755]
+[node name="SaveButton" type="Button" parent="UI/TopBar/Margin/HBox" unique_id=1739776755]
+custom_minimum_size = Vector2(105, 32)
 layout_mode = 2
-text = "Зберегти"
+theme_override_colors/font_color = Color(0.796078, 0.835294, 0.882353, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_BtnNormal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_BtnHover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_BtnPressed")
+theme_override_styles/focus = SubResource("StyleBoxFlat_BtnHover")
+text = "💾 ЗБЕРЕГТИ"
 
-[node name="UndoButton" type="Button" parent="UI/TopBar" unique_id=1441288093]
+[node name="UndoButton" type="Button" parent="UI/TopBar/Margin/HBox" unique_id=1441288093]
+custom_minimum_size = Vector2(100, 32)
 layout_mode = 2
-text = "Відмінити"
+theme_override_colors/font_color = Color(0.796078, 0.835294, 0.882353, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_BtnNormal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_BtnHover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_BtnPressed")
+theme_override_styles/focus = SubResource("StyleBoxFlat_BtnHover")
+text = "↩ ВІДМІНИТИ"
 
-[node name="BackToMenuButton" type="Button" parent="UI/TopBar" unique_id=1610658477]
+[node name="BackToMenuButton" type="Button" parent="UI/TopBar/Margin/HBox" unique_id=1610658477]
+custom_minimum_size = Vector2(80, 32)
 layout_mode = 2
-text = "Вихід у меню"
+theme_override_colors/font_color = Color(0.796078, 0.835294, 0.882353, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_BtnNormal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_BtnHover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_BtnPressed")
+theme_override_styles/focus = SubResource("StyleBoxFlat_BtnHover")
+text = "🚪 МЕНЮ"
 
-[node name="RightPanel" type="VBoxContainer" parent="UI" unique_id=1219617308]
+[node name="RightPanel" type="PanelContainer" parent="UI" unique_id=1219617308]
+custom_minimum_size = Vector2(170, 0)
 layout_mode = 1
 anchors_preset = 11
 anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -56.0
+offset_left = -170.0
+offset_top = 50.0
 grow_horizontal = 0
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_RightPanelBg")
 
-[node name="RockButton" type="Button" parent="UI/RightPanel" unique_id=68795711]
+[node name="Margin" type="MarginContainer" parent="UI/RightPanel"]
 layout_mode = 2
-text = "Камінь"
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 14
 
-[node name="PitButton" type="Button" parent="UI/RightPanel" unique_id=1176235346]
+[node name="VBox" type="VBoxContainer" parent="UI/RightPanel/Margin"]
 layout_mode = 2
-text = "Яма"
+theme_override_constants/separation = 8
 
-[node name="FinishButton" type="Button" parent="UI/RightPanel" unique_id=782566203]
+[node name="HeaderTitle" type="Label" parent="UI/RightPanel/Margin/VBox"]
 layout_mode = 2
-text = "Фініш"
+theme_override_colors/font_color = Color(0.901961, 0.360784, 0, 1)
+theme_override_font_sizes/font_size = 13
+text = "[ ЕЛЕМЕНТИ ]"
+horizontal_alignment = 1
 
-[node name="PlayerSpawnButton" type="Button" parent="UI/RightPanel" unique_id=323520535]
+[node name="Separator" type="HSeparator" parent="UI/RightPanel/Margin/VBox"]
 layout_mode = 2
-text = "Гравець"
+theme_override_styles/separator = SubResource("StyleBoxLine_Separator")
+
+[node name="RockButton" type="Button" parent="UI/RightPanel/Margin/VBox" unique_id=68795711]
+custom_minimum_size = Vector2(0, 38)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.796078, 0.835294, 0.882353, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_BtnNormal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_BtnHover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_BtnPressed")
+theme_override_styles/focus = SubResource("StyleBoxFlat_BtnHover")
+text = "⛰  КАМІНЬ"
+alignment = 0
+
+[node name="PitButton" type="Button" parent="UI/RightPanel/Margin/VBox" unique_id=1176235346]
+custom_minimum_size = Vector2(0, 38)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.796078, 0.835294, 0.882353, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_BtnNormal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_BtnHover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_BtnPressed")
+theme_override_styles/focus = SubResource("StyleBoxFlat_BtnHover")
+text = "🕳  ЯМА"
+alignment = 0
+
+[node name="FinishButton" type="Button" parent="UI/RightPanel/Margin/VBox" unique_id=782566203]
+custom_minimum_size = Vector2(0, 38)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.796078, 0.835294, 0.882353, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_BtnNormal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_BtnHover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_BtnPressed")
+theme_override_styles/focus = SubResource("StyleBoxFlat_BtnHover")
+text = "🎯  ФІНІШ"
+alignment = 0
+
+[node name="PlayerSpawnButton" type="Button" parent="UI/RightPanel/Margin/VBox" unique_id=323520535]
+custom_minimum_size = Vector2(0, 38)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.796078, 0.835294, 0.882353, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_BtnNormal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_BtnHover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_BtnPressed")
+theme_override_styles/focus = SubResource("StyleBoxFlat_BtnHover")
+text = "🤖  ГРАВЕЦЬ"
+alignment = 0
+
+[node name="RotatePlayerButton" type="Button" parent="UI/RightPanel/Margin/VBox" unique_id=198273641]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.901961, 0.54902, 0.2, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 11
+theme_override_styles/normal = SubResource("StyleBoxFlat_RotateBtnNormal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_BtnHover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_BtnPressed")
+theme_override_styles/focus = SubResource("StyleBoxFlat_BtnHover")
+text = "🔄 ПОВЕРНУТИ (0°)"
+alignment = 0
+
+[node name="HintLabel" type="Label" parent="UI/RightPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.45, 0.5, 0.58, 1)
+theme_override_font_sizes/font_size = 10
+text = "Клавіша [R] — повернути"
+horizontal_alignment = 1
