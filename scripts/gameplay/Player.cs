@@ -5,8 +5,14 @@ public partial class Player : CharacterBody3D
 {
     public enum MoveResult { Success, HitWall, FellInPit }
 
+    // --- Окремі змінні для ВСІХ ЧОТИРЬОХ КОЛІС ---
+    [Export] public Node3D FrontLeftWheel { get; set; }
+    [Export] public Node3D BackLeftWheel { get; set; }
+    [Export] public Node3D FrontRightWheel { get; set; }
+    [Export] public Node3D BackRightWheel { get; set; }
+
     private int _currentDirection = 0; // 0 = вперед (-Z), 1 = праворуч (+X), 2 = назад (+Z), 3 = ліворуч (-X)
-    
+
     private readonly Vector3[] _directions = new Vector3[]
     {
         new Vector3(0, 0, -1),
@@ -38,11 +44,11 @@ public partial class Player : CharacterBody3D
     public void ResetToStart()
     {
         GlobalPosition = _startPosition;
-        
+
         Vector3 rot = Rotation;
         rot.Y = _startRotationY;
         Rotation = rot;
-        
+
         _currentDirection = _startDirection;
     }
 
@@ -52,8 +58,8 @@ public partial class Player : CharacterBody3D
         Vector3 targetPosition = GlobalPosition + forwardDir;
         Vector2I targetGridPos = new Vector2I(Mathf.RoundToInt(targetPosition.X), Mathf.RoundToInt(targetPosition.Z));
 
-        TileType tileAtTarget = GridManager.Instance != null 
-            ? GridManager.Instance.GetTileAt(targetGridPos) 
+        TileType tileAtTarget = GridManager.Instance != null
+            ? GridManager.Instance.GetTileAt(targetGridPos)
             : TileType.Empty;
 
         if (tileAtTarget == TileType.Wall)
@@ -72,7 +78,19 @@ public partial class Player : CharacterBody3D
         if (GridManager.Instance == null || GridManager.Instance.IsWalkable(targetGridPos))
         {
             var tween = CreateTween();
+
+            tween.SetParallel(true);
             tween.TweenProperty(this, "position", targetPosition, 0.3f);
+
+            // Анімуємо всі чотири колеса (рух вперед)
+            float rotAngle = Mathf.Pi;
+            if (FrontLeftWheel != null) tween.TweenProperty(FrontLeftWheel, "rotation:x", FrontLeftWheel.Rotation.X - rotAngle, 0.3f);
+            if (BackLeftWheel != null) tween.TweenProperty(BackLeftWheel, "rotation:x", BackLeftWheel.Rotation.X - rotAngle, 0.3f);
+            if (FrontRightWheel != null) tween.TweenProperty(FrontRightWheel, "rotation:x", FrontRightWheel.Rotation.X - rotAngle, 0.3f);
+            if (BackRightWheel != null) tween.TweenProperty(BackRightWheel, "rotation:x", BackRightWheel.Rotation.X - rotAngle, 0.3f);
+
+            tween.SetParallel(false);
+
             await ToSignal(tween, Tween.SignalName.Finished);
             return MoveResult.Success;
         }
@@ -83,19 +101,31 @@ public partial class Player : CharacterBody3D
     public async Task TurnRight()
     {
         _currentDirection = (_currentDirection + 1) % 4;
-        await RotateSmoothly(-Mathf.DegToRad(90));
+        // Праворуч: ліві колеса крутяться вперед (-), праві назад (+)
+        await RotateSmoothly(-Mathf.DegToRad(90), -Mathf.Pi, Mathf.Pi);
     }
 
     public async Task TurnLeft()
     {
         _currentDirection = (_currentDirection + 3) % 4;
-        await RotateSmoothly(Mathf.DegToRad(90));
+        // Ліворуч: ліві колеса крутяться назад (+), праві вперед (-)
+        await RotateSmoothly(Mathf.DegToRad(90), Mathf.Pi, -Mathf.Pi);
     }
 
-    private async Task RotateSmoothly(float targetAngleDelta)
+    private async Task RotateSmoothly(float targetAngleDelta, float leftWheelSpin, float rightWheelSpin)
     {
+        const float duration = 0.2f;
+
         var tween = CreateTween();
-        tween.TweenProperty(this, "rotation:y", Rotation.Y + targetAngleDelta, 0.2f);
+        tween.SetParallel(true);
+        tween.TweenProperty(this, "rotation:y", Rotation.Y + targetAngleDelta, duration);
+
+        // Колеса лівого та правого борту крутяться в різні боки
+        if (FrontLeftWheel != null) tween.TweenProperty(FrontLeftWheel, "rotation:x", FrontLeftWheel.Rotation.X + leftWheelSpin, duration);
+        if (BackLeftWheel != null) tween.TweenProperty(BackLeftWheel, "rotation:x", BackLeftWheel.Rotation.X + leftWheelSpin, duration);
+        if (FrontRightWheel != null) tween.TweenProperty(FrontRightWheel, "rotation:x", FrontRightWheel.Rotation.X + rightWheelSpin, duration);
+        if (BackRightWheel != null) tween.TweenProperty(BackRightWheel, "rotation:x", BackRightWheel.Rotation.X + rightWheelSpin, duration);
+
         await ToSignal(tween, Tween.SignalName.Finished);
     }
 }
