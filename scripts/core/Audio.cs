@@ -12,12 +12,22 @@ public partial class Audio : Node
 
 	private const string SoundsPath = "res://assets/sounds/";
 
+	// Гучність кожного ефекту в дБ: 0 = оригінал, менше число = тихіше
+	private readonly Dictionary<string, float> _sfxVolume = new()
+	{
+		{ "click", -14f },
+		{ "stop",  -12f },
+		{ "crash",   0f },
+		{ "fall",    0f },
+		{ "win",     0f },
+	};
+
 	public override void _Ready()
 	{
 		Instance = this;
 		ProcessMode = ProcessModeEnum.Always;
 
-		foreach (var name in new[] { "click", "stop", "crash", "fall" })
+		foreach (var name in _sfxVolume.Keys)
 			_sfx[name] = GD.Load<AudioStream>($"{SoundsPath}{name}.mp3");
 
 		_music.VolumeDb = -8;
@@ -51,7 +61,11 @@ public partial class Audio : Node
 	public void PlaySfx(string name)
 	{
 		if (!_sfx.TryGetValue(name, out var stream)) return;
-		var p = new AudioStreamPlayer { Stream = stream };
+		var p = new AudioStreamPlayer
+		{
+			Stream = stream,
+			VolumeDb = _sfxVolume.GetValueOrDefault(name, 0f)
+		};
 		AddChild(p);
 		p.Finished += p.QueueFree;
 		p.Play();

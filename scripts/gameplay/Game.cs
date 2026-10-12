@@ -378,7 +378,7 @@ public partial class Game : Node3D
 				if (_finishPoint != null && IsInstanceValid(_finishPoint) && _spawnedRover.GlobalPosition.DistanceTo(_finishPoint.GlobalPosition) < 0.5f)
 				{
 					Audio.Instance.StopRide();
-					Audio.Instance.PlaySfx("stop");
+					Audio.Instance.PlaySfx("win");
 
 					if (ConsoleOutput != null) ConsoleOutput.Text += "\n[ УСПІХ ]: Місію виконано! Команда C++ успішно опрацьована.";
 					
@@ -395,6 +395,9 @@ public partial class Game : Node3D
 				}
 				else
 				{
+					Audio.Instance.StopRide();
+					Audio.Instance.PlaySfx("stop");
+
 					if (ConsoleOutput != null) ConsoleOutput.Text += "\n[ ПРОВАЛ ]: Код завершився, але ти не на фініші. Бах і капець!";
 				}
 			}
