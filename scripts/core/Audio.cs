@@ -59,11 +59,47 @@ public partial class Audio : Node
 		_ride.VolumeDb = 6;
 		AddChild(_ride);
 
+		ApplySettings();
+
 		// клік на всіх кнопках в усіх сценах
 		GetTree().NodeAdded += node =>
 		{
 			if (node is BaseButton b) b.Pressed += () => PlaySfx("click");
 		};
+	}
+
+	public void ApplySettings()
+	{
+		// 1. Загальна гучність (Master Bus)
+		int masterBus = AudioServer.GetBusIndex("Master");
+		if (masterBus >= 0)
+		{
+			if (Global.MasterVolume <= 0.001f)
+			{
+				AudioServer.SetBusMute(masterBus, true);
+			}
+			else
+			{
+				AudioServer.SetBusMute(masterBus, false);
+				AudioServer.SetBusVolumeDb(masterBus, Mathf.LinearToDb(Global.MasterVolume));
+			}
+		}
+
+		// 2. Гучність поточної фонової музики
+		if (_activePlayer != null && _activePlayer.Playing && !string.IsNullOrEmpty(_currentMusic))
+		{
+			float baseVol = _musicVolume.GetValueOrDefault(_currentMusic, DefaultMusicVolumeDb);
+			_activePlayer.VolumeDb = baseVol + GetMusicOffsetDb();
+		}
+
+		// 3. Гучність звуку двигуна марсохода
+		float engineOffset = Global.EngineVolume <= 0.001f ? FadeSilenceDb : Mathf.LinearToDb(Global.EngineVolume);
+		_ride.VolumeDb = 6.0f + engineOffset;
+	}
+
+	private float GetMusicOffsetDb()
+	{
+		return Global.MusicVolume <= 0.001f ? FadeSilenceDb : Mathf.LinearToDb(Global.MusicVolume);
 	}
 
 	// "menu", "select" або "on_play" з ніжним, м'яким crossfade переходом
@@ -79,7 +115,7 @@ public partial class Audio : Node
 		if (stream == null) return;
 		stream.Loop = true;
 
-		float targetVolume = _musicVolume.GetValueOrDefault(name, DefaultMusicVolumeDb);
+		float targetVolume = _musicVolume.GetValueOrDefault(name, DefaultMusicVolumeDb) + GetMusicOffsetDb();
 
 		// Якщо зараз ніяка музика не грає — плавно запускаємо активний плеєр
 		if (_activePlayer == null || !_activePlayer.Playing)
@@ -130,17 +166,33 @@ public partial class Audio : Node
 
 	public void PlaySfx(string name)
 	{
+		if (Global.SfxVolume <= 0.001f) return;
 		if (!_sfx.TryGetValue(name, out var stream)) return;
+		
+		float sfxOffset = Mathf.LinearToDb(Global.SfxVolume);
 		var p = new AudioStreamPlayer
 		{
 			Stream = stream,
-			VolumeDb = _sfxVolume.GetValueOrDefault(name, 0f)
+			VolumeDb = _sfxVolume.GetValueOrDefault(name, 0f) + sfxOffset
 		};
 		AddChild(p);
 		p.Finished += p.QueueFree;
 		p.Play();
 	}
 
-	public void StartRide() { if (!_ride.Playing) _ride.Play(); }
+	public void StartRide()
+	{
+		float engineOffset = Global.EngineVolume <= 0.001f ? FadeSilenceDb : Mathf.LinearToDb(Global.EngineVolume);
+		_ride.VolumeDb = 6.0f + engineOffset;
+		if (!_ride.Playing) _ride.Play();
+	}
+
 	public void StopRide()  { _ride.Stop(); }
+
+	public void PlayEngineTest()
+	{
+		StartRide();
+		var timer = GetTree().CreateTimer(0.8);
+		timer.Timeout += StopRide;
+	}
 }
