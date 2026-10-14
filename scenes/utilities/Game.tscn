@@ -139,10 +139,11 @@ corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 
-[node name="Game" type="Node3D" unique_id=1987085889 node_paths=PackedStringArray("ExitButton", "CodeInput", "RunButton", "ResetButton", "ConsoleOutput", "HelpButton", "HelpPanel", "RightEngineerPanel", "ToggleTerminalButton")]
+[node name="Game" type="Node3D" unique_id=1987085889 node_paths=PackedStringArray("ExitButton", "SettingsButton", "CodeInput", "RunButton", "ResetButton", "ConsoleOutput", "HelpButton", "HelpPanel", "RightEngineerPanel", "ToggleTerminalButton")]
 script = ExtResource("1_movtg")
 PlayerScene = ExtResource("2_qq6cj")
 ExitButton = NodePath("CanvasLayer/TopBar/Margin/HBox/ExitButton")
+SettingsButton = NodePath("CanvasLayer/TopBar/Margin/HBox/SettingsButton")
 CodeInput = NodePath("CanvasLayer/RightEngineerPanel/Margin/VBox/CodeInput")
 RunButton = NodePath("CanvasLayer/RightEngineerPanel/Margin/VBox/ButtonBar/RunButton")
 ResetButton = NodePath("CanvasLayer/RightEngineerPanel/Margin/VBox/ButtonBar/ResetButton")
@@ -174,17 +175,27 @@ theme_override_constants/margin_bottom = 6
 
 [node name="HBox" type="HBoxContainer" parent="CanvasLayer/TopBar/Margin"]
 layout_mode = 2
-theme_override_constants/separation = 20
+theme_override_constants/separation = 16
 
 [node name="ExitButton" type="Button" parent="CanvasLayer/TopBar/Margin/HBox" unique_id=944693506]
-custom_minimum_size = Vector2(100, 32)
+custom_minimum_size = Vector2(90, 32)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.796078, 0.835294, 0.882353, 1)
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 13
 theme_override_styles/normal = SubResource("StyleBoxFlat_ExitBtnNormal")
 theme_override_styles/hover = SubResource("StyleBoxFlat_ExitBtnHover")
 text = "< НАЗАД"
+
+[node name="SettingsButton" type="Button" parent="CanvasLayer/TopBar/Margin/HBox" unique_id=149812401]
+custom_minimum_size = Vector2(140, 32)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.796078, 0.835294, 0.882353, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_ExitBtnNormal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ExitBtnHover")
+text = "⚙ НАЛАШТУВАННЯ"
 
 [node name="MissionLabel" type="Label" parent="CanvasLayer/TopBar/Margin/HBox"]
 layout_mode = 2
