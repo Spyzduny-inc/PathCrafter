@@ -2,21 +2,45 @@
 
 [ext_resource type="Script" uid="uid://decpe55hsd4ci" path="res://scripts/core/ChapterData.cs" id="1_d8s6n"]
 [ext_resource type="Script" uid="uid://rydxhdk38klc" path="res://scripts/ui/LevelSelectConfig.cs" id="2_ssq45"]
-[ext_resource type="Script" uid="uid://dgxqk3xreg8al" path="res://scripts/core/LevelData.cs" id="2_xtl6q"]
+[ext_resource type="Script" uid="uid://dgxqk3xreg8al" path="res://scripts/core/LevelData.cs" id="3_xtl6q"]
 
-[sub_resource type="Resource" id="Resource_4gkrj"]
-script = ExtResource("2_xtl6q")
+[sub_resource type="Resource" id="Resource_lvl1"]
+script = ExtResource("3_xtl6q")
 LevelName = "1"
 LevelScenePath = "res://scenes/levels/customs/Level_1.tscn"
 metadata/_custom_type_script = "uid://dgxqk3xreg8al"
 
-[sub_resource type="Resource" id="Resource_xtl6q"]
+[sub_resource type="Resource" id="Resource_lvl2"]
+script = ExtResource("3_xtl6q")
+LevelName = "2"
+LevelScenePath = "res://scenes/levels/customs/Level_2.tscn"
+metadata/_custom_type_script = "uid://dgxqk3xreg8al"
+
+[sub_resource type="Resource" id="Resource_lvl3"]
+script = ExtResource("3_xtl6q")
+LevelName = "3"
+LevelScenePath = "res://scenes/levels/customs/Level_3.tscn"
+metadata/_custom_type_script = "uid://dgxqk3xreg8al"
+
+[sub_resource type="Resource" id="Resource_lvl4"]
+script = ExtResource("3_xtl6q")
+LevelName = "4"
+LevelScenePath = "res://scenes/levels/customs/Level_4.tscn"
+metadata/_custom_type_script = "uid://dgxqk3xreg8al"
+
+[sub_resource type="Resource" id="Resource_chap1"]
 script = ExtResource("1_d8s6n")
-ChapterName = "Глава 1"
-Levels = Array[ExtResource("2_xtl6q")]([SubResource("Resource_4gkrj")])
+ChapterName = "ГЛАВА 1: ПЕРШІ КРОКИ"
+Levels = Array[ExtResource("3_xtl6q")]([SubResource("Resource_lvl1"), SubResource("Resource_lvl2"), SubResource("Resource_lvl3"), SubResource("Resource_lvl4")])
+metadata/_custom_type_script = "uid://decpe55hsd4ci"
+
+[sub_resource type="Resource" id="Resource_chap2"]
+script = ExtResource("1_d8s6n")
+ChapterName = "ГЛАВА 2: СЕКТОР B"
+Levels = Array[ExtResource("3_xtl6q")]([])
 metadata/_custom_type_script = "uid://decpe55hsd4ci"
 
 [resource]
 script = ExtResource("2_ssq45")
-Chapters = Array[ExtResource("1_d8s6n")]([SubResource("Resource_xtl6q")])
+Chapters = Array[ExtResource("1_d8s6n")]([SubResource("Resource_chap1"), SubResource("Resource_chap2")])
 metadata/_custom_type_script = "uid://rydxhdk38klc"

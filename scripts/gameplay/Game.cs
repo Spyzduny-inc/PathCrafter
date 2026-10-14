@@ -383,7 +383,16 @@ public partial class Game : Node3D
 					if (ConsoleOutput != null) ConsoleOutput.Text += "\n[ УСПІХ ]: Місію виконано! Команда C++ успішно опрацьована.";
 					
 					// Розблоковуємо наступний рівень та викликаємо вікно перемоги
-					Global.UnlockNextLevel(0);
+					int completedIdx = 0;
+					if (!string.IsNullOrEmpty(Global.SelectedLevelPath))
+					{
+						var match = System.Text.RegularExpressions.Regex.Match(Global.SelectedLevelPath, @"Level_(\d+)");
+						if (match.Success && int.TryParse(match.Groups[1].Value, out int lvlNum))
+						{
+							completedIdx = lvlNum - 1;
+						}
+					}
+					Global.UnlockNextLevel(completedIdx);
 					
 					if (RightEngineerPanel != null) RightEngineerPanel.Visible = false;
 					if (ToggleTerminalButton != null) ToggleTerminalButton.Text = "[ < ] ВІДКРИТИ КОД";
