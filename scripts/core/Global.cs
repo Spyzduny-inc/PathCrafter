@@ -5,6 +5,7 @@ public partial class Global : Node
 {
     // Шлях до обраного поточного рівня
     public static string SelectedLevelPath { get; set; } = "";
+    public static int CurrentLevelNumber { get; set; } = 1;
     public static bool ShowCameraHelp { get; set; } = true; // За замовчуванням увімкнено
 
     // Система прогресу рівнів (на старті доступний лише 0-й рівень)
