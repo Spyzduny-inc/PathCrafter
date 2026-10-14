@@ -112,7 +112,7 @@ public partial class LevelSelectMenu : Control
     public override void _Ready()
     {
         GC.Collect();
-        Audio.Instance?.PlayMusic("select");
+        Audio.Instance?.PlayMusic("select", 1.4f);
 
         ChapterBackground ??= GetNodeOrNull<TextureRect>("ChapterBackground");
         ChapterTitleLabel ??= GetNodeOrNull<Label>("TopBar/Margin/HBox/CenterPanel/TitleVBox/ChapterTitleLabel") ?? FindChild("ChapterTitleLabel", true, false) as Label;

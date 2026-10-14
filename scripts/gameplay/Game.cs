@@ -308,9 +308,10 @@ public partial class Game : Node3D
 	private void OnExitButtonPressed()
 	{
 		_isRunning = false; 
+		Audio.Instance?.StopRide();
 		GetViewport().GuiReleaseFocus();
 		QueueFree();
-		GetTree().CallDeferred(SceneTree.MethodName.ChangeSceneToFile, "res://scenes/ui/MainMenu.tscn");
+		GetTree().CallDeferred(SceneTree.MethodName.ChangeSceneToFile, Paths.LevelSelectMenuScene);
 	}
 
 	private async void OnRunButtonPressed()
