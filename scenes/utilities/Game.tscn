@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://dl8qantu0mbfs"]
 
-[ext_resource type="Script" uid="uid://dbcnw7tjrw2eo" path="res://scripts/Game.cs" id="1_movtg"]
+[ext_resource type="Script" uid="uid://dbcnw7tjrw2eo" path="res://scripts/gameplay/Game.cs" id="1_movtg"]
 [ext_resource type="PackedScene" uid="uid://co48g5gpfmjof" path="res://scenes/entities/Player.tscn" id="2_qq6cj"]
 [ext_resource type="Texture2D" uid="uid://d2m0s2gecb6v" path="res://assets/textures/Sprites2D/sand_base_01.png" id="3_qq6cj"]
-[ext_resource type="Script" uid="uid://b70t8240gc7ax" path="res://scripts/UI/CameraHelpPanel.cs" id="4_ru417"]
+[ext_resource type="Script" path="res://scripts/ui/DraggableDocsPanel.cs" id="4_docs_drag"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6im4y"]
 albedo_texture = ExtResource("3_qq6cj")
@@ -14,16 +14,143 @@ texture_filter = 0
 material = SubResource("StandardMaterial3D_6im4y")
 size = Vector2(1, 1)
 
-[node name="Game" type="Node3D" unique_id=1987085889 node_paths=PackedStringArray("ExitButton", "CodeInput", "RunButton", "ResetButton", "ConsoleOutput", "HelpButton", "HelpPanel")]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_TopBarBg"]
+bg_color = Color(0.035, 0.051, 0.086, 0.93)
+border_width_bottom = 1
+border_color = Color(0.118, 0.161, 0.231, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ExitBtnNormal"]
+content_margin_left = 12.0
+content_margin_top = 6.0
+content_margin_right = 12.0
+content_margin_bottom = 6.0
+bg_color = Color(0.118, 0.118, 0.18, 0.85)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ExitBtnHover"]
+content_margin_left = 12.0
+content_margin_top = 6.0
+content_margin_right = 12.0
+content_margin_bottom = 6.0
+bg_color = Color(0.165, 0.165, 0.24, 0.95)
+border_width_left = 3
+border_color = Color(0.901961, 0.360784, 0, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_PanelBg"]
+bg_color = Color(0.067, 0.067, 0.106, 0.9)
+border_width_left = 1
+border_color = Color(0.165, 0.165, 0.24, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_CodeEditBg"]
+bg_color = Color(0.04, 0.04, 0.07, 0.95)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.15, 0.15, 0.22, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_RunBtnNormal"]
+bg_color = Color(0.901961, 0.360784, 0, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_RunBtnHover"]
+bg_color = Color(1, 0.431373, 0.101961, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ResetBtnNormal"]
+bg_color = Color(0.118, 0.118, 0.18, 0.85)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.192, 0.196, 0.267, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ResetBtnHover"]
+bg_color = Color(0.165, 0.165, 0.24, 0.95)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.271, 0.278, 0.353, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ConsoleBg"]
+bg_color = Color(0, 0, 0, 1)
+border_width_top = 1
+border_color = Color(0.118, 0.118, 0.18, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_DocsPanelBg"]
+bg_color = Color(0.067, 0.067, 0.106, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.901961, 0.360784, 0, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_Separator"]
+color = Color(0.901961, 0.360784, 0, 0.4)
+thickness = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_CameraHintPill"]
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+bg_color = Color(0.06, 0.08, 0.13, 0.7)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.901961, 0.360784, 0, 0.3)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[node name="Game" type="Node3D" unique_id=1987085889 node_paths=PackedStringArray("ExitButton", "CodeInput", "RunButton", "ResetButton", "ConsoleOutput", "HelpButton", "HelpPanel", "RightEngineerPanel", "ToggleTerminalButton")]
 script = ExtResource("1_movtg")
 PlayerScene = ExtResource("2_qq6cj")
-ExitButton = NodePath("CanvasLayer/MarginContainer/ExitButton")
-CodeInput = NodePath("CanvasLayer/Panel/MarginContainer/VBoxContainer/CodeInput")
-RunButton = NodePath("CanvasLayer/Panel/MarginContainer/VBoxContainer/RunButton")
-ResetButton = NodePath("CanvasLayer/Panel/MarginContainer/VBoxContainer/ResetButton")
-ConsoleOutput = NodePath("CanvasLayer/Panel/MarginContainer/VBoxContainer/ConsoleOutput")
-HelpButton = NodePath("CanvasLayer/Panel/MarginContainer/VBoxContainer/HelpButton")
+ExitButton = NodePath("CanvasLayer/TopBar/Margin/HBox/ExitButton")
+CodeInput = NodePath("CanvasLayer/RightEngineerPanel/Margin/VBox/CodeInput")
+RunButton = NodePath("CanvasLayer/RightEngineerPanel/Margin/VBox/ButtonBar/RunButton")
+ResetButton = NodePath("CanvasLayer/RightEngineerPanel/Margin/VBox/ButtonBar/ResetButton")
+ConsoleOutput = NodePath("CanvasLayer/RightEngineerPanel/Margin/VBox/ConsolePanel/Margin/ConsoleOutput")
+HelpButton = NodePath("CanvasLayer/RightEngineerPanel/Margin/VBox/ButtonBar/HelpButton")
 HelpPanel = NodePath("CanvasLayer/HelpPanel")
+RightEngineerPanel = NodePath("CanvasLayer/RightEngineerPanel")
+ToggleTerminalButton = NodePath("CanvasLayer/TopBar/Margin/HBox/ToggleTerminalButton")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=556642334]
 transform = Transform3D(0.70710677, 0.49999994, -0.49999994, 0, 0.7071067, 0.7071067, 0.70710677, -0.49999994, 0.49999994, 0, 0, 0)
@@ -31,155 +158,248 @@ shadow_enabled = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=786374432]
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer" unique_id=688399316]
-offset_right = 40.0
-offset_bottom = 40.0
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 20
+[node name="TopBar" type="PanelContainer" parent="CanvasLayer" unique_id=688399316]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 44.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_TopBarBg")
 
-[node name="ExitButton" type="Button" parent="CanvasLayer/MarginContainer" unique_id=944693506]
+[node name="Margin" type="MarginContainer" parent="CanvasLayer/TopBar"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
-text = "Вийти з рівня"
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 6
 
-[node name="Panel" type="Panel" parent="CanvasLayer" unique_id=106143961]
+[node name="HBox" type="HBoxContainer" parent="CanvasLayer/TopBar/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="ExitButton" type="Button" parent="CanvasLayer/TopBar/Margin/HBox" unique_id=944693506]
+custom_minimum_size = Vector2(100, 32)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.796078, 0.835294, 0.882353, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_ExitBtnNormal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ExitBtnHover")
+text = "< НАЗАД"
+
+[node name="MissionLabel" type="Label" parent="CanvasLayer/TopBar/Margin/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.901961, 0.360784, 0, 1)
+theme_override_font_sizes/font_size = 14
+text = "MISSION: PATH TO BEACON // ASSEMBLY: C++"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StatusLabel" type="Label" parent="CanvasLayer/TopBar/Margin/HBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.580392, 0.643137, 0.721569, 1)
+theme_override_font_sizes/font_size = 13
+text = "STATUS: ROVER_OS ONLINE"
+vertical_alignment = 1
+
+[node name="ToggleTerminalButton" type="Button" parent="CanvasLayer/TopBar/Margin/HBox" unique_id=1849204821]
+custom_minimum_size = Vector2(170, 32)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.901961, 0.360784, 0, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_ExitBtnNormal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ExitBtnHover")
+text = "[ > ] СХОВАТИ КОД"
+
+[node name="RightEngineerPanel" type="PanelContainer" parent="CanvasLayer" unique_id=106143961]
 anchors_preset = 11
-anchor_left = 1.0
+anchor_left = 0.65
+anchor_top = 0.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -270.0
+offset_top = 44.0
 grow_horizontal = 0
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_PanelBg")
+
+[node name="Margin" type="MarginContainer" parent="CanvasLayer/RightEngineerPanel" unique_id=169517380]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="VBox" type="VBoxContainer" parent="CanvasLayer/RightEngineerPanel/Margin" unique_id=632065638]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="CodeHeaderLabel" type="Label" parent="CanvasLayer/RightEngineerPanel/Margin/VBox"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.580392, 0.643137, 0.721569, 1)
+theme_override_font_sizes/font_size = 13
+text = "// MAIN.CPP - ROVER CONTROL ENGINE"
+
+[node name="CodeInput" type="CodeEdit" parent="CanvasLayer/RightEngineerPanel/Margin/VBox" unique_id=789573155]
+custom_minimum_size = Vector2(0, 280)
+layout_mode = 2
 size_flags_vertical = 3
-
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Panel" unique_id=169517380]
-layout_mode = 1
-anchors_preset = 11
-anchor_left = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -265.0
-grow_horizontal = 0
-grow_vertical = 2
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Panel/MarginContainer" unique_id=632065638]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="CanvasLayer/Panel/MarginContainer/VBoxContainer" unique_id=1913750227]
-layout_mode = 2
-theme_override_font_sizes/font_size = 15
-text = "Панель управління марсоходом"
-
-[node name="RunButton" type="Button" parent="CanvasLayer/Panel/MarginContainer/VBoxContainer" unique_id=1276308224]
-layout_mode = 2
-text = "▶ ЗАПУСК КОДУ"
-
-[node name="HelpButton" type="Button" parent="CanvasLayer/Panel/MarginContainer/VBoxContainer" unique_id=1268709687]
-layout_mode = 2
-text = "Довідка"
-
-[node name="ResetButton" type="Button" parent="CanvasLayer/Panel/MarginContainer/VBoxContainer" unique_id=1822453053]
-layout_mode = 2
-text = "СКИНУТИ РІВЕНЬ"
-
-[node name="CodeInput" type="CodeEdit" parent="CanvasLayer/Panel/MarginContainer/VBoxContainer" unique_id=789573155]
-custom_minimum_size = Vector2(0, 340)
-layout_mode = 2
-placeholder_text = "пиши свій код тут..."
+size_flags_stretch_ratio = 0.65
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_CodeEditBg")
+code_completion_enabled = true
 gutters_draw_line_numbers = true
 
-[node name="ConsoleOutput" type="Label" parent="CanvasLayer/Panel/MarginContainer/VBoxContainer" unique_id=1394228390]
-custom_minimum_size = Vector2(100, 150)
+[node name="ButtonBar" type="HBoxContainer" parent="CanvasLayer/RightEngineerPanel/Margin/VBox"]
+custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="RunButton" type="Button" parent="CanvasLayer/RightEngineerPanel/Margin/VBox/ButtonBar" unique_id=1276308224]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.55
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0.2, 0.2, 0.2, 1)
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_RunBtnNormal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_RunBtnHover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_RunBtnHover")
+text = "▶ COMPILE & RUN"
+
+[node name="ResetButton" type="Button" parent="CanvasLayer/RightEngineerPanel/Margin/VBox/ButtonBar" unique_id=1822453053]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.22
+theme_override_colors/font_color = Color(0.796078, 0.835294, 0.882353, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_ResetBtnNormal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ResetBtnHover")
+text = "↺ RESET"
+
+[node name="HelpButton" type="Button" parent="CanvasLayer/RightEngineerPanel/Margin/VBox/ButtonBar" unique_id=1268709687]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.23
+theme_override_colors/font_color = Color(0.796078, 0.835294, 0.882353, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_ResetBtnNormal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ResetBtnHover")
+text = "API DOCS"
+
+[node name="ConsolePanel" type="PanelContainer" parent="CanvasLayer/RightEngineerPanel/Margin/VBox"]
+custom_minimum_size = Vector2(0, 160)
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.25
+theme_override_styles/panel = SubResource("StyleBoxFlat_ConsoleBg")
+
+[node name="Margin" type="MarginContainer" parent="CanvasLayer/RightEngineerPanel/Margin/VBox/ConsolePanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 8
+
+[node name="ConsoleOutput" type="Label" parent="CanvasLayer/RightEngineerPanel/Margin/VBox/ConsolePanel/Margin" unique_id=1394228390]
+custom_minimum_size = Vector2(0, 140)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.796078, 0.835294, 0.882353, 1)
+theme_override_font_sizes/font_size = 12
+text = "> System ready. Enter C++ code and press COMPILE & RUN."
 autowrap_mode = 3
+clip_text = true
 
-[node name="HelpPanel" type="Panel" parent="CanvasLayer" unique_id=1053740845]
+[node name="HelpPanel" type="PanelContainer" parent="CanvasLayer" unique_id=1053740845]
 visible = false
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -231.0
-offset_top = -321.5
-offset_right = 290.5
-offset_bottom = 321.5
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
+custom_minimum_size = Vector2(400, 480)
+layout_mode = 3
+anchors_preset = 0
+offset_left = 300.0
+offset_top = 70.0
+offset_right = 700.0
+offset_bottom = 550.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_DocsPanelBg")
+script = ExtResource("4_docs_drag")
 
-[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/HelpPanel" unique_id=745916901]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -246.75
-offset_top = -305.25
-offset_right = 277.75
-offset_bottom = 305.25
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 20
-theme_override_font_sizes/bold_font_size = 20
-theme_override_font_sizes/bold_italics_font_size = 20
-theme_override_font_sizes/italics_font_size = 20
-theme_override_font_sizes/mono_font_size = 20
+[node name="Margin" type="MarginContainer" parent="CanvasLayer/HelpPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 20
+
+[node name="VBox" type="VBoxContainer" parent="CanvasLayer/HelpPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="HeaderTitle" type="Label" parent="CanvasLayer/HelpPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.901961, 0.360784, 0, 1)
+theme_override_font_sizes/font_size = 15
+text = "::: [ C++ ROVER API ] :::"
+horizontal_alignment = 1
+
+[node name="Separator" type="HSeparator" parent="CanvasLayer/HelpPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_Separator")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/HelpPanel/Margin/VBox" unique_id=745916901]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/normal_font_size = 14
+theme_override_font_sizes/bold_font_size = 14
 bbcode_enabled = true
-text = "[b]ДОСТУПНІ КОМАНДИ:[/b]
+text = "[b]Обов'язкова структура:[/b]
+[color=#94a3b8]#include <moving>[/color]
 
-[color=#4da6ff]move()[/color] або [color=#4da6ff]forward[/color]
-- Робить один крок вперед.
-- Увага: перевіряйте перешкоди!
+[color=#94a3b8]int[/color] [color=#e65c00]main[/color]() {
+    [color=#64748b]// код[/color]
+    [color=#94a3b8]return[/color] 0;
+}
 
-[color=#4da6ff]turn_right()[/color] або [color=#4da6ff]right[/color]
-- Поворот на 90 градусів праворуч.
+[b]Команди марсохода:[/b]
+- [color=#e65c00]rover.move();[/color] — крок вперед
+- [color=#e65c00]rover.turn_left();[/color] — ліворуч на 90°
+- [color=#e65c00]rover.turn_right();[/color] — праворуч на 90°
+[i](Увага: кожна команда вимагає ; )[/i]
 
-[color=#4da6ff]turn_left()[/color] або [color=#4da6ff]left[/color]
-- Поворот на 90 градусів ліворуч.
-
-[color=#669966]# Ваш текст[/color]
-- Коментар (ігнорується марсоходом)"
+[b]Цикли:[/b]
+[color=#94a3b8]for[/color]([color=#94a3b8]int[/color] i = 0; i < N; i++) { ... }"
 
 [node name="DesertPlane" type="MeshInstance3D" parent="." unique_id=1252101572]
 transform = Transform3D(500, 0, 0, 0, 1, 0, 0, 0, 500, 0, 0.492, 0)
 mesh = SubResource("PlaneMesh_wsqlc")
 
-[node name="Panel" type="PanelContainer" parent="." unique_id=620839191]
+[node name="CameraControlsHint" type="PanelContainer" parent="CanvasLayer" unique_id=620839191]
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -37.0
-offset_right = 330.0
+offset_left = 20.0
+offset_top = -90.0
+offset_right = 320.0
+offset_bottom = -15.0
 grow_vertical = 0
-script = ExtResource("4_ru417")
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_CameraHintPill")
 
-[node name="MarginContainer" type="MarginContainer" parent="Panel" unique_id=875556470]
+[node name="HintLabel" type="Label" parent="CanvasLayer/CameraControlsHint" unique_id=571520932]
 layout_mode = 2
-theme_override_constants/margin_left = 5
-theme_override_constants/margin_right = 5
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer" unique_id=2079313959]
-layout_mode = 2
-
-[node name="ToggleHelpBtn" type="Button" parent="Panel/MarginContainer/VBoxContainer" unique_id=198734918]
-layout_mode = 2
-size_flags_vertical = 3
-text = "▲ Сховати підказки"
-
-[node name="Label" type="Label" parent="Panel/MarginContainer/VBoxContainer" unique_id=571520932]
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
-size_flags_vertical = 1
-theme_override_font_sizes/font_size = 13
-text = "Керування камерою:
-• Середня кнопка миші / Стрілочки — Переміщення
-• Колесико миші — Зум (наближення/віддалення)
-• Клік лівою кнопкою — Скинути фокус з коду"
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.9, 0.93, 0.96, 0.95)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.9)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 12
+text = "• СКМ / Стрілочки — Переміщення камери
+• Колесико миші — Масштабування (зум)
+• Клік ЛКМ — Скинути фокус з коду"
 autowrap_mode = 3

@@ -1,16 +1,19 @@
 [gd_scene format=3 uid="uid://dsha5ifsdq7jt"]
 
-[ext_resource type="PackedScene" uid="uid://rofuawyf0hv4" path="res://assets/textures/3D Models/Terminal.glb" id="1_tej1s"]
+[ext_resource type="Script" uid="uid://cjuu3j2n20ejp" path="res://scripts/gameplay/Tile.cs" id="1_tile"]
+[ext_resource type="PackedScene" uid="uid://rofuawyf0hv4" path="res://assets/textures/3D Models/Terminal.glb" id="2_tej1s"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_xsfr6"]
 size = Vector3(1.0322266, 1.4172363, 1.0649414)
 
 [node name="FinishPoint" type="Area3D" unique_id=419309008]
 collision_layer = 2
+script = ExtResource("1_tile")
+Type = 3
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1683886077]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.016113281, 0.21056914, -0.020544887)
 shape = SubResource("BoxShape3D_xsfr6")
 
-[node name="Terminal" parent="." unique_id=1973266622 instance=ExtResource("1_tej1s")]
+[node name="Terminal" parent="." unique_id=1973266622 instance=ExtResource("2_tej1s")]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.016392589, -0.4641345, -0.022673696)
