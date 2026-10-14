@@ -1,0 +1,977 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/utilities/GridGenerator.tscn" id="1_80hih"]
+[ext_resource type="Script" path="res://scripts/gameplay/GridGenerator.cs" id="2_87ku4"]
+[ext_resource type="PackedScene" path="res://scenes/modules/Floor.tscn" id="3_ud8s1"]
+[ext_resource type="PackedScene" path="res://scenes/environment/sky.tscn" id="4_opjtr"]
+[ext_resource type="Texture2D" path="res://assets/textures/Skyboxes/Back.jpg" id="5_fkklr"]
+[ext_resource type="PackedScene" path="res://scenes/modules/Rock.tscn" id="6_jy4a3"]
+[ext_resource type="Script" path="res://scripts/gameplay/Tile.cs" id="7_gieud"]
+[ext_resource type="PackedScene" path="res://scenes/modules/PlayerSpawn.tscn" id="8_j07m0"]
+[ext_resource type="PackedScene" path="res://scenes/modules/FinishPoint.tscn" id="9_oqf83"]
+[ext_resource type="PackedScene" path="res://scenes/modules/Pit.tscn" id="10_gy4tn"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_pphty"]
+panorama = ExtResource("5_fkklr")
+
+[sub_resource type="Sky" id="Sky_j66xd"]
+sky_material = SubResource("PanoramaSkyMaterial_pphty")
+
+[sub_resource type="Environment" id="Environment_0pte5"]
+background_mode = 2
+sky = SubResource("Sky_j66xd")
+
+[node name="Level" type="Node3D" unique_id=1975026409]
+
+[node name="GridGenerator" type="Node3D" parent="." unique_id=1438332029 instance=ExtResource("1_80hih")]
+script = ExtResource("2_87ku4")
+FloorScene = ExtResource("3_ud8s1")
+GridWidth = 12
+GridDepth = 12
+
+[node name="Floor" type="StaticBody3D" parent="GridGenerator" unique_id=1293758163 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -6)
+
+[node name="@StaticBody3D@570" type="StaticBody3D" parent="GridGenerator" unique_id=1921706096 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -5)
+
+[node name="@StaticBody3D@571" type="StaticBody3D" parent="GridGenerator" unique_id=1014587600 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -4)
+
+[node name="@StaticBody3D@572" type="StaticBody3D" parent="GridGenerator" unique_id=602985760 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -3)
+
+[node name="@StaticBody3D@573" type="StaticBody3D" parent="GridGenerator" unique_id=1968059221 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -2)
+
+[node name="@StaticBody3D@574" type="StaticBody3D" parent="GridGenerator" unique_id=482855619 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -1)
+
+[node name="@StaticBody3D@575" type="StaticBody3D" parent="GridGenerator" unique_id=1069644595 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 0)
+
+[node name="@StaticBody3D@576" type="StaticBody3D" parent="GridGenerator" unique_id=1003623895 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 1)
+
+[node name="@StaticBody3D@577" type="StaticBody3D" parent="GridGenerator" unique_id=237234903 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 2)
+
+[node name="@StaticBody3D@578" type="StaticBody3D" parent="GridGenerator" unique_id=800689687 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 3)
+
+[node name="@StaticBody3D@579" type="StaticBody3D" parent="GridGenerator" unique_id=1524921286 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 4)
+
+[node name="@StaticBody3D@580" type="StaticBody3D" parent="GridGenerator" unique_id=36658051 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 5)
+
+[node name="@StaticBody3D@581" type="StaticBody3D" parent="GridGenerator" unique_id=215783286 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -6)
+
+[node name="@StaticBody3D@582" type="StaticBody3D" parent="GridGenerator" unique_id=145192899 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -5)
+
+[node name="@StaticBody3D@583" type="StaticBody3D" parent="GridGenerator" unique_id=1685878302 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -4)
+
+[node name="@StaticBody3D@584" type="StaticBody3D" parent="GridGenerator" unique_id=946611467 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -3)
+
+[node name="@StaticBody3D@585" type="StaticBody3D" parent="GridGenerator" unique_id=414994213 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -2)
+
+[node name="@StaticBody3D@586" type="StaticBody3D" parent="GridGenerator" unique_id=363904033 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -1)
+
+[node name="@StaticBody3D@587" type="StaticBody3D" parent="GridGenerator" unique_id=653080468 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 0)
+
+[node name="@StaticBody3D@588" type="StaticBody3D" parent="GridGenerator" unique_id=1072578865 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 1)
+
+[node name="@StaticBody3D@589" type="StaticBody3D" parent="GridGenerator" unique_id=817092720 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 2)
+
+[node name="@StaticBody3D@590" type="StaticBody3D" parent="GridGenerator" unique_id=1002869527 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 3)
+
+[node name="@StaticBody3D@591" type="StaticBody3D" parent="GridGenerator" unique_id=687908838 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 4)
+
+[node name="@StaticBody3D@592" type="StaticBody3D" parent="GridGenerator" unique_id=970584162 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 5)
+
+[node name="@StaticBody3D@593" type="StaticBody3D" parent="GridGenerator" unique_id=1512235275 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -6)
+
+[node name="@StaticBody3D@594" type="StaticBody3D" parent="GridGenerator" unique_id=1409323031 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -5)
+
+[node name="@StaticBody3D@595" type="StaticBody3D" parent="GridGenerator" unique_id=256569228 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -4)
+
+[node name="@StaticBody3D@596" type="StaticBody3D" parent="GridGenerator" unique_id=1058135692 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -3)
+
+[node name="@StaticBody3D@597" type="StaticBody3D" parent="GridGenerator" unique_id=725762278 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -2)
+
+[node name="@StaticBody3D@598" type="StaticBody3D" parent="GridGenerator" unique_id=1793674748 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -1)
+
+[node name="@StaticBody3D@599" type="StaticBody3D" parent="GridGenerator" unique_id=300645266 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0)
+
+[node name="@StaticBody3D@600" type="StaticBody3D" parent="GridGenerator" unique_id=883552433 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 1)
+
+[node name="@StaticBody3D@601" type="StaticBody3D" parent="GridGenerator" unique_id=928257623 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 2)
+
+[node name="@StaticBody3D@602" type="StaticBody3D" parent="GridGenerator" unique_id=1585105565 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 3)
+
+[node name="@StaticBody3D@603" type="StaticBody3D" parent="GridGenerator" unique_id=2093731320 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 4)
+
+[node name="@StaticBody3D@604" type="StaticBody3D" parent="GridGenerator" unique_id=1448590010 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 5)
+
+[node name="@StaticBody3D@605" type="StaticBody3D" parent="GridGenerator" unique_id=1877941378 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -6)
+
+[node name="@StaticBody3D@606" type="StaticBody3D" parent="GridGenerator" unique_id=2055518434 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -5)
+
+[node name="@StaticBody3D@607" type="StaticBody3D" parent="GridGenerator" unique_id=1849268669 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -4)
+
+[node name="@StaticBody3D@608" type="StaticBody3D" parent="GridGenerator" unique_id=1248853180 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -3)
+
+[node name="@StaticBody3D@609" type="StaticBody3D" parent="GridGenerator" unique_id=1303978734 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -2)
+
+[node name="@StaticBody3D@610" type="StaticBody3D" parent="GridGenerator" unique_id=785234654 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -1)
+
+[node name="@StaticBody3D@611" type="StaticBody3D" parent="GridGenerator" unique_id=1668730449 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 0)
+
+[node name="@StaticBody3D@612" type="StaticBody3D" parent="GridGenerator" unique_id=894002653 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 1)
+
+[node name="@StaticBody3D@613" type="StaticBody3D" parent="GridGenerator" unique_id=999555933 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 2)
+
+[node name="@StaticBody3D@614" type="StaticBody3D" parent="GridGenerator" unique_id=564206886 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 3)
+
+[node name="@StaticBody3D@615" type="StaticBody3D" parent="GridGenerator" unique_id=988200130 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 4)
+
+[node name="@StaticBody3D@616" type="StaticBody3D" parent="GridGenerator" unique_id=1699693254 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 5)
+
+[node name="@StaticBody3D@617" type="StaticBody3D" parent="GridGenerator" unique_id=1709857243 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -6)
+
+[node name="@StaticBody3D@618" type="StaticBody3D" parent="GridGenerator" unique_id=320373510 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -5)
+
+[node name="@StaticBody3D@619" type="StaticBody3D" parent="GridGenerator" unique_id=881111545 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -4)
+
+[node name="@StaticBody3D@620" type="StaticBody3D" parent="GridGenerator" unique_id=464934794 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -3)
+
+[node name="@StaticBody3D@621" type="StaticBody3D" parent="GridGenerator" unique_id=1869714733 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -2)
+
+[node name="@StaticBody3D@622" type="StaticBody3D" parent="GridGenerator" unique_id=1176892662 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -1)
+
+[node name="@StaticBody3D@623" type="StaticBody3D" parent="GridGenerator" unique_id=1079601773 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0)
+
+[node name="@StaticBody3D@624" type="StaticBody3D" parent="GridGenerator" unique_id=2147248384 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 1)
+
+[node name="@StaticBody3D@625" type="StaticBody3D" parent="GridGenerator" unique_id=916706596 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 2)
+
+[node name="@StaticBody3D@626" type="StaticBody3D" parent="GridGenerator" unique_id=2033114717 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 3)
+
+[node name="@StaticBody3D@627" type="StaticBody3D" parent="GridGenerator" unique_id=683459457 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 4)
+
+[node name="@StaticBody3D@628" type="StaticBody3D" parent="GridGenerator" unique_id=1313587441 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 5)
+
+[node name="@StaticBody3D@629" type="StaticBody3D" parent="GridGenerator" unique_id=587284182 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -6)
+
+[node name="@StaticBody3D@630" type="StaticBody3D" parent="GridGenerator" unique_id=1791671381 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -5)
+
+[node name="@StaticBody3D@631" type="StaticBody3D" parent="GridGenerator" unique_id=527636426 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -4)
+
+[node name="@StaticBody3D@632" type="StaticBody3D" parent="GridGenerator" unique_id=133241663 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -3)
+
+[node name="@StaticBody3D@633" type="StaticBody3D" parent="GridGenerator" unique_id=421603264 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -2)
+
+[node name="@StaticBody3D@634" type="StaticBody3D" parent="GridGenerator" unique_id=1079550383 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -1)
+
+[node name="@StaticBody3D@635" type="StaticBody3D" parent="GridGenerator" unique_id=1141127096 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0)
+
+[node name="@StaticBody3D@636" type="StaticBody3D" parent="GridGenerator" unique_id=837398723 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 1)
+
+[node name="@StaticBody3D@637" type="StaticBody3D" parent="GridGenerator" unique_id=1831368582 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 2)
+
+[node name="@StaticBody3D@638" type="StaticBody3D" parent="GridGenerator" unique_id=770600167 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 3)
+
+[node name="@StaticBody3D@639" type="StaticBody3D" parent="GridGenerator" unique_id=1107711018 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 4)
+
+[node name="@StaticBody3D@640" type="StaticBody3D" parent="GridGenerator" unique_id=659358491 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 5)
+
+[node name="@StaticBody3D@641" type="StaticBody3D" parent="GridGenerator" unique_id=1762785499 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -6)
+
+[node name="@StaticBody3D@642" type="StaticBody3D" parent="GridGenerator" unique_id=1838191440 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5)
+
+[node name="@StaticBody3D@643" type="StaticBody3D" parent="GridGenerator" unique_id=1943280293 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4)
+
+[node name="@StaticBody3D@644" type="StaticBody3D" parent="GridGenerator" unique_id=2104378024 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3)
+
+[node name="@StaticBody3D@645" type="StaticBody3D" parent="GridGenerator" unique_id=1773972831 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+
+[node name="@StaticBody3D@646" type="StaticBody3D" parent="GridGenerator" unique_id=55132164 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+
+[node name="@StaticBody3D@647" type="StaticBody3D" parent="GridGenerator" unique_id=1900103428 instance=ExtResource("3_ud8s1")]
+
+[node name="@StaticBody3D@648" type="StaticBody3D" parent="GridGenerator" unique_id=902447646 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+
+[node name="@StaticBody3D@649" type="StaticBody3D" parent="GridGenerator" unique_id=582627208 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
+
+[node name="@StaticBody3D@650" type="StaticBody3D" parent="GridGenerator" unique_id=1863940843 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3)
+
+[node name="@StaticBody3D@651" type="StaticBody3D" parent="GridGenerator" unique_id=61247205 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
+
+[node name="@StaticBody3D@652" type="StaticBody3D" parent="GridGenerator" unique_id=1588451231 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)
+
+[node name="@StaticBody3D@653" type="StaticBody3D" parent="GridGenerator" unique_id=1115042804 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -6)
+
+[node name="@StaticBody3D@654" type="StaticBody3D" parent="GridGenerator" unique_id=1368941116 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -5)
+
+[node name="@StaticBody3D@655" type="StaticBody3D" parent="GridGenerator" unique_id=1123363713 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -4)
+
+[node name="@StaticBody3D@656" type="StaticBody3D" parent="GridGenerator" unique_id=1054406035 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -3)
+
+[node name="@StaticBody3D@657" type="StaticBody3D" parent="GridGenerator" unique_id=1325148265 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -2)
+
+[node name="@StaticBody3D@658" type="StaticBody3D" parent="GridGenerator" unique_id=1936552848 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -1)
+
+[node name="@StaticBody3D@659" type="StaticBody3D" parent="GridGenerator" unique_id=1491623842 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+
+[node name="@StaticBody3D@660" type="StaticBody3D" parent="GridGenerator" unique_id=698981135 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1)
+
+[node name="@StaticBody3D@661" type="StaticBody3D" parent="GridGenerator" unique_id=239788127 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 2)
+
+[node name="@StaticBody3D@662" type="StaticBody3D" parent="GridGenerator" unique_id=1960008854 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 3)
+
+[node name="@StaticBody3D@663" type="StaticBody3D" parent="GridGenerator" unique_id=399955 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 4)
+
+[node name="@StaticBody3D@664" type="StaticBody3D" parent="GridGenerator" unique_id=1806128122 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 5)
+
+[node name="@StaticBody3D@665" type="StaticBody3D" parent="GridGenerator" unique_id=1264892590 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -6)
+
+[node name="@StaticBody3D@666" type="StaticBody3D" parent="GridGenerator" unique_id=264350046 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -5)
+
+[node name="@StaticBody3D@667" type="StaticBody3D" parent="GridGenerator" unique_id=23236672 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -4)
+
+[node name="@StaticBody3D@668" type="StaticBody3D" parent="GridGenerator" unique_id=1446426163 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -3)
+
+[node name="@StaticBody3D@669" type="StaticBody3D" parent="GridGenerator" unique_id=1373560064 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -2)
+
+[node name="@StaticBody3D@670" type="StaticBody3D" parent="GridGenerator" unique_id=1610361591 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -1)
+
+[node name="@StaticBody3D@671" type="StaticBody3D" parent="GridGenerator" unique_id=2037361820 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
+
+[node name="@StaticBody3D@672" type="StaticBody3D" parent="GridGenerator" unique_id=270431316 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 1)
+
+[node name="@StaticBody3D@673" type="StaticBody3D" parent="GridGenerator" unique_id=1149336322 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 2)
+
+[node name="@StaticBody3D@674" type="StaticBody3D" parent="GridGenerator" unique_id=103042026 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 3)
+
+[node name="@StaticBody3D@675" type="StaticBody3D" parent="GridGenerator" unique_id=1058809891 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 4)
+
+[node name="@StaticBody3D@676" type="StaticBody3D" parent="GridGenerator" unique_id=420583192 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 5)
+
+[node name="@StaticBody3D@677" type="StaticBody3D" parent="GridGenerator" unique_id=744963032 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -6)
+
+[node name="@StaticBody3D@678" type="StaticBody3D" parent="GridGenerator" unique_id=680616157 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -5)
+
+[node name="@StaticBody3D@679" type="StaticBody3D" parent="GridGenerator" unique_id=997423360 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -4)
+
+[node name="@StaticBody3D@680" type="StaticBody3D" parent="GridGenerator" unique_id=2111131295 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -3)
+
+[node name="@StaticBody3D@681" type="StaticBody3D" parent="GridGenerator" unique_id=2128506579 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -2)
+
+[node name="@StaticBody3D@682" type="StaticBody3D" parent="GridGenerator" unique_id=1959352055 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -1)
+
+[node name="@StaticBody3D@683" type="StaticBody3D" parent="GridGenerator" unique_id=3380730 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 0)
+
+[node name="@StaticBody3D@684" type="StaticBody3D" parent="GridGenerator" unique_id=1279500260 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 1)
+
+[node name="@StaticBody3D@685" type="StaticBody3D" parent="GridGenerator" unique_id=2050810852 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 2)
+
+[node name="@StaticBody3D@686" type="StaticBody3D" parent="GridGenerator" unique_id=975594527 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 3)
+
+[node name="@StaticBody3D@687" type="StaticBody3D" parent="GridGenerator" unique_id=1664529411 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 4)
+
+[node name="@StaticBody3D@688" type="StaticBody3D" parent="GridGenerator" unique_id=851084679 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 5)
+
+[node name="@StaticBody3D@689" type="StaticBody3D" parent="GridGenerator" unique_id=1078229185 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -6)
+
+[node name="@StaticBody3D@690" type="StaticBody3D" parent="GridGenerator" unique_id=98322815 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -5)
+
+[node name="@StaticBody3D@691" type="StaticBody3D" parent="GridGenerator" unique_id=1714395591 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -4)
+
+[node name="@StaticBody3D@692" type="StaticBody3D" parent="GridGenerator" unique_id=1000961650 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -3)
+
+[node name="@StaticBody3D@693" type="StaticBody3D" parent="GridGenerator" unique_id=1524509251 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -2)
+
+[node name="@StaticBody3D@694" type="StaticBody3D" parent="GridGenerator" unique_id=859991791 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -1)
+
+[node name="@StaticBody3D@695" type="StaticBody3D" parent="GridGenerator" unique_id=283995142 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0)
+
+[node name="@StaticBody3D@696" type="StaticBody3D" parent="GridGenerator" unique_id=320256814 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 1)
+
+[node name="@StaticBody3D@697" type="StaticBody3D" parent="GridGenerator" unique_id=70100389 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 2)
+
+[node name="@StaticBody3D@698" type="StaticBody3D" parent="GridGenerator" unique_id=1480177540 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 3)
+
+[node name="@StaticBody3D@699" type="StaticBody3D" parent="GridGenerator" unique_id=1174541353 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 4)
+
+[node name="@StaticBody3D@700" type="StaticBody3D" parent="GridGenerator" unique_id=94925212 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 5)
+
+[node name="@StaticBody3D@701" type="StaticBody3D" parent="GridGenerator" unique_id=1785829906 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -6)
+
+[node name="@StaticBody3D@702" type="StaticBody3D" parent="GridGenerator" unique_id=1444113048 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -5)
+
+[node name="@StaticBody3D@703" type="StaticBody3D" parent="GridGenerator" unique_id=1632855787 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -4)
+
+[node name="@StaticBody3D@704" type="StaticBody3D" parent="GridGenerator" unique_id=980913951 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -3)
+
+[node name="@StaticBody3D@705" type="StaticBody3D" parent="GridGenerator" unique_id=575688953 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -2)
+
+[node name="@StaticBody3D@706" type="StaticBody3D" parent="GridGenerator" unique_id=1854991078 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -1)
+
+[node name="@StaticBody3D@707" type="StaticBody3D" parent="GridGenerator" unique_id=1874235182 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 0)
+
+[node name="@StaticBody3D@708" type="StaticBody3D" parent="GridGenerator" unique_id=735578455 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 1)
+
+[node name="@StaticBody3D@709" type="StaticBody3D" parent="GridGenerator" unique_id=1438810173 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 2)
+
+[node name="@StaticBody3D@710" type="StaticBody3D" parent="GridGenerator" unique_id=1912488764 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 3)
+
+[node name="@StaticBody3D@711" type="StaticBody3D" parent="GridGenerator" unique_id=1867947973 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 4)
+
+[node name="@StaticBody3D@712" type="StaticBody3D" parent="GridGenerator" unique_id=1608558805 instance=ExtResource("3_ud8s1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 5)
+
+[node name="SkyEnvironment" type="WorldEnvironment" parent="." unique_id=797077821 instance=ExtResource("4_opjtr")]
+environment = SubResource("Environment_0pte5")
+
+[node name="Rock" type="StaticBody3D" parent="." unique_id=309534127 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(0.92754155, 0, -0.37372002, 0, 1, 0, 0.37372002, 0, 0.92754155, -6, 1, -6)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(-6, -6)
+
+[node name="@StaticBody3D@714" type="StaticBody3D" parent="." unique_id=1840112281 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(-0.53021944, 0, -0.84786046, 0, 1, 0, 0.84786046, 0, -0.53021944, -6, 1, -5)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(-6, -5)
+
+[node name="@StaticBody3D@715" type="StaticBody3D" parent="." unique_id=1618140706 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(0.8324601, 0, -0.554085, 0, 1, 0, 0.554085, 0, 0.8324601, -6, 1, -4)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(-6, -4)
+
+[node name="@StaticBody3D@716" type="StaticBody3D" parent="." unique_id=1364049303 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(0.9297993, 0, -0.3680669, 0, 1, 0, 0.3680669, 0, 0.9297993, -6, 1, -3)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(-6, -3)
+
+[node name="@StaticBody3D@717" type="StaticBody3D" parent="." unique_id=714715701 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(0.88651055, 0, -0.46270844, 0, 1, 0, 0.46270844, 0, 0.88651055, -6, 1, -2)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(-6, -2)
+
+[node name="@StaticBody3D@718" type="StaticBody3D" parent="." unique_id=1942315927 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(-0.7616093, 0, 0.6480364, 0, 1, 0, -0.6480364, 0, -0.7616093, -6, 1, -1)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(-6, -1)
+
+[node name="@StaticBody3D@725" type="StaticBody3D" parent="." unique_id=1053357869 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(0.78347635, 0, -0.62142164, 0, 1, 0, 0.62142164, 0, 0.78347635, -6, 1, 0)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(-6, 0)
+
+[node name="@StaticBody3D@726" type="StaticBody3D" parent="." unique_id=690459702 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(0.7522617, 0, -0.65886444, 0, 1, 0, 0.65886444, 0, 0.7522617, -6, 1, 1)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(-6, 1)
+
+[node name="@StaticBody3D@727" type="StaticBody3D" parent="." unique_id=1007998143 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(-0.2667429, 0, -0.9637677, 0, 1, 0, 0.9637677, 0, -0.2667429, -6, 1, 2)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(-6, 2)
+
+[node name="@StaticBody3D@728" type="StaticBody3D" parent="." unique_id=462422278 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(-0.46366444, 0, 0.8860109, 0, 1, 0, -0.8860109, 0, -0.46366444, -6, 1, 3)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(-6, 3)
+
+[node name="@StaticBody3D@729" type="StaticBody3D" parent="." unique_id=459593109 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(-0.9510344, 0, 0.30908507, 0, 1, 0, -0.30908507, 0, -0.9510344, -6, 1, 4)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(-6, 4)
+
+[node name="@StaticBody3D@730" type="StaticBody3D" parent="." unique_id=801935127 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(-0.86174035, 0, -0.5073495, 0, 1, 0, 0.5073495, 0, -0.86174035, -6, 1, 5)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(-6, 5)
+
+[node name="@StaticBody3D@731" type="StaticBody3D" parent="." unique_id=290193739 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(0.08540984, 0, 0.9963459, 0, 1, 0, -0.9963459, 0, 0.08540984, -5, 1, 5)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(-5, 5)
+
+[node name="@StaticBody3D@732" type="StaticBody3D" parent="." unique_id=112322093 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(-0.19174439, 0, 0.9814449, 0, 1, 0, -0.9814449, 0, -0.19174439, -4, 1, 5)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(-4, 5)
+
+[node name="@StaticBody3D@733" type="StaticBody3D" parent="." unique_id=1099317812 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(-0.9701076, 0, 0.24267502, 0, 1, 0, -0.24267502, 0, -0.9701076, -3, 1, 5)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(-3, 5)
+
+[node name="@StaticBody3D@734" type="StaticBody3D" parent="." unique_id=1523568657 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(-0.90838337, 0, 0.41813838, 0, 1, 0, -0.41813838, 0, -0.90838337, -2, 1, 5)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(-2, 5)
+
+[node name="@StaticBody3D@735" type="StaticBody3D" parent="." unique_id=860561071 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(0.59520775, 0, -0.8035719, 0, 1, 0, 0.8035719, 0, 0.59520775, -1, 1, 5)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(-1, 5)
+
+[node name="@StaticBody3D@736" type="StaticBody3D" parent="." unique_id=1302522161 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(-0.47330558, 0, 0.8808983, 0, 1, 0, -0.8808983, 0, -0.47330558, 0, 1, 5)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(0, 5)
+
+[node name="@StaticBody3D@737" type="StaticBody3D" parent="." unique_id=178209192 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(0.28425765, 0, 0.9587479, 0, 1, 0, -0.9587479, 0, 0.28425765, 1, 1, 5)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(1, 5)
+
+[node name="@StaticBody3D@738" type="StaticBody3D" parent="." unique_id=660004087 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(0.7052346, 0, -0.70897406, 0, 1, 0, 0.70897406, 0, 0.7052346, 2, 1, 5)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(2, 5)
+
+[node name="@StaticBody3D@739" type="StaticBody3D" parent="." unique_id=426375727 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(0.3109047, 0, 0.95044106, 0, 1, 0, -0.95044106, 0, 0.3109047, 3, 1, 5)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(3, 5)
+
+[node name="@StaticBody3D@740" type="StaticBody3D" parent="." unique_id=77985150 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(-0.18454075, 0, -0.98282486, 0, 1, 0, 0.98282486, 0, -0.18454075, 4, 1, 5)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(4, 5)
+
+[node name="@StaticBody3D@741" type="StaticBody3D" parent="." unique_id=1072228898 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(-0.9984912, 0, 0.05491179, 0, 1, 0, -0.05491179, 0, -0.9984912, 5, 1, 5)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(5, 5)
+
+[node name="@StaticBody3D@742" type="StaticBody3D" parent="." unique_id=1595837789 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(0.8018949, 0, 0.59746516, 0, 1, 0, -0.59746516, 0, 0.8018949, -5, 1, -6)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(-5, -6)
+
+[node name="@StaticBody3D@743" type="StaticBody3D" parent="." unique_id=950057135 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(-0.92554957, 0, 0.3786264, 0, 1, 0, -0.3786264, 0, -0.92554957, -4, 1, -6)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(-4, -6)
+
+[node name="@StaticBody3D@744" type="StaticBody3D" parent="." unique_id=751661826 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(0.69169027, 0, -0.7221943, 0, 1, 0, 0.7221943, 0, 0.69169027, -3, 1, -6)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(-3, -6)
+
+[node name="@StaticBody3D@745" type="StaticBody3D" parent="." unique_id=1202160132 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(-0.6484787, 0, 0.76123285, 0, 1, 0, -0.76123285, 0, -0.6484787, -2, 1, -6)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(-2, -6)
+
+[node name="@StaticBody3D@746" type="StaticBody3D" parent="." unique_id=25479415 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(-0.49480054, 0, -0.8690066, 0, 1, 0, 0.8690066, 0, -0.49480054, -1, 1, -6)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(-1, -6)
+
+[node name="@StaticBody3D@747" type="StaticBody3D" parent="." unique_id=1885230322 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(-0.9725649, 0, -0.23263173, 0, 1, 0, 0.23263173, 0, -0.9725649, 0, 1, -6)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(0, -6)
+
+[node name="@StaticBody3D@748" type="StaticBody3D" parent="." unique_id=1841963699 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(0.81406283, 0, 0.5807768, 0, 1, 0, -0.5807768, 0, 0.81406283, 1, 1, -6)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(1, -6)
+
+[node name="@StaticBody3D@749" type="StaticBody3D" parent="." unique_id=289250648 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(-0.059310406, 0, -0.9982396, 0, 1, 0, 0.9982396, 0, -0.059310406, 2, 1, -6)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(2, -6)
+
+[node name="@StaticBody3D@750" type="StaticBody3D" parent="." unique_id=1839158157 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(-0.9972532, 0, 0.07406828, 0, 1, 0, -0.07406828, 0, -0.9972532, 3, 1, -6)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(3, -6)
+
+[node name="@StaticBody3D@751" type="StaticBody3D" parent="." unique_id=1968225751 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(0.9176857, 0, 0.39730722, 0, 1, 0, -0.39730722, 0, 0.9176857, 4, 1, -6)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(4, -6)
+
+[node name="@StaticBody3D@752" type="StaticBody3D" parent="." unique_id=1284339210 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(-0.8955286, 0, -0.4450039, 0, 1, 0, 0.4450039, 0, -0.8955286, 5, 1, -6)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(5, -6)
+
+[node name="@StaticBody3D@753" type="StaticBody3D" parent="." unique_id=984796905 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(0.24768025, 0, -0.96884185, 0, 1, 0, 0.96884185, 0, 0.24768025, 5, 1, -5)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(5, -5)
+
+[node name="@StaticBody3D@754" type="StaticBody3D" parent="." unique_id=1292536443 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(0.9962212, 0, 0.086852364, 0, 1, 0, -0.086852364, 0, 0.9962212, 5, 1, -4)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(5, -4)
+
+[node name="@StaticBody3D@755" type="StaticBody3D" parent="." unique_id=1953419104 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(-0.36911494, 0, -0.92938375, 0, 1, 0, 0.92938375, 0, -0.36911494, 5, 1, -3)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(5, -3)
+
+[node name="@StaticBody3D@756" type="StaticBody3D" parent="." unique_id=1385815776 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(-0.8622233, 0, 0.5065283, 0, 1, 0, -0.5065283, 0, -0.8622233, 5, 1, -2)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(5, -2)
+
+[node name="@StaticBody3D@757" type="StaticBody3D" parent="." unique_id=1858120772 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(0.088838615, 0, -0.996046, 0, 1, 0, 0.996046, 0, 0.088838615, 5, 1, -1)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(5, -1)
+
+[node name="@StaticBody3D@758" type="StaticBody3D" parent="." unique_id=888369981 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(-0.27486446, 0, 0.961483, 0, 1, 0, -0.961483, 0, -0.27486446, 5, 1, 0)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(5, 0)
+
+[node name="@StaticBody3D@759" type="StaticBody3D" parent="." unique_id=228364433 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(0.6620647, 0, 0.7494467, 0, 1, 0, -0.7494467, 0, 0.6620647, 5, 1, 1)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(5, 1)
+
+[node name="@StaticBody3D@760" type="StaticBody3D" parent="." unique_id=1304998831 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(0.9974556, 0, -0.07129083, 0, 1, 0, 0.07129083, 0, 0.9974556, 5, 1, 2)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(5, 2)
+
+[node name="@StaticBody3D@761" type="StaticBody3D" parent="." unique_id=1322160309 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(-0.9923294, 0, 0.12362189, 0, 1, 0, -0.12362189, 0, -0.9923294, 5, 1, 3)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(5, 3)
+
+[node name="@StaticBody3D@762" type="StaticBody3D" parent="." unique_id=8648206 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(0.10432634, 0, -0.99454314, 0, 1, 0, 0.99454314, 0, 0.10432634, 5, 1, 4)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(5, 4)
+
+[node name="PlayerSpawn" type="Area3D" parent="." unique_id=608881730 instance=ExtResource("8_j07m0")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -5, 1, -5)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 4
+GridPosition = Vector2i(-5, -5)
+metadata/is_player_spawn = true
+
+[node name="@StaticBody3D@766" type="StaticBody3D" parent="." unique_id=684886887 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(-0.11530058, 0, 0.99333066, 0, 1, 0, -0.99333066, 0, -0.11530058, -3, 1, -5)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(-3, -5)
+
+[node name="@StaticBody3D@767" type="StaticBody3D" parent="." unique_id=1681076279 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(0.69364727, 0, 0.72031486, 0, 1, 0, -0.72031486, 0, 0.69364727, -4, 1, -5)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(-4, -5)
+
+[node name="FinishPoint" type="Area3D" parent="." unique_id=419309008 instance=ExtResource("9_oqf83")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1, 4)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 3
+GridPosition = Vector2i(4, 4)
+metadata/is_finish = true
+
+[node name="Pit" type="Area3D" parent="." unique_id=2140515580 instance=ExtResource("10_gy4tn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0.51, -4)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 2
+GridPosition = Vector2i(3, -4)
+
+[node name="@Area3D@784" type="Area3D" parent="." unique_id=1611592356 instance=ExtResource("10_gy4tn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.51, -4)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 2
+GridPosition = Vector2i(2, -4)
+
+[node name="@StaticBody3D@786" type="StaticBody3D" parent="." unique_id=1713691512 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(-0.08801707, 0, 0.99611896, 0, 1, 0, -0.99611896, 0, -0.08801707, 1, 1, -3)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(1, -3)
+
+[node name="@StaticBody3D@787" type="StaticBody3D" parent="." unique_id=84955546 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(-0.70389706, 0, 0.710302, 0, 1, 0, -0.710302, 0, -0.70389706, 3, 1, -2)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(3, -2)
+
+[node name="@StaticBody3D@788" type="StaticBody3D" parent="." unique_id=2089208781 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(0.91126174, 0, -0.41182768, 0, 1, 0, 0.41182768, 0, 0.91126174, 2, 1, -2)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(2, -2)
+
+[node name="@StaticBody3D@789" type="StaticBody3D" parent="." unique_id=884828371 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(0.993214, 0, 0.11630087, 0, 1, 0, -0.11630087, 0, 0.993214, 2, 1, -1)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(2, -1)
+
+[node name="@StaticBody3D@790" type="StaticBody3D" parent="." unique_id=1220750492 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(-0.93941635, 0, 0.34277827, 0, 1, 0, -0.34277827, 0, -0.93941635, 0, 1, -2)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(0, -2)
+
+[node name="@StaticBody3D@791" type="StaticBody3D" parent="." unique_id=1576816829 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(0.0638689, 0, -0.9979583, 0, 1, 0, 0.9979583, 0, 0.0638689, 0, 1, -1)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(0, -1)
+
+[node name="@StaticBody3D@792" type="StaticBody3D" parent="." unique_id=225126100 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(0.78309363, 0, -0.6219038, 0, 1, 0, 0.6219038, 0, 0.78309363, -1, 1, -1)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(-1, -1)
+
+[node name="@StaticBody3D@793" type="StaticBody3D" parent="." unique_id=1036500058 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(0.7288252, 0, -0.6846998, 0, 1, 0, 0.6846998, 0, 0.7288252, -2, 1, -2)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(-2, -2)
+
+[node name="@StaticBody3D@794" type="StaticBody3D" parent="." unique_id=1151826407 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(-0.42930308, 0, 0.9031605, 0, 1, 0, -0.9031605, 0, -0.42930308, -2, 1, -1)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(-2, -1)
+
+[node name="@StaticBody3D@795" type="StaticBody3D" parent="." unique_id=1621836104 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(-0.5702656, 0, -0.82146037, 0, 1, 0, 0.82146037, 0, -0.5702656, -3, 1, 0)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(-3, 0)
+
+[node name="@StaticBody3D@796" type="StaticBody3D" parent="." unique_id=753105566 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(0.6721355, 0, -0.74042815, 0, 1, 0, 0.74042815, 0, 0.6721355, -4, 1, -1)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(-4, -1)
+
+[node name="@Area3D@798" type="Area3D" parent="." unique_id=813161155 instance=ExtResource("10_gy4tn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0.51, -2)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 2
+GridPosition = Vector2i(-5, -2)
+
+[node name="@StaticBody3D@800" type="StaticBody3D" parent="." unique_id=258551698 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(0.64905614, 0, 0.7607405, 0, 1, 0, -0.7607405, 0, 0.64905614, -2, 1, 1)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(-2, 1)
+
+[node name="@StaticBody3D@801" type="StaticBody3D" parent="." unique_id=1188493558 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(0.9998359, 0, 0.018114902, 0, 1, 0, -0.018114902, 0, 0.9998359, -2, 1, 2)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(-2, 2)
+
+[node name="@StaticBody3D@802" type="StaticBody3D" parent="." unique_id=566163168 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(0.5914126, 0, 0.8063691, 0, 1, 0, -0.8063691, 0, 0.5914126, -5, 1, 2)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(-5, 2)
+
+[node name="@StaticBody3D@803" type="StaticBody3D" parent="." unique_id=1410646265 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(-0.5604951, 0, 0.8281577, 0, 1, 0, -0.8281577, 0, -0.5604951, -4, 1, 2)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(-4, 2)
+
+[node name="@StaticBody3D@804" type="StaticBody3D" parent="." unique_id=358058357 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(-0.91431075, 0, 0.40501344, 0, 1, 0, -0.40501344, 0, -0.91431075, -4, 1, 4)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(-4, 4)
+
+[node name="@StaticBody3D@805" type="StaticBody3D" parent="." unique_id=1708688946 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(-0.0111100655, 0, -0.9999383, 0, 1, 0, 0.9999383, 0, -0.0111100655, 4, 1, 1)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(4, 1)
+
+[node name="@StaticBody3D@806" type="StaticBody3D" parent="." unique_id=1975856787 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(-0.8685836, 0, 0.49554265, 0, 1, 0, -0.49554265, 0, -0.8685836, 4, 1, 2)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(4, 2)
+
+[node name="@StaticBody3D@807" type="StaticBody3D" parent="." unique_id=1594033087 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(0.99830884, 0, -0.05813306, 0, 1, 0, 0.05813306, 0, 0.99830884, 1, 1, 0)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(1, 0)
+
+[node name="@StaticBody3D@808" type="StaticBody3D" parent="." unique_id=778125979 instance=ExtResource("6_jy4a3")]
+transform = Transform3D(-0.13128607, 0, -0.9913445, 0, 1, 0, 0.9913445, 0, -0.13128607, 2, 1, 1)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 1
+GridPosition = Vector2i(2, 1)
+
+[node name="@Area3D@810" type="Area3D" parent="." unique_id=953283935 instance=ExtResource("10_gy4tn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0.51, 4)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 2
+GridPosition = Vector2i(-3, 4)
+
+[node name="@Area3D@811" type="Area3D" parent="." unique_id=653539032 instance=ExtResource("10_gy4tn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0.51, 1)
+collision_layer = 2
+script = ExtResource("7_gieud")
+Type = 2
+GridPosition = Vector2i(-1, 1)

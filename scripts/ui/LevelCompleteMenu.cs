@@ -40,12 +40,25 @@ public partial class LevelCompleteMenu : CanvasLayer
     private void OnNextLevelPressed()
     {
         GetViewport().GuiReleaseFocus();
-        GetTree().CallDeferred(SceneTree.MethodName.ChangeSceneToFile, "res://scenes/ui/LevelSelectMenu.tscn");
+
+        int nextLevelNum = Global.CurrentLevelNumber + 1;
+        string nextLevelPath = $"{Paths.CustomsDirectory}Level_{nextLevelNum}.tscn";
+
+        if (nextLevelNum <= 16 && ResourceLoader.Exists(nextLevelPath))
+        {
+            Global.CurrentLevelNumber = nextLevelNum;
+            Global.SelectedLevelPath = nextLevelPath;
+            GetTree().CallDeferred(SceneTree.MethodName.ChangeSceneToFile, Paths.GameScene);
+        }
+        else
+        {
+            GetTree().CallDeferred(SceneTree.MethodName.ChangeSceneToFile, Paths.LevelSelectMenuScene);
+        }
     }
 
     private void OnMenuPressed()
     {
         GetViewport().GuiReleaseFocus();
-        GetTree().CallDeferred(SceneTree.MethodName.ChangeSceneToFile, "res://scenes/ui/MainMenu.tscn");
+        GetTree().CallDeferred(SceneTree.MethodName.ChangeSceneToFile, Paths.LevelSelectMenuScene);
     }
 }

@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="LevelSelectConfig" format=3 uid="uid://c8ji0po8hh23d"]
 
 [ext_resource type="Script" uid="uid://decpe55hsd4ci" path="res://scripts/core/ChapterData.cs" id="1_d8s6n"]
-[ext_resource type="Script" uid="uid://rydxhdk38klc" path="res://scripts/ui/LevelSelectConfig.cs" id="2_ssq45"]
+[ext_resource type="Script" uid="uid://bg4ery2iw38l" path="res://scripts/ui/LevelSelectConfig.cs" id="2_ssq45"]
 [ext_resource type="Script" uid="uid://dgxqk3xreg8al" path="res://scripts/core/LevelData.cs" id="3_xtl6q"]
 
 [sub_resource type="Resource" id="Resource_lvl1"]
@@ -28,16 +28,88 @@ LevelName = "4"
 LevelScenePath = "res://scenes/levels/customs/Level_4.tscn"
 metadata/_custom_type_script = "uid://dgxqk3xreg8al"
 
+[sub_resource type="Resource" id="Resource_lvl5"]
+script = ExtResource("3_xtl6q")
+LevelName = "5"
+LevelScenePath = "res://scenes/levels/customs/Level_5.tscn"
+metadata/_custom_type_script = "uid://dgxqk3xreg8al"
+
+[sub_resource type="Resource" id="Resource_lvl6"]
+script = ExtResource("3_xtl6q")
+LevelName = "6"
+LevelScenePath = "res://scenes/levels/customs/Level_6.tscn"
+metadata/_custom_type_script = "uid://dgxqk3xreg8al"
+
+[sub_resource type="Resource" id="Resource_lvl7"]
+script = ExtResource("3_xtl6q")
+LevelName = "7"
+LevelScenePath = "res://scenes/levels/customs/Level_7.tscn"
+metadata/_custom_type_script = "uid://dgxqk3xreg8al"
+
+[sub_resource type="Resource" id="Resource_lvl8"]
+script = ExtResource("3_xtl6q")
+LevelName = "8"
+LevelScenePath = "res://scenes/levels/customs/Level_8.tscn"
+metadata/_custom_type_script = "uid://dgxqk3xreg8al"
+
+[sub_resource type="Resource" id="Resource_lvl9"]
+script = ExtResource("3_xtl6q")
+LevelName = "9"
+LevelScenePath = "res://scenes/levels/customs/Level_9.tscn"
+metadata/_custom_type_script = "uid://dgxqk3xreg8al"
+
+[sub_resource type="Resource" id="Resource_lvl10"]
+script = ExtResource("3_xtl6q")
+LevelName = "10"
+LevelScenePath = "res://scenes/levels/customs/Level_10.tscn"
+metadata/_custom_type_script = "uid://dgxqk3xreg8al"
+
+[sub_resource type="Resource" id="Resource_lvl11"]
+script = ExtResource("3_xtl6q")
+LevelName = "11"
+LevelScenePath = "res://scenes/levels/customs/Level_11.tscn"
+metadata/_custom_type_script = "uid://dgxqk3xreg8al"
+
+[sub_resource type="Resource" id="Resource_lvl12"]
+script = ExtResource("3_xtl6q")
+LevelName = "12"
+LevelScenePath = "res://scenes/levels/customs/Level_12.tscn"
+metadata/_custom_type_script = "uid://dgxqk3xreg8al"
+
+[sub_resource type="Resource" id="Resource_lvl13"]
+script = ExtResource("3_xtl6q")
+LevelName = "13"
+LevelScenePath = "res://scenes/levels/customs/Level_13.tscn"
+metadata/_custom_type_script = "uid://dgxqk3xreg8al"
+
+[sub_resource type="Resource" id="Resource_lvl14"]
+script = ExtResource("3_xtl6q")
+LevelName = "14"
+LevelScenePath = "res://scenes/levels/customs/Level_14.tscn"
+metadata/_custom_type_script = "uid://dgxqk3xreg8al"
+
+[sub_resource type="Resource" id="Resource_lvl15"]
+script = ExtResource("3_xtl6q")
+LevelName = "15"
+LevelScenePath = "res://scenes/levels/customs/Level_15.tscn"
+metadata/_custom_type_script = "uid://dgxqk3xreg8al"
+
+[sub_resource type="Resource" id="Resource_lvl16"]
+script = ExtResource("3_xtl6q")
+LevelName = "16"
+LevelScenePath = "res://scenes/levels/customs/Level_16.tscn"
+metadata/_custom_type_script = "uid://dgxqk3xreg8al"
+
 [sub_resource type="Resource" id="Resource_chap1"]
 script = ExtResource("1_d8s6n")
 ChapterName = "ГЛАВА 1: ПЕРШІ КРОКИ"
-Levels = Array[ExtResource("3_xtl6q")]([SubResource("Resource_lvl1"), SubResource("Resource_lvl2"), SubResource("Resource_lvl3"), SubResource("Resource_lvl4")])
+Levels = Array[ExtResource("3_xtl6q")]([SubResource("Resource_lvl1"), SubResource("Resource_lvl2"), SubResource("Resource_lvl3"), SubResource("Resource_lvl4"), SubResource("Resource_lvl5"), SubResource("Resource_lvl6"), SubResource("Resource_lvl7"), SubResource("Resource_lvl8")])
 metadata/_custom_type_script = "uid://decpe55hsd4ci"
 
 [sub_resource type="Resource" id="Resource_chap2"]
 script = ExtResource("1_d8s6n")
 ChapterName = "ГЛАВА 2: СЕКТОР B"
-Levels = Array[ExtResource("3_xtl6q")]([])
+Levels = Array[ExtResource("3_xtl6q")]([SubResource("Resource_lvl9"), SubResource("Resource_lvl10"), SubResource("Resource_lvl11"), SubResource("Resource_lvl12"), SubResource("Resource_lvl13"), SubResource("Resource_lvl14"), SubResource("Resource_lvl15"), SubResource("Resource_lvl16")])
 metadata/_custom_type_script = "uid://decpe55hsd4ci"
 
 [resource]

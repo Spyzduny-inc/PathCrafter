@@ -112,7 +112,7 @@ public partial class LevelSelectMenu : Control
     public override void _Ready()
     {
         GC.Collect();
-        Audio.Instance?.PlayMusic("select");
+        Audio.Instance?.PlayMusic("select", 1.4f);
 
         ChapterBackground ??= GetNodeOrNull<TextureRect>("ChapterBackground");
         ChapterTitleLabel ??= GetNodeOrNull<Label>("TopBar/Margin/HBox/CenterPanel/TitleVBox/ChapterTitleLabel") ?? FindChild("ChapterTitleLabel", true, false) as Label;
@@ -258,7 +258,8 @@ public partial class LevelSelectMenu : Control
             if (btn == null) continue;
 
             int globalLevelIndex = (CurrentChapterIndex * 8) + i;
-            int displayNum = globalLevelIndex + 1;
+            int displayNum = i + 1;
+            btn.TooltipText = $"Місія {globalLevelIndex + 1} // Глава {CurrentChapterIndex + 1}";
 
             if (i < positions.Length)
             {
