@@ -22,6 +22,7 @@ config/features=PackedStringArray("4.7", "C#", "Forward Plus")
 
 Global="*uid://c8omxoujy88pq"
 GridManager="*uid://d3adtkdq4nsao"
+Audio="*uid://beyhmmw7net87"
 
 [display]
 

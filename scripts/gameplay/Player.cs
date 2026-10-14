@@ -34,8 +34,8 @@ public partial class Player : CharacterBody3D
 
         float degrees = Mathf.PosMod(Mathf.RadToDeg(Rotation.Y), 360f);
         if (degrees >= 45f && degrees < 135f) _currentDirection = 3;       // 90 deg = left (-X)
-        else if (degrees >= 135f && degrees < 225f) _currentDirection = 2;  // 180 deg = back (+Z)
-        else if (degrees >= 225f && degrees < 315f) _currentDirection = 1;  // 270 deg = right (+X)
+        else if (degrees >= 135f && degrees < 225f) _currentDirection = 2; // 180 deg = back (+Z)
+        else if (degrees >= 225f && degrees < 315f) _currentDirection = 1; // 270 deg = right (+X)
         else _currentDirection = 0;                                        // 0 deg = forward (-Z)
 
         _startDirection = _currentDirection;
@@ -64,11 +64,16 @@ public partial class Player : CharacterBody3D
 
         if (tileAtTarget == TileType.Wall)
         {
+            Audio.Instance?.StopRide();
+            Audio.Instance?.PlaySfx("crash");
             return MoveResult.HitWall;
         }
 
         if (tileAtTarget == TileType.Pit)
         {
+            Audio.Instance?.StopRide();
+            Audio.Instance?.PlaySfx("fall");
+
             var fallTween = CreateTween();
             fallTween.TweenProperty(this, "position", targetPosition + new Vector3(0, -2.0f, 0), 0.4f);
             await ToSignal(fallTween, Tween.SignalName.Finished);
@@ -95,6 +100,8 @@ public partial class Player : CharacterBody3D
             return MoveResult.Success;
         }
 
+        Audio.Instance?.StopRide();
+        Audio.Instance?.PlaySfx("crash");
         return MoveResult.HitWall;
     }
 
