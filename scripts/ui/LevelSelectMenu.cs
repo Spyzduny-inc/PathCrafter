@@ -258,7 +258,8 @@ public partial class LevelSelectMenu : Control
             if (btn == null) continue;
 
             int globalLevelIndex = (CurrentChapterIndex * 8) + i;
-            int displayNum = globalLevelIndex + 1;
+            int displayNum = i + 1;
+            btn.TooltipText = $"Місія {globalLevelIndex + 1} // Глава {CurrentChapterIndex + 1}";
 
             if (i < positions.Length)
             {
