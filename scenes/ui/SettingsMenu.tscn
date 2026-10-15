@@ -1,0 +1,456 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/SettingsMenu.cs" id="1_settings"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_DialogBg"]
+bg_color = Color(0.063, 0.071, 0.102, 0.98)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.901961, 0.360784, 0, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0.901961, 0.360784, 0, 0.2)
+shadow_size = 14
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_Separator"]
+color = Color(0.901961, 0.360784, 0, 0.35)
+thickness = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_SliderTrack"]
+content_margin_top = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.12, 0.14, 0.2, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_SliderFill"]
+content_margin_top = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.901961, 0.360784, 0, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_SliderFillHighlight"]
+content_margin_top = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(1, 0.48, 0.15, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_TestBtnNormal"]
+content_margin_left = 8.0
+content_margin_top = 3.0
+content_margin_right = 8.0
+content_margin_bottom = 3.0
+bg_color = Color(0.12, 0.14, 0.2, 0.85)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.25, 0.3, 0.42, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_TestBtnHover"]
+content_margin_left = 8.0
+content_margin_top = 3.0
+content_margin_right = 8.0
+content_margin_bottom = 3.0
+bg_color = Color(0.18, 0.22, 0.32, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.901961, 0.360784, 0, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_CloseIconNormal"]
+bg_color = Color(0, 0, 0, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_CloseIconHover"]
+content_margin_left = 6.0
+content_margin_top = 2.0
+content_margin_right = 6.0
+content_margin_bottom = 2.0
+bg_color = Color(0.2, 0.1, 0.1, 0.8)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ResetBtnNormal"]
+content_margin_left = 14.0
+content_margin_top = 8.0
+content_margin_right = 14.0
+content_margin_bottom = 8.0
+bg_color = Color(0.1, 0.12, 0.17, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.25, 0.3, 0.4, 0.7)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ResetBtnHover"]
+content_margin_left = 14.0
+content_margin_top = 8.0
+content_margin_right = 14.0
+content_margin_bottom = 8.0
+bg_color = Color(0.15, 0.18, 0.26, 1)
+border_width_left = 2
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.901961, 0.360784, 0, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_SaveBtnNormal"]
+content_margin_left = 18.0
+content_margin_top = 8.0
+content_margin_right = 18.0
+content_margin_bottom = 8.0
+bg_color = Color(0.901961, 0.360784, 0, 0.95)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+shadow_color = Color(0.901961, 0.360784, 0, 0.4)
+shadow_size = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_SaveBtnHover"]
+content_margin_left = 18.0
+content_margin_top = 8.0
+content_margin_right = 18.0
+content_margin_bottom = 8.0
+bg_color = Color(1, 0.45, 0.1, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+shadow_color = Color(0.901961, 0.360784, 0, 0.6)
+shadow_size = 6
+
+[node name="SettingsMenu" type="CanvasLayer" unique_id=981240187 node_paths=PackedStringArray("MasterSlider", "MasterValueLabel", "MusicSlider", "MusicValueLabel", "SfxSlider", "SfxValueLabel", "EngineSlider", "EngineValueLabel", "CameraHelpCheckBox", "TestSfxButton", "TestEngineButton", "ResetDefaultsButton", "CloseButton", "CloseIconButton")]
+layer = 60
+script = ExtResource("1_settings")
+MasterSlider = NodePath("PanelContainer/Margin/VBox/AudioContainer/MasterHBox/MasterSlider")
+MasterValueLabel = NodePath("PanelContainer/Margin/VBox/AudioContainer/MasterHBox/MasterValueLabel")
+MusicSlider = NodePath("PanelContainer/Margin/VBox/AudioContainer/MusicHBox/MusicSlider")
+MusicValueLabel = NodePath("PanelContainer/Margin/VBox/AudioContainer/MusicHBox/MusicValueLabel")
+SfxSlider = NodePath("PanelContainer/Margin/VBox/AudioContainer/SfxHBox/SfxSlider")
+SfxValueLabel = NodePath("PanelContainer/Margin/VBox/AudioContainer/SfxHBox/SfxValueLabel")
+EngineSlider = NodePath("PanelContainer/Margin/VBox/AudioContainer/EngineHBox/EngineSlider")
+EngineValueLabel = NodePath("PanelContainer/Margin/VBox/AudioContainer/EngineHBox/EngineValueLabel")
+CameraHelpCheckBox = NodePath("PanelContainer/Margin/VBox/InterfaceContainer/HelpToggleVBox/CameraHelpCheckBox")
+TestSfxButton = NodePath("PanelContainer/Margin/VBox/AudioContainer/SfxHBox/TestSfxButton")
+TestEngineButton = NodePath("PanelContainer/Margin/VBox/AudioContainer/EngineHBox/TestEngineButton")
+ResetDefaultsButton = NodePath("PanelContainer/Margin/VBox/ActionHBox/ResetDefaultsButton")
+CloseButton = NodePath("PanelContainer/Margin/VBox/ActionHBox/CloseButton")
+CloseIconButton = NodePath("PanelContainer/Margin/VBox/HeaderHBox/CloseIconButton")
+
+[node name="DimBackdrop" type="ColorRect" parent="." unique_id=823491823]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.02, 0.03, 0.05, 0.82)
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=741029482]
+custom_minimum_size = Vector2(560, 520)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -280.0
+offset_top = -260.0
+offset_right = 280.0
+offset_bottom = 260.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_DialogBg")
+
+[node name="Margin" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 26
+theme_override_constants/margin_top = 22
+theme_override_constants/margin_right = 26
+theme_override_constants/margin_bottom = 22
+
+[node name="VBox" type="VBoxContainer" parent="PanelContainer/Margin" unique_id=314592784]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="HeaderHBox" type="HBoxContainer" parent="PanelContainer/Margin/VBox"]
+layout_mode = 2
+
+[node name="TitleVBox" type="VBoxContainer" parent="PanelContainer/Margin/VBox/HeaderHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="TitleLabel" type="Label" parent="PanelContainer/Margin/VBox/HeaderHBox/TitleVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.901961, 0.360784, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.9)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 20
+text = "[ НАЛАШТУВАННЯ СИСТЕМИ ]"
+
+[node name="SubtitleLabel" type="Label" parent="PanelContainer/Margin/VBox/HeaderHBox/TitleVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.580392, 0.643137, 0.721569, 1)
+theme_override_font_sizes/font_size = 11
+text = "MISSION CONTROL // AUDIO & INTERFACE PREFERENCES"
+
+[node name="CloseIconButton" type="Button" parent="PanelContainer/Margin/VBox/HeaderHBox"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65, 0.7, 0.8, 1)
+theme_override_colors/font_hover_color = Color(0.901961, 0.360784, 0, 1)
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_CloseIconNormal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_CloseIconHover")
+text = "✕"
+
+[node name="HeaderSeparator" type="HSeparator" parent="PanelContainer/Margin/VBox"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_Separator")
+
+[node name="AudioHeaderLabel" type="Label" parent="PanelContainer/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.22, 0.74, 0.97, 1)
+theme_override_font_sizes/font_size = 12
+text = "// АУДІОСИСТЕМА (AUDIO CHANNELS)"
+
+[node name="AudioContainer" type="VBoxContainer" parent="PanelContainer/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="MasterHBox" type="HBoxContainer" parent="PanelContainer/Margin/VBox/AudioContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Label" type="Label" parent="PanelContainer/Margin/VBox/AudioContainer/MasterHBox"]
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.886275, 0.913725, 0.941176, 1)
+theme_override_font_sizes/font_size = 13
+text = "Загальна гучність:"
+
+[node name="MasterSlider" type="HSlider" parent="PanelContainer/Margin/VBox/AudioContainer/MasterHBox"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_styles/slider = SubResource("StyleBoxFlat_SliderTrack")
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_SliderFill")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_SliderFillHighlight")
+value = 100.0
+
+[node name="MasterValueLabel" type="Label" parent="PanelContainer/Margin/VBox/AudioContainer/MasterHBox"]
+custom_minimum_size = Vector2(46, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.22, 0.74, 0.97, 1)
+theme_override_font_sizes/font_size = 13
+text = "100%"
+horizontal_alignment = 2
+
+[node name="MusicHBox" type="HBoxContainer" parent="PanelContainer/Margin/VBox/AudioContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Label" type="Label" parent="PanelContainer/Margin/VBox/AudioContainer/MusicHBox"]
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.796078, 0.835294, 0.882353, 1)
+theme_override_font_sizes/font_size = 13
+text = "Музика фону:"
+
+[node name="MusicSlider" type="HSlider" parent="PanelContainer/Margin/VBox/AudioContainer/MusicHBox"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_styles/slider = SubResource("StyleBoxFlat_SliderTrack")
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_SliderFill")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_SliderFillHighlight")
+value = 80.0
+
+[node name="MusicValueLabel" type="Label" parent="PanelContainer/Margin/VBox/AudioContainer/MusicHBox"]
+custom_minimum_size = Vector2(46, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.22, 0.74, 0.97, 1)
+theme_override_font_sizes/font_size = 13
+text = "80%"
+horizontal_alignment = 2
+
+[node name="SfxHBox" type="HBoxContainer" parent="PanelContainer/Margin/VBox/AudioContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Label" type="Label" parent="PanelContainer/Margin/VBox/AudioContainer/SfxHBox"]
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.796078, 0.835294, 0.882353, 1)
+theme_override_font_sizes/font_size = 13
+text = "Звукові ефекти (SFX):"
+
+[node name="SfxSlider" type="HSlider" parent="PanelContainer/Margin/VBox/AudioContainer/SfxHBox"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_styles/slider = SubResource("StyleBoxFlat_SliderTrack")
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_SliderFill")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_SliderFillHighlight")
+value = 80.0
+
+[node name="SfxValueLabel" type="Label" parent="PanelContainer/Margin/VBox/AudioContainer/SfxHBox"]
+custom_minimum_size = Vector2(46, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.22, 0.74, 0.97, 1)
+theme_override_font_sizes/font_size = 13
+text = "80%"
+horizontal_alignment = 2
+
+[node name="TestSfxButton" type="Button" parent="PanelContainer/Margin/VBox/AudioContainer/SfxHBox"]
+custom_minimum_size = Vector2(64, 26)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.85, 0.9, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 11
+theme_override_styles/normal = SubResource("StyleBoxFlat_TestBtnNormal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_TestBtnHover")
+text = "ТЕСТ"
+
+[node name="EngineHBox" type="HBoxContainer" parent="PanelContainer/Margin/VBox/AudioContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Label" type="Label" parent="PanelContainer/Margin/VBox/AudioContainer/EngineHBox"]
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.796078, 0.835294, 0.882353, 1)
+theme_override_font_sizes/font_size = 13
+text = "Двигун марсохода:"
+
+[node name="EngineSlider" type="HSlider" parent="PanelContainer/Margin/VBox/AudioContainer/EngineHBox"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_styles/slider = SubResource("StyleBoxFlat_SliderTrack")
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_SliderFill")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_SliderFillHighlight")
+value = 80.0
+
+[node name="EngineValueLabel" type="Label" parent="PanelContainer/Margin/VBox/AudioContainer/EngineHBox"]
+custom_minimum_size = Vector2(46, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.22, 0.74, 0.97, 1)
+theme_override_font_sizes/font_size = 13
+text = "80%"
+horizontal_alignment = 2
+
+[node name="TestEngineButton" type="Button" parent="PanelContainer/Margin/VBox/AudioContainer/EngineHBox"]
+custom_minimum_size = Vector2(64, 26)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.85, 0.9, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 11
+theme_override_styles/normal = SubResource("StyleBoxFlat_TestBtnNormal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_TestBtnHover")
+text = "ТЕСТ"
+
+[node name="MidSeparator" type="HSeparator" parent="PanelContainer/Margin/VBox"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_Separator")
+
+[node name="InterfaceHeaderLabel" type="Label" parent="PanelContainer/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.22, 0.74, 0.97, 1)
+theme_override_font_sizes/font_size = 12
+text = "// ІНТЕРФЕЙС ТА ПІДКАЗКИ (UI & HUD)"
+
+[node name="InterfaceContainer" type="VBoxContainer" parent="PanelContainer/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="HelpToggleVBox" type="VBoxContainer" parent="PanelContainer/Margin/VBox/InterfaceContainer"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="CameraHelpCheckBox" type="CheckBox" parent="PanelContainer/Margin/VBox/InterfaceContainer/HelpToggleVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.93, 0.96, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 13
+button_pressed = true
+text = " Показувати підказки керування на рівнях"
+
+[node name="DescriptionLabel" type="Label" parent="PanelContainer/Margin/VBox/InterfaceContainer/HelpToggleVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.45, 0.52, 0.62, 1)
+theme_override_font_sizes/font_size = 11
+text = "    (Плашка керування камерою: СКМ/Стрілочки, Зум, Скидання фокусу)"
+
+[node name="Spacer" type="Control" parent="PanelContainer/Margin/VBox"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="BottomSeparator" type="HSeparator" parent="PanelContainer/Margin/VBox"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_Separator")
+
+[node name="ActionHBox" type="HBoxContainer" parent="PanelContainer/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="ResetDefaultsButton" type="Button" parent="PanelContainer/Margin/VBox/ActionHBox"]
+custom_minimum_size = Vector2(170, 38)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.76, 0.84, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_ResetBtnNormal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ResetBtnHover")
+text = "↺ ЗА ЗАМОВЧУВАННЯМ"
+
+[node name="ActionSpacer" type="Control" parent="PanelContainer/Margin/VBox/ActionHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CloseButton" type="Button" parent="PanelContainer/Margin/VBox/ActionHBox"]
+custom_minimum_size = Vector2(210, 38)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_SaveBtnNormal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_SaveBtnHover")
+text = "✔ ЗБЕРЕГТИ ТА ЗАКРИТИ"
